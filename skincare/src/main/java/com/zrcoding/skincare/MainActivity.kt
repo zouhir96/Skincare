@@ -9,15 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -31,13 +28,13 @@ import com.zrcoding.skincare.ui.cart.Cart
 import com.zrcoding.skincare.ui.explore.Explore
 import com.zrcoding.skincare.ui.favorite.Favorites
 import com.zrcoding.skincare.ui.home.Home
+import com.zrcoding.skincare.ui.navigation.BottomBarItem
 import com.zrcoding.skincare.ui.navigation.Screen
 import com.zrcoding.skincare.ui.navigation.navigationBarScreens
 import com.zrcoding.skincare.ui.onboarding.Onboarding
 import com.zrcoding.skincare.ui.product.Product
 import com.zrcoding.skincare.ui.profile.Profile
-import com.zrcoding.skincare.ui.theme.JetpackcomposeTheme
-import com.zrcoding.skincare.ui.theme.Typography
+import com.zrcoding.skincare.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,23 +109,29 @@ fun TopAppBar(navController: NavController, visible: Boolean) {
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
-    navigationBarScreens: List<Screen>,
+    navigationBarScreens: List<BottomBarItem>,
     visible: Boolean
 ) {
     if (visible) {
-        BottomNavigation {
+        BottomNavigation(
+            backgroundColor = White,
+        ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             navigationBarScreens.forEach { screen ->
                 BottomNavigationItem(
                     icon = {
                         Icon(
-                            Icons.Filled.Favorite,
+                            painterResource(id = screen.iconResId),
                             contentDescription = null
                         )
                     },
-                    label = { Text(stringResource(screen.resourceId)) },
-                    selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                    label = { Text(stringResource(screen.nameResId)) },
+                    selected = currentDestination?.hierarchy?.any {
+                        it.route == screen.route
+                    } == true,
+                    selectedContentColor = Brown80,
+                    unselectedContentColor = Grey,
                     onClick = {
                         navController.navigate(screen.route) {
                             // Pop up to the start destination of the graph to
@@ -164,12 +167,5 @@ fun MNavHost(navController: NavHostController, modifier: Modifier) {
         composable(route = Screen.Profile.route) { Profile() }
         composable(route = Screen.Product.route) { Product() }
         composable(route = Screen.Cart.route) { Cart() }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetpackcomposeTheme {
     }
 }

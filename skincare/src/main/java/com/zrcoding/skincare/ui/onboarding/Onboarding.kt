@@ -29,10 +29,10 @@ import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.HorizontalSteps
 import com.zrcoding.skincare.ui.navigation.Screen
+import com.zrcoding.skincare.ui.theme.Brown
+import com.zrcoding.skincare.ui.theme.BrownWhite30
+import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.JetpackcomposeTheme
-import com.zrcoding.skincare.ui.theme.brouwn
-import com.zrcoding.skincare.ui.theme.brouwnWhite30
-import com.zrcoding.skincare.ui.theme.brouwnWhite80
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -45,7 +45,7 @@ fun Onboarding(navController: NavHostController) {
         count = 4,
         contentPadding = PaddingValues(horizontal = 12.dp),
         state = pagerState,
-        modifier = Modifier.background(color = brouwnWhite30)
+        modifier = Modifier.background(color = BrownWhite30)
     ) { page: Int ->
         Page(
             page = pages[page]
@@ -95,7 +95,7 @@ fun Page(
         Spacer(modifier = Modifier.height(18.dp))
         IconButton(
             modifier = Modifier.background(
-                color = brouwn,
+                color = Brown,
                 shape = RoundedCornerShape(50)
             ),
             onClick = onClick
@@ -103,7 +103,7 @@ fun Page(
             Icon(
                 imageVector = Icons.Filled.ArrowForward,
                 contentDescription = null,
-                tint = brouwnWhite80
+                tint = BrownWhite80
             )
         }
         Spacer(modifier = Modifier.height(42.dp))
