@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Skincare</string>
+
+    <string name="onboarding_title_1">An Evolving collection of treatments 1</string>
+    <string name="onboarding_description_1">The ordinary is born to disallow commodity to be disguised as ingenuity. The Ordinary is “Clinical Formulations with us 1</string>
+    <string name="onboarding_title_2">An Evolving collection of treatments 2</string>
+    <string name="onboarding_description_2">The ordinary is born to disallow commodity to be disguised as ingenuity. The Ordinary is “Clinical Formulations with us 2</string>
+    <string name="onboarding_title_3">An Evolving collection of treatments 3</string>
+    <string name="onboarding_description_3">The ordinary is born to disallow commodity to be disguised as ingenuity. The Ordinary is “Clinical Formulations with us 3</string>
+    <string name="onboarding_title_4">An Evolving collection of treatments 4</string>
+    <string name="onboarding_description_4">The ordinary is born to disallow commodity to be disguised as ingenuity. The Ordinary is “Clinical Formulations with us 4</string>
+
+    <string name="home">home</string>
+    <string name="explore">explore</string>
+    <string name="favorites">favorites</string>
+    <string name="profile">profile</string>
 </resources>
