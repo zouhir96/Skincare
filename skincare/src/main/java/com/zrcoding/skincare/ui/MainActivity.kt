@@ -1,4 +1,4 @@
-package com.zrcoding.skincare
+package com.zrcoding.skincare.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.cart.Cart
 import com.zrcoding.skincare.ui.explore.Explore
 import com.zrcoding.skincare.ui.favorite.Favorites
