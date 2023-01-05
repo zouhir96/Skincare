@@ -33,7 +33,7 @@ import com.zrcoding.skincare.ui.navigation.BottomBarItem
 import com.zrcoding.skincare.ui.navigation.Screen
 import com.zrcoding.skincare.ui.navigation.navigationBarScreens
 import com.zrcoding.skincare.ui.onboarding.Onboarding
-import com.zrcoding.skincare.ui.product.Product
+import com.zrcoding.skincare.ui.product.ProductScreen
 import com.zrcoding.skincare.ui.profile.Profile
 import com.zrcoding.skincare.ui.theme.*
 
@@ -158,7 +158,7 @@ fun BottomNavigationBar(
 fun MNavHost(navController: NavHostController, modifier: Modifier) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Onboarding.route,
+        startDestination = Screen.Home.route,
         modifier = modifier
     ) {
         composable(route = Screen.Onboarding.route) { Onboarding(navController) }
@@ -166,7 +166,7 @@ fun MNavHost(navController: NavHostController, modifier: Modifier) {
         composable(route = Screen.Explore.route) { Explore() }
         composable(route = Screen.Favorites.route) { Favorites() }
         composable(route = Screen.Profile.route) { Profile() }
-        composable(route = Screen.Product.route) { Product() }
+        composable(route = Screen.Product.route) { ProductScreen() }
         composable(route = Screen.Cart.route) { Cart() }
     }
 }

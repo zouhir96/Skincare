@@ -14,8 +14,11 @@ val Pink40 = Color(0xFF7D5260)
 
 val Brown = Color(0xFF483434)
 val Brown80 = Color(0xFF6B4F4F)
+val BrownWhite90 = Color(0xFFDEDEDE)
 val BrownWhite80 = Color(0xFFFFF3E4)
 val BrownWhite50 = Color(0xFFD0C9C0)
 val BrownWhite30 = Color(0xFFFFF3E4)
 
 val Grey = Color(0xFFBCBCBC)
+val Grey30 = Color(0xFFAAA492)
+val Grey40 = Color(0xFFA6A6A6)

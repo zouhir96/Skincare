@@ -27,7 +27,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.HorizontalSteps
+import com.zrcoding.skincare.ui.components.HorizontalSteps
 import com.zrcoding.skincare.ui.navigation.Screen
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
