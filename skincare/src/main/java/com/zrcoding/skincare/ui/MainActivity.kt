@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -77,11 +77,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TopAppBar(navController: NavController, visible: Boolean) {
+fun TopAppBar(
+    cartItemsCount: Int = 0,
+    navController: NavController,
+    visible: Boolean
+) {
     if (visible) {
         TopAppBar(
             title = {
-                Column {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Text(text = "Public", style = Typography.subtitle2)
                     Text(text = "Skincare", style = Typography.body1)
                 }
@@ -90,15 +97,37 @@ fun TopAppBar(navController: NavController, visible: Boolean) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_menu),
                     contentDescription = null,
-                    modifier = Modifier.size(35.dp)
+                    modifier = Modifier.size(40.dp)
                 )
             },
             actions = {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_bag),
-                    contentDescription = null,
-                    modifier = Modifier.size(28.dp)
-                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(color = Lotion, shape = MaterialTheme.shapes.small)
+                        .clickable {
+
+                        }
+                ) {
+                    BadgedBox(
+                        badge = {
+                            Badge(
+                                backgroundColor = CoralReef,
+                                contentColor = Color.White
+                            ) {
+                                Text(text = "$cartItemsCount")
+                            }
+                        },
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_bag),
+                            contentDescription = null,
+                            tint = Brown,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
             },
             backgroundColor = Color.White,
             elevation = 0.dp,
