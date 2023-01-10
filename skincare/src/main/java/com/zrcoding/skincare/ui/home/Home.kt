@@ -87,14 +87,14 @@ fun Home() {
         ) {
             items(
                 listOf(
-                    com.zrcoding.skincare.ui.product.Product(
+                    com.zrcoding.skincare.ui.product.ProductModel(
                         name = "Toner",
                         description = "Circumference Active Botanical Refining Toner",
                         price = 60.00,
                         image = R.drawable.skincare_products,
                         stars = 4
                     ),
-                    com.zrcoding.skincare.ui.product.Product(
+                    com.zrcoding.skincare.ui.product.ProductModel(
                         name = "Toner",
                         description = "Circumference Active Botanical Refining Toner",
                         price = 60.00,
@@ -104,7 +104,7 @@ fun Home() {
                 )
             ) {
                 Product(
-                    product = it,
+                    productModel = it,
                     onFavoriteClicked = {},
                     onAddToCartClicked = {}
                 )
@@ -118,7 +118,7 @@ fun Home() {
         )
         Spacer(modifier = Modifier.height(15.dp))
         HorizontalProduct(
-            product = com.zrcoding.skincare.ui.product.Product(
+            productModel = com.zrcoding.skincare.ui.product.ProductModel(
                 name = "Toner",
                 description = "Circumference Active Botanical Refining Toner",
                 price = 60.00,
