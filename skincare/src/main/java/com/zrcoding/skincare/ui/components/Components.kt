@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.product.Product
+import com.zrcoding.skincare.ui.product.ProductModel
 import com.zrcoding.skincare.ui.theme.*
 
 @Composable
@@ -219,9 +219,9 @@ private fun FilterChipGroupPreview() {
 
 @Composable
 fun Product(
-    product: Product,
-    onFavoriteClicked: (Product) -> Unit,
-    onAddToCartClicked: (Product) -> Unit,
+    productModel: ProductModel,
+    onFavoriteClicked: (ProductModel) -> Unit,
+    onAddToCartClicked: (ProductModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -255,7 +255,7 @@ fun Product(
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
                         }
-                        .clickable { onAddToCartClicked(product) }
+                        .clickable { onAddToCartClicked(productModel) }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_favorite),
@@ -267,7 +267,7 @@ fun Product(
                     )
                 }
                 Image(
-                    painter = painterResource(id = product.image),
+                    painter = painterResource(id = productModel.image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -281,7 +281,7 @@ fun Product(
                         }
                 )
                 Text(
-                    text = product.description,
+                    text = productModel.description,
                     style = MaterialTheme.typography.body2,
                     color = Brown,
                     modifier = Modifier
@@ -292,7 +292,7 @@ fun Product(
                         .padding(bottom = 6.dp)
                 )
                 Text(
-                    text = product.name,
+                    text = productModel.name,
                     style = MaterialTheme.typography.caption,
                     color = Grey,
                     modifier = Modifier
@@ -305,10 +305,10 @@ fun Product(
                 LeftRightComponent(
                     leftComposable = {
                         Column {
-                            Stars(stars = product.stars)
+                            Stars(stars = productModel.stars)
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "${product.price}$",
+                                text = "${productModel.price}$",
                                 color = Brown,
                                 style = MaterialTheme.typography.h6
                             )
@@ -319,7 +319,7 @@ fun Product(
                                 .size(27.dp)
                                 .clip(CircleShape)
                                 .background(Brown)
-                                .clickable { onFavoriteClicked(product) }
+                                .clickable { onFavoriteClicked(productModel) }
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.ic_bag),
@@ -347,7 +347,7 @@ fun Product(
 private fun ProductPreview() {
     JetpackcomposeTheme(darkTheme = false) {
         Product(
-            product = Product(
+            productModel = ProductModel(
                 name = "Toner",
                 description = "Circumference Active Botanical Refining Toner",
                 price = 60.00,
@@ -389,8 +389,8 @@ private fun StarsPreview() {
 
 @Composable
 fun HorizontalProduct(
-    product: Product,
-    onFavoriteClicked: (Product) -> Unit,
+    productModel: ProductModel,
+    onFavoriteClicked: (ProductModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -405,7 +405,7 @@ fun HorizontalProduct(
         ) {
             val (image, content, favorite) = createRefs()
             Image(
-                painter = painterResource(id = product.image),
+                painter = painterResource(id = productModel.image),
                 contentDescription = null,
                 modifier = Modifier.constrainAs(image) {
                     top.linkTo(parent.top)
@@ -424,7 +424,7 @@ fun HorizontalProduct(
                     }
             ) {
                 Text(
-                    text = product.description,
+                    text = productModel.description,
                     style = MaterialTheme.typography.body2,
                     color = Brown,
                     maxLines = 1,
@@ -432,13 +432,13 @@ fun HorizontalProduct(
                     modifier = Modifier.padding(bottom = 6.dp)
                 )
                 Text(
-                    text = product.name,
+                    text = productModel.name,
                     style = MaterialTheme.typography.caption,
                     color = Grey,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "${product.price}$",
+                    text = "${productModel.price}$",
                     color = Brown,
                     style = MaterialTheme.typography.subtitle1
                 )
@@ -453,7 +453,7 @@ fun HorizontalProduct(
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
                     }
-                    .clickable { onFavoriteClicked(product) }
+                    .clickable { onFavoriteClicked(productModel) }
             )
         }
     }
@@ -464,7 +464,7 @@ fun HorizontalProduct(
 private fun HorizontalProductPreview() {
     JetpackcomposeTheme(darkTheme = false) {
         HorizontalProduct(
-            product = Product(
+            productModel = ProductModel(
                 name = "Toner",
                 description = "Circumference Active Botanical Refining Toner",
                 price = 60.00,
