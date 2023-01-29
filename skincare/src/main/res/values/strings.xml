@@ -14,4 +14,9 @@
     <string name="explore">explore</string>
     <string name="favorites">favorites</string>
     <string name="profile">profile</string>
+
+    <!--    Profile Screen-->
+    <string name="my_profile">My profile</string>
+    <string name="my_orders">My orders</string>
+    <string name="my_refunds">Refund</string>
 </resources>
