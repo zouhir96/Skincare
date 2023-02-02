@@ -36,7 +36,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion dep_compose
+        kotlinCompilerExtensionVersion dep_compose_compiler
     }
     packagingOptions {
         resources {
@@ -46,33 +46,34 @@ android {
 }
 
 dependencies {
-    // core
-    implementation "androidx.core:core-ktx:$dep_core"
+    // Code
+    implementation "androidx.core:core-ktx:$dep_core_ktx"
 
-    // ui
+    // UI
     implementation "androidx.compose.ui:ui:$dep_compose"
-    implementation "androidx.compose.material:material:$dep_material"
+    implementation "androidx.compose.material:material:1.4.0-alpha05"
     implementation "androidx.compose.ui:ui-tooling-preview:$dep_compose"
-    implementation "androidx.constraintlayout:constraintlayout-compose:$dep_constraint_layout"
+    implementation "androidx.constraintlayout:constraintlayout-compose:$dep_constraintlayout"
 
-    // activity
+    // Activity
     implementation "androidx.activity:activity-compose:$dep_activity"
-    // lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$dep_lifecycle"
+    // LifeCycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$dep_lifecycle_runtime_ktx"
 
-    // navigation
-    implementation "androidx.navigation:navigation-compose:$dep_navigation"
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:$dep_navigation")
 
-    // experimental
+    // ViewPager
     implementation "com.google.accompanist:accompanist-pager:$dep_view_pager"
     implementation "com.google.accompanist:accompanist-pager-indicators:$dep_view_pager"
 
+    // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$dep_compose"
 
-    // activity
+    // Tools
     debugImplementation "androidx.compose.ui:ui-tooling:$dep_compose"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$dep_compose"
 }
