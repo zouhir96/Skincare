@@ -15,15 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.components.*
+import com.zrcoding.skincare.ui.navigation.Screen
+import com.zrcoding.skincare.ui.product.fakeProductList
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.Grey30
 import com.zrcoding.skincare.ui.theme.JetpackcomposeTheme
 import com.zrcoding.skincare.ui.theme.Typography
 
 @Composable
-fun Home() {
+fun Home(navController: NavHostController) {
     val searchText = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -85,28 +89,13 @@ fun Home() {
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             contentPadding = PaddingValues(vertical = 5.dp)
         ) {
-            items(
-                listOf(
-                    com.zrcoding.skincare.ui.product.ProductModel(
-                        name = "Toner",
-                        description = "Circumference Active Botanical Refining Toner",
-                        price = 60.00,
-                        image = R.drawable.skincare_products,
-                        stars = 4
-                    ),
-                    com.zrcoding.skincare.ui.product.ProductModel(
-                        name = "Toner",
-                        description = "Circumference Active Botanical Refining Toner",
-                        price = 60.00,
-                        image = R.drawable.skincare_products,
-                        stars = 4
-                    )
-                )
-            ) {
+            items(fakeProductList.take(2)) {
                 Product(
                     productModel = it,
                     onFavoriteClicked = {},
-                    onAddToCartClicked = {}
+                    onAddToCartClicked = {
+                        navController.navigate(Screen.Product.route)
+                    }
                 )
             }
         }
@@ -136,6 +125,6 @@ fun Home() {
 @Composable
 fun HomePreview() {
     JetpackcomposeTheme(darkTheme = false) {
-        Home()
+        Home(rememberNavController())
     }
 }

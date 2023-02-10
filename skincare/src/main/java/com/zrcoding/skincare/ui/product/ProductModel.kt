@@ -1,8 +1,6 @@
 package com.zrcoding.skincare.ui.product
 
 import androidx.annotation.DrawableRes
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import com.zrcoding.skincare.R
 
 data class ProductModel(
@@ -71,8 +69,3 @@ val fakeProductList = listOf(
         stars = 4
     ),
 )
-
-@Composable
-fun ProductScreen() {
-    Text(text = "Product Screen")
-}

@@ -22,9 +22,11 @@ val BrownWhite90 = Color(0xFFDEDEDE)
 val BrownWhite80 = Color(0xFFFFF3E4)
 val BrownWhite50 = Color(0xFFD0C9C0)
 val BrownWhite30 = Color(0xFFFFF3E4)
+val BrownWhite20 = Color(0xFFF9EDDF)
 val Grey = Color(0xFFBCBCBC)
 
 val Grey30 = Color(0xFFAAA492)
 val Grey40 = Color(0xFFA6A6A6)
+val Grey50 = Color(0xFFAEAEAE)
 
 val CoralReef = Color(0xFFFF7878)

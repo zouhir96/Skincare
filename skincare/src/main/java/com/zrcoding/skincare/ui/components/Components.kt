@@ -1,5 +1,6 @@
 package com.zrcoding.skincare.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,47 +34,76 @@ import com.zrcoding.skincare.ui.product.ProductModel
 import com.zrcoding.skincare.ui.theme.*
 
 @Composable
+fun ScreenHeader(
+    @DrawableRes leftIcon: Int,
+    onLeftIconClicked: () -> Unit,
+    @DrawableRes rightIcon: Int,
+    onRightIconClicked: () -> Unit,
+    title: String = "",
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .fillMaxWidth()
+    ) {
+        IconButton(
+            onClick = { onLeftIconClicked() }
+        ) {
+            Icon(
+                painter = painterResource(id = leftIcon),
+                contentDescription = null,
+                tint = Color.Unspecified,
+            )
+        }
+        Text(text = title)
+        IconButton(
+            onClick = { onRightIconClicked() }
+        ) {
+            Icon(
+                painter = painterResource(id = rightIcon),
+                contentDescription = null,
+                tint = Color.Unspecified,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ScreenHeaderPreview() {
+    JetpackcomposeTheme(darkTheme = false) {
+        ScreenHeader(
+            leftIcon = R.drawable.ic_back_brown20,
+            onLeftIconClicked = { },
+            rightIcon = R.drawable.ic_favorite_brown20,
+            onRightIconClicked = { },
+            title = "Screen title",
+            modifier = Modifier.background(White)
+        )
+    }
+}
+
+@Composable
 fun HorizontalSteps(
+    count: Int = 4,
     index: Int = 0,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier) {
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .height(3.dp)
-                .background(color = if (index == 0) Brown else BrownWhite50)
-        )
-        Spacer(
-            modifier = Modifier
-                .width(8.dp)
-        )
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .height(3.dp)
-                .background(color = if (index == 1) Brown else BrownWhite50)
-        )
-        Spacer(
-            modifier = Modifier
-                .width(8.dp)
-        )
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .height(3.dp)
-                .background(color = if (index == 2) Brown else BrownWhite50)
-        )
-        Spacer(
-            modifier = Modifier
-                .width(8.dp)
-        )
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .height(3.dp)
-                .background(color = if (index == 3) Brown else BrownWhite50)
-        )
+    LazyRow(modifier = modifier) {
+        items(count = count) {
+            Spacer(
+                modifier = Modifier
+                    .width(30.dp)
+                    .height(3.dp)
+                    .background(color = if (it == index) Brown else BrownWhite50)
+            )
+            if (it != count) {
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+        }
     }
 }
 
@@ -255,7 +285,7 @@ fun Product(
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
                         }
-                        .clickable { onAddToCartClicked(productModel) }
+                        .clickable { onFavoriteClicked(productModel) }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_favorite),
@@ -319,7 +349,7 @@ fun Product(
                                 .size(27.dp)
                                 .clip(CircleShape)
                                 .background(Brown)
-                                .clickable { onFavoriteClicked(productModel) }
+                                .clickable { onAddToCartClicked(productModel) }
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.ic_bag),

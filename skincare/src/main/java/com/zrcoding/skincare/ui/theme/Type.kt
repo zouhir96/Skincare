@@ -28,7 +28,7 @@ val Typography = Typography(
     ),
     body1 = TextStyle(
         fontFamily = SOFIA_SANS,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp
     ),
     body2 = TextStyle(
