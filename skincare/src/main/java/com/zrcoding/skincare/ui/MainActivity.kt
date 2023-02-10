@@ -19,22 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.cart.Cart
-import com.zrcoding.skincare.ui.explore.Explore
-import com.zrcoding.skincare.ui.favorite.Favorites
-import com.zrcoding.skincare.ui.home.Home
 import com.zrcoding.skincare.ui.navigation.BottomBarItem
-import com.zrcoding.skincare.ui.navigation.Screen
+import com.zrcoding.skincare.ui.navigation.MNavHost
 import com.zrcoding.skincare.ui.navigation.navigationBarScreens
-import com.zrcoding.skincare.ui.onboarding.Onboarding
-import com.zrcoding.skincare.ui.product.ProductScreen
-import com.zrcoding.skincare.ui.profile.Profile
 import com.zrcoding.skincare.ui.theme.*
 
 class MainActivity : ComponentActivity() {
@@ -180,22 +170,5 @@ fun BottomNavigationBar(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun MNavHost(navController: NavHostController, modifier: Modifier) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Home.route,
-        modifier = modifier
-    ) {
-        composable(route = Screen.Onboarding.route) { Onboarding(navController) }
-        composable(route = Screen.Home.route) { Home() }
-        composable(route = Screen.Explore.route) { Explore() }
-        composable(route = Screen.Favorites.route) { Favorites() }
-        composable(route = Screen.Profile.route) { Profile() }
-        composable(route = Screen.Product.route) { ProductScreen() }
-        composable(route = Screen.Cart.route) { Cart() }
     }
 }
