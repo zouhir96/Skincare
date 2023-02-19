@@ -17,8 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -35,13 +33,16 @@ import com.zrcoding.skincare.ui.theme.White
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ProductDetails(navController: NavController, modifier: Modifier = Modifier) {
+fun ProductDetails(
+    id: String?,
+    onBackClicked: () -> Unit
+) {
     Scaffold(
         topBar = {
             ScreenHeader(
                 leftIcon = R.drawable.ic_back_brown20,
                 onLeftIconClicked = {
-                    navController.popBackStack()
+                    onBackClicked()
                 },
                 rightIcon = R.drawable.ic_favorite_brown20,
                 onRightIconClicked = {
@@ -52,7 +53,7 @@ fun ProductDetails(navController: NavController, modifier: Modifier = Modifier) 
         backgroundColor = BrownWhite80
     ) { paddingValues ->
         ConstraintLayout(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
@@ -192,5 +193,5 @@ fun ProductDetails(navController: NavController, modifier: Modifier = Modifier) 
 @Preview
 @Composable
 fun ProductDetailsPreview() {
-    ProductDetails(rememberNavController())
+    ProductDetails("") {}
 }

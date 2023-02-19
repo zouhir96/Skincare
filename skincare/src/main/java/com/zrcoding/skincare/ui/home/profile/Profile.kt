@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.profile
+package com.zrcoding.skincare.ui.home.profile
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -21,14 +21,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite80
-import com.zrcoding.skincare.ui.theme.JetpackcomposeTheme
+import com.zrcoding.skincare.ui.theme.SkincareTheme
 
 @Composable
-fun Profile(modifier: Modifier = Modifier) {
-    ConstraintLayout(modifier = modifier.fillMaxSize()) {
+fun Profile(globalNavController: NavHostController) {
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (infos, spacer, redirections) = createRefs()
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -122,8 +124,8 @@ fun Profile(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun ProfilePreview() {
-    JetpackcomposeTheme(darkTheme = false) {
-        Profile(modifier = Modifier.background(Color.White))
+    SkincareTheme(darkTheme = false) {
+        Profile(rememberNavController())
     }
 }
 
@@ -169,7 +171,7 @@ fun Redirection(
 @Preview
 @Composable
 fun RedirectionPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         Redirection(icon = R.drawable.ic_user, text = R.string.profile) {}
     }
 }

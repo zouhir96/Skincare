@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.favorite
+package com.zrcoding.skincare.ui.home.favorite
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.product.ProductModel
@@ -27,7 +29,7 @@ import com.zrcoding.skincare.ui.product.fakeProductList
 import com.zrcoding.skincare.ui.theme.*
 
 @Composable
-fun Favorites() {
+fun Favorites(globalNavController: NavHostController) {
     val products = remember { mutableStateOf(fakeProductList) }
     Column(
         Modifier
@@ -57,8 +59,8 @@ fun Favorites() {
 @Preview
 @Composable
 fun FavoritesPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
-        Favorites()
+    SkincareTheme(darkTheme = false) {
+        Favorites(rememberNavController())
     }
 }
 
@@ -156,7 +158,7 @@ fun FavoritesItem(
 @Preview
 @Composable
 fun FavoritesItemPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         FavoritesItem(
             fakeProductList[0]
         ) {
