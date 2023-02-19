@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -198,6 +199,7 @@ private fun LeftRightTextPreview() {
 fun FilterChipGroup(
     filters: List<String>,
     selectedFilter: String? = null,
+    shape: Shape = MaterialTheme.shapes.medium,
     modifier: Modifier = Modifier,
     onFilterChanged: (String) -> Unit
 ) {
@@ -214,7 +216,7 @@ fun FilterChipGroup(
                     state.value = it
                     onFilterChanged.invoke(it)
                 },
-                shape = RoundedCornerShape(8.dp),
+                shape = shape,
                 border = BorderStroke(
                     if (selected) 0.dp else 1.dp,
                     SolidColor(if (selected) Brown else BrownWhite90)
@@ -503,6 +505,59 @@ private fun HorizontalProductPreview() {
             ),
             onFavoriteClicked = {},
             modifier = Modifier.background(color = MaterialTheme.colors.background)
+        )
+    }
+}
+
+@Composable
+fun QuantityCounter(
+    quantity: Int,
+    stock: Int,
+    onMinusClicked: () -> Unit,
+    onPlusClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_minus),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(8.dp)
+                .clickable { if (quantity > 0) onMinusClicked() },
+            tint = Color.Unspecified
+        )
+
+        Text(
+            text = "$quantity",
+            style = MaterialTheme.typography.body1,
+            color = Brown
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.ic_plus),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(8.dp)
+                .clickable { if (quantity < stock) onPlusClicked() },
+            tint = Color.Unspecified
+        )
+
+    }
+}
+
+@Preview
+@Composable
+fun QuantityCounterPreview() {
+    SkincareTheme(darkTheme = false) {
+        QuantityCounter(
+            quantity = 2,
+            stock = 10,
+            onMinusClicked = {},
+            onPlusClicked = {},
+            modifier = Modifier.background(White)
         )
     }
 }
