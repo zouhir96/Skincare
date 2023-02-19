@@ -22,22 +22,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.components.HorizontalSteps
-import com.zrcoding.skincare.ui.navigation.Screen
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
 import com.zrcoding.skincare.ui.theme.BrownWhite80
-import com.zrcoding.skincare.ui.theme.JetpackcomposeTheme
+import com.zrcoding.skincare.ui.theme.SkincareTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Onboarding(navController: NavHostController) {
+fun Onboarding(
+    onNavigateToHome: () -> Unit
+) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
 
@@ -51,7 +51,7 @@ fun Onboarding(navController: NavHostController) {
             page = pages[page]
         ) {
             if (pagerState.currentPage == 3) {
-                navController.navigate(route = Screen.Home.route)
+                onNavigateToHome()
             }
             scope.launch {
                 pagerState.animateScrollToPage(if (page == 3) 0 else page + 1)
@@ -63,8 +63,8 @@ fun Onboarding(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun OnboardingPreview() {
-    JetpackcomposeTheme {
-
+    SkincareTheme {
+        Onboarding {}
     }
 }
 
@@ -119,7 +119,7 @@ fun Page(
 @Preview(showBackground = true)
 @Composable()
 fun PagePreview() {
-    JetpackcomposeTheme {
+    SkincareTheme {
         Page(
             page = pages[0]
         ) {

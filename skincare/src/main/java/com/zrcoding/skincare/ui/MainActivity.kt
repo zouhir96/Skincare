@@ -3,171 +3,31 @@ package com.zrcoding.skincare.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.navigation.BottomBarItem
-import com.zrcoding.skincare.ui.navigation.MNavHost
-import com.zrcoding.skincare.ui.navigation.navigationBarScreens
-import com.zrcoding.skincare.ui.theme.*
+import com.zrcoding.skincare.ui.navigation.MainNavHost
+import com.zrcoding.skincare.ui.theme.SkincareTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            JetpackcomposeTheme {
-                val navController = rememberNavController()
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                // Control TopBar and BottomBar
-                val visible = navigationBarScreens.any {
-                    it.route == navBackStackEntry?.destination?.route
-                }
+            SkincareTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Scaffold(
-                        topBar = {
-                            TopAppBar(navController = navController, visible = visible)
-                        },
-                        bottomBar = {
-                            BottomNavigationBar(
-                                navController = navController,
-                                navigationBarScreens = navigationBarScreens,
-                                visible = visible
-                            )
-                        }
-                    ) { innerPadding ->
-                        MNavHost(
-                            navController = navController,
+                    Scaffold { innerPadding ->
+                        MainNavHost(
                             modifier = Modifier.padding(innerPadding)
                         )
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun TopAppBar(
-    cartItemsCount: Int = 0,
-    navController: NavController,
-    visible: Boolean
-) {
-    if (visible) {
-        TopAppBar(
-            title = {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Public", style = Typography.subtitle2)
-                    Text(text = "Skincare", style = Typography.body1)
-                }
-            },
-            navigationIcon = {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_menu),
-                    contentDescription = null,
-                    modifier = Modifier.size(40.dp)
-                )
-            },
-            actions = {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .background(color = Lotion, shape = MaterialTheme.shapes.small)
-                        .clickable {
-
-                        }
-                ) {
-                    BadgedBox(
-                        badge = {
-                            Badge(
-                                backgroundColor = CoralReef,
-                                contentColor = Color.White
-                            ) {
-                                Text(text = "$cartItemsCount")
-                            }
-                        },
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_bag),
-                            contentDescription = null,
-                            tint = Brown,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
-            },
-            backgroundColor = Color.White,
-            elevation = 0.dp,
-            modifier = Modifier.padding(horizontal = 10.dp)
-        )
-    }
-}
-
-@Composable
-fun BottomNavigationBar(
-    navController: NavController,
-    navigationBarScreens: List<BottomBarItem>,
-    visible: Boolean
-) {
-    if (visible) {
-        BottomNavigation(
-            backgroundColor = White,
-        ) {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
-            navigationBarScreens.forEach { screen ->
-                BottomNavigationItem(
-                    icon = {
-                        Icon(
-                            painterResource(id = screen.iconResId),
-                            contentDescription = null
-                        )
-                    },
-                    label = { Text(stringResource(screen.nameResId)) },
-                    selected = currentDestination?.hierarchy?.any {
-                        it.route == screen.route
-                    } == true,
-                    selectedContentColor = Brown80,
-                    unselectedContentColor = Grey,
-                    onClick = {
-                        navController.navigate(screen.route) {
-                            // Pop up to the start destination of the graph to
-                            // avoid building up a large stack of destinations
-                            // on the back stack as users select items
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            // Avoid multiple copies of the same destination when
-                            // reselecting the same item
-                            launchSingleTop = true
-                            // Restore state when reselecting a previously selected item
-                            restoreState = true
-                        }
-                    }
-                )
             }
         }
     }

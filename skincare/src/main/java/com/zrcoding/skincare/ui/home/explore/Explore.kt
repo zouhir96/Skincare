@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.explore
+package com.zrcoding.skincare.ui.home.explore
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -10,13 +10,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.ui.components.FilterChipGroup
 import com.zrcoding.skincare.ui.components.Product
 import com.zrcoding.skincare.ui.product.fakeProductList
-import com.zrcoding.skincare.ui.theme.JetpackcomposeTheme
+import com.zrcoding.skincare.ui.theme.SkincareTheme
 
 @Composable
-fun Explore() {
+fun Explore(globalNavController: NavHostController) {
     val products = remember { mutableStateOf(fakeProductList) }
     Column(
         Modifier
@@ -51,7 +53,7 @@ fun Explore() {
 @Preview
 @Composable
 fun ExplorePreview() {
-    JetpackcomposeTheme(darkTheme = false) {
-        Explore()
+    SkincareTheme(darkTheme = false) {
+        Explore(rememberNavController())
     }
 }

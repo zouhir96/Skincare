@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.home
+package com.zrcoding.skincare.ui.home.featured
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,19 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.components.*
-import com.zrcoding.skincare.ui.navigation.Screen
 import com.zrcoding.skincare.ui.product.fakeProductList
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.Grey30
-import com.zrcoding.skincare.ui.theme.JetpackcomposeTheme
+import com.zrcoding.skincare.ui.theme.SkincareTheme
 import com.zrcoding.skincare.ui.theme.Typography
 
 @Composable
-fun Home(navController: NavHostController) {
+fun Featured(onNavigateToProduct: (String) -> Unit) {
     val searchText = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -93,8 +90,8 @@ fun Home(navController: NavHostController) {
                 Product(
                     productModel = it,
                     onFavoriteClicked = {},
-                    onAddToCartClicked = {
-                        navController.navigate(Screen.Product.route)
+                    onAddToCartClicked = { product ->
+                        onNavigateToProduct(product.name)
                     }
                 )
             }
@@ -124,7 +121,7 @@ fun Home(navController: NavHostController) {
 @Preview
 @Composable
 fun HomePreview() {
-    JetpackcomposeTheme(darkTheme = false) {
-        Home(rememberNavController())
+    SkincareTheme(darkTheme = false) {
+        Featured(onNavigateToProduct = {})
     }
 }

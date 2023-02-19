@@ -74,7 +74,7 @@ fun ScreenHeader(
 @Preview
 @Composable
 fun ScreenHeaderPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         ScreenHeader(
             leftIcon = R.drawable.ic_back_brown20,
             onLeftIconClicked = { },
@@ -110,7 +110,7 @@ fun HorizontalSteps(
 @Preview
 @Composable
 private fun HorizontalStepsPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         HorizontalSteps(1)
     }
 }
@@ -156,7 +156,7 @@ fun SearchView(
 @Preview
 @Composable
 private fun SearchViewPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         SearchView("", {})
     }
 }
@@ -180,7 +180,7 @@ fun LeftRightComponent(
 @Preview
 @Composable
 private fun LeftRightTextPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         LeftRightComponent(
             leftComposable = {
                 Text(text = "Left text")
@@ -239,7 +239,7 @@ fun FilterChipGroup(
 @Preview
 @Composable
 private fun FilterChipGroupPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         FilterChipGroup(
             listOf("filter 1", "filter 2", "filter 3", "filter 4", "filter 5", "filter 6"),
             "filter 2",
@@ -375,7 +375,7 @@ fun Product(
 @Preview
 @Composable
 private fun ProductPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         Product(
             productModel = ProductModel(
                 name = "Toner",
@@ -412,7 +412,7 @@ fun Stars(count: Int = 5, stars: Int, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun StarsPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         Stars(stars = 3, modifier = Modifier.background(color = MaterialTheme.colors.background))
     }
 }
@@ -492,7 +492,7 @@ fun HorizontalProduct(
 @Preview
 @Composable
 private fun HorizontalProductPreview() {
-    JetpackcomposeTheme(darkTheme = false) {
+    SkincareTheme(darkTheme = false) {
         HorizontalProduct(
             productModel = ProductModel(
                 name = "Toner",
