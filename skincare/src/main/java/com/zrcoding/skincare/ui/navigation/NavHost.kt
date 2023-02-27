@@ -32,6 +32,9 @@ fun MainNavHost(
             Home(
                 onNavigateToProduct = {
                     globalNavController.navigate(Screen.Product.routeWithId(it))
+                },
+                onNavigateToCart = {
+                    globalNavController.navigate(Screen.Cart.route)
                 }
             )
         }
@@ -47,7 +50,11 @@ fun MainNavHost(
             )
         }
         composable(route = Screen.Cart.route) {
-            Cart()
+            Cart(
+                onBackClicked = {
+                    globalNavController.popBackStack()
+                }
+            )
         }
     }
 }

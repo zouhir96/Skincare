@@ -26,12 +26,13 @@ import com.zrcoding.skincare.ui.theme.*
 
 @Composable
 fun Home(
-    onNavigateToProduct: (String) -> Unit
+    onNavigateToProduct: (String) -> Unit,
+    onNavigateToCart: () -> Unit,
 ) {
     val homeNavController = rememberNavController()
     Scaffold(
         topBar = {
-            TopAppBar()
+            TopAppBar(onNavigateToCart = { onNavigateToCart() })
         },
         bottomBar = {
             BottomNavigationBar(
@@ -51,6 +52,7 @@ fun Home(
 @Composable
 fun TopAppBar(
     cartItemsCount: Int = 0,
+    onNavigateToCart: () -> Unit,
 ) {
     TopAppBar(
         title = {
@@ -75,9 +77,7 @@ fun TopAppBar(
                 modifier = Modifier
                     .size(40.dp)
                     .background(color = Lotion, shape = MaterialTheme.shapes.small)
-                    .clickable {
-
-                    }
+                    .clickable { onNavigateToCart() }
             ) {
                 BadgedBox(
                     badge = {
