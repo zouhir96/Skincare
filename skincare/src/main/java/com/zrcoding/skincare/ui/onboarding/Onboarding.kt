@@ -11,6 +11,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -39,24 +40,70 @@ fun Onboarding(
     onNavigateToHome: () -> Unit
 ) {
     val pagerState = rememberPagerState()
+    val currentPage = pagerState.currentPage
     val scope = rememberCoroutineScope()
 
-    HorizontalPager(
-        count = 4,
-        contentPadding = PaddingValues(horizontal = 12.dp),
-        state = pagerState,
-        modifier = Modifier.background(color = BrownWhite30)
-    ) { page: Int ->
-        Page(
-            page = pages[page]
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = BrownWhite30)
+    ) {
+        Spacer(modifier = Modifier.height(80.dp))
+        HorizontalPager(
+            count = 4,
+            contentPadding = PaddingValues(horizontal = 12.dp),
+            state = pagerState,
+            modifier = Modifier.weight(1f)
+        ) { page: Int ->
+            Page(page = pages[page], modifier = Modifier.fillMaxSize())
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            if (pagerState.currentPage == 3) {
-                onNavigateToHome()
+            IconButton(
+                modifier = Modifier.background(
+                    color = Brown,
+                    shape = RoundedCornerShape(50)
+                ),
+                onClick = {
+                    if (currentPage > 0)
+                        scope.launch {
+                            pagerState.animateScrollToPage(currentPage - 1)
+                        }
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = null,
+                    tint = BrownWhite80
+                )
             }
-            scope.launch {
-                pagerState.animateScrollToPage(if (page == 3) 0 else page + 1)
+            HorizontalSteps(index = currentPage)
+            IconButton(
+                modifier = Modifier.background(
+                    color = Brown,
+                    shape = RoundedCornerShape(50)
+                ),
+                onClick = {
+                    if (currentPage == 3) {
+                        onNavigateToHome()
+                    }
+                    scope.launch {
+                        pagerState.animateScrollToPage(if (currentPage == 3) 0 else currentPage + 1)
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowForward,
+                    contentDescription = null,
+                    tint = BrownWhite80
+                )
             }
         }
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
@@ -69,14 +116,9 @@ fun OnboardingPreview() {
 }
 
 @Composable
-fun Page(
-    page: Page,
-    onClick: () -> Unit
-) {
+fun Page(page: Page, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, top = 80.dp, bottom = 16.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -90,28 +132,12 @@ fun Page(
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.height(20.dp))
-        HorizontalSteps(index = page.index)
-        Spacer(modifier = Modifier.height(18.dp))
-        IconButton(
-            modifier = Modifier.background(
-                color = Brown,
-                shape = RoundedCornerShape(50)
-            ),
-            onClick = onClick
-        ) {
-            Icon(
-                imageVector = Icons.Filled.ArrowForward,
-                contentDescription = null,
-                tint = BrownWhite80
-            )
-        }
         Spacer(modifier = Modifier.height(42.dp))
         Image(
             painter = painterResource(id = page.image),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize(0.6f)
+            modifier = Modifier.weight(1f)
         )
     }
 }
@@ -120,11 +146,7 @@ fun Page(
 @Composable()
 fun PagePreview() {
     SkincareTheme {
-        Page(
-            page = pages[0]
-        ) {
-
-        }
+        Page(page = pages[0])
     }
 }
 
