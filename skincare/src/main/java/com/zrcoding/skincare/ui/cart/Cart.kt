@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -45,12 +46,13 @@ fun Cart(
                 onLeftIconClicked = { onBackClicked() },
                 rightIcon = R.drawable.ic_none,
                 onRightIconClicked = { /*TODO*/ },
-                title = "Product Cart"
+                title = stringResource(id = R.string.cart_title)
             )
         },
         backgroundColor = MaterialTheme.colors.background,
     ) {
-        val promoCode = remember { mutableStateOf("") }
+        val emptyText = stringResource(id = R.string.common_empty)
+        val promoCode = remember { mutableStateOf(emptyText) }
         Column(
             modifier = Modifier
                 .padding(it)
@@ -88,7 +90,10 @@ fun Cart(
                     .fillMaxWidth()
                     .height(45.dp)
             ) {
-                Text(text = "Checkout", style = MaterialTheme.typography.button)
+                Text(
+                    text = stringResource(id = R.string.cart_checkout),
+                    style = MaterialTheme.typography.button
+                )
             }
             Spacer(modifier = Modifier.height(30.dp))
         }
@@ -213,7 +218,7 @@ fun PromoCode(
             value = value,
             onValueChange = { onChanged(it) },
             modifier = Modifier.weight(1f),
-            placeholder = { Text(text = "Promo Code...") },
+            placeholder = { Text(text = stringResource(id = R.string.cart_promo_code_placeholder)) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 backgroundColor = MaterialTheme.colors.background,
                 textColor = Brown,
@@ -239,7 +244,7 @@ fun PromoCode(
             modifier = Modifier.height(34.dp)
         ) {
             Text(
-                text = "Apply",
+                text = stringResource(id = R.string.cart_promo_code_apply),
                 style = MaterialTheme.typography.button,
             )
         }
@@ -261,6 +266,16 @@ fun PromoCodePreview() {
 
 @Composable
 fun Totals(modifier: Modifier = Modifier) {
+    val totals = listOf(
+        Pair(
+            stringResource(id = R.string.cart_items_label),
+            stringResource(id = R.string.cart_items, 3)
+        ),
+        Pair(stringResource(id = R.string.cart_subtotal_label), "260.000$"),
+        Pair(stringResource(id = R.string.cart_shipping_label), "1.00$"),
+        Pair(stringResource(id = R.string.cart_promo_label), "none"),
+        Pair(stringResource(id = R.string.cart_total_payment_label), "261.000$"),
+    )
     LazyColumn(
         verticalArrangement = Arrangement.Center,
         modifier = modifier
@@ -271,13 +286,6 @@ fun Totals(modifier: Modifier = Modifier) {
             .padding(30.dp)
             .fillMaxWidth()
     ) {
-        val totals = listOf(
-            Pair("Items", "3 Product"),
-            Pair("Subtotal", "260.000$"),
-            Pair("Shipping", "1.00$"),
-            Pair("Promo", "none"),
-            Pair("Total Payment", "261.000$"),
-        )
         itemsIndexed(
             items = totals,
             contentType = { _, _ -> },

@@ -21,16 +21,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.SkincareTheme
 
 @Composable
-fun Profile(globalNavController: NavHostController) {
-    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+fun Profile(modifier: Modifier = Modifier) {
+    ConstraintLayout(modifier = modifier.fillMaxSize()) {
         val (infos, spacer, redirections) = createRefs()
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -114,7 +112,10 @@ fun Profile(globalNavController: NavHostController) {
                     .padding(horizontal = 21.dp)
                     .fillMaxWidth()
             ) {
-                Text(text = "Log out", style = MaterialTheme.typography.button)
+                Text(
+                    text = stringResource(id = R.string.common_log_out),
+                    style = MaterialTheme.typography.button
+                )
             }
             Spacer(modifier = Modifier.height(14.dp))
         }
@@ -125,7 +126,7 @@ fun Profile(globalNavController: NavHostController) {
 @Composable
 fun ProfilePreview() {
     SkincareTheme(darkTheme = false) {
-        Profile(rememberNavController())
+        Profile(modifier = Modifier.background(MaterialTheme.colors.background))
     }
 }
 

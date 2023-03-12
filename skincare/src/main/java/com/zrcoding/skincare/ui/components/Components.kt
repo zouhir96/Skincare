@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,7 +42,7 @@ fun ScreenHeader(
     onLeftIconClicked: () -> Unit,
     @DrawableRes rightIcon: Int,
     onRightIconClicked: () -> Unit,
-    title: String = "",
+    title: String = stringResource(id = R.string.common_empty),
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -119,11 +121,19 @@ private fun HorizontalStepsPreview() {
 @Composable
 fun SearchView(
     searchText: String,
+    placeholder: String,
     onValueChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = searchText,
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = MaterialTheme.typography.caption,
+                fontWeight = FontWeight.W400,
+            )
+        },
         onValueChange = {
             onValueChanged(it)
         },
@@ -158,7 +168,11 @@ fun SearchView(
 @Composable
 private fun SearchViewPreview() {
     SkincareTheme(darkTheme = false) {
-        SearchView("", {})
+        SearchView(
+            searchText = "",
+            placeholder = stringResource(id = R.string.featured_search_placeholder),
+            onValueChanged = {}
+        )
     }
 }
 
