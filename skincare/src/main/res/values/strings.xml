@@ -15,8 +15,50 @@
     <string name="favorites">favorites</string>
     <string name="profile">profile</string>
 
+    <!--    Common-->
+    <string name="common_category">Category</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_empty" translatable="false" />
+    <string name="common_log_out">Log out</string>
+    <string name="common_see_all">See all</string>
+    <string name="common_product_price_label">Price</string>
+
+
+    <!--    Featured Screen-->
+    <string name="featured_search_placeholder">Search for Skincare</string>
+    <string name="featured_popular_skincare">Popular Skincare</string>
+    <string name="featured_new_product">New Product</string>
+
+    <!--    Favorites Screen-->
+    <string name="favorites_add_to_cart">Add to cart</string>
+
     <!--    Profile Screen-->
     <string name="my_profile">My profile</string>
     <string name="my_orders">My orders</string>
     <string name="my_refunds">Refund</string>
+
+    <!--    Product Screen-->
+    <string name="product_details_title">Sunscreen</string>
+    <string name="product_details_subtitle">Protect Available Exclusively from a Skincare</string>
+    <string name="product_details_select_volume">Select Volume</string>
+    <string name="product_details_description_label">Descriptions</string>
+    <string name="product_details_buy_now">Buy Now</string>
+
+    <!--    Add to cart Screen-->
+    <string name="add_to_cart_stock">Stock: %s</string>
+    <string name="add_to_cart_volume">Volume</string>
+    <string name="add_to_cart_quantity">Qty</string>
+    <string name="add_to_cart_btn_text">Add to cart</string>
+
+    <!--    Add to cart Screen-->
+    <string name="cart_title">Product Cart</string>
+    <string name="cart_promo_code_placeholder">Promo Code…</string>
+    <string name="cart_promo_code_apply">Apply</string>
+    <string name="cart_items_label">Items</string>
+    <string name="cart_items">%s Product</string>
+    <string name="cart_subtotal_label">Subtotal</string>
+    <string name="cart_shipping_label">Shipping</string>
+    <string name="cart_promo_label">Promo</string>
+    <string name="cart_total_payment_label">Total Payment</string>
+    <string name="cart_checkout">Checkout</string>
 </resources>

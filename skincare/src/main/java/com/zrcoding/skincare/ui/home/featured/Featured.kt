@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,15 +26,17 @@ import com.zrcoding.skincare.ui.theme.Typography
 
 @Composable
 fun Featured(onNavigateToProduct: (String) -> Unit) {
-    val searchText = remember { mutableStateOf("") }
+    val emptyText = stringResource(id = R.string.common_empty)
+    val searchText = remember { mutableStateOf(emptyText) }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 21.dp, vertical = 10.dp)
             .background(MaterialTheme.colors.background)
+            .padding(horizontal = 21.dp, vertical = 10.dp)
     ) {
         SearchView(
             searchText = searchText.value,
+            placeholder = stringResource(id = R.string.featured_search_placeholder),
             onValueChanged = {
                 searchText.value = it
             }
@@ -42,14 +45,14 @@ fun Featured(onNavigateToProduct: (String) -> Unit) {
         LeftRightComponent(
             leftComposable = {
                 Text(
-                    text = "Category",
+                    text = stringResource(id = R.string.common_category),
                     color = Brown,
                     style = Typography.subtitle1
                 )
             },
             rightComposable = {
                 Text(
-                    text = "See all",
+                    text = stringResource(id = R.string.common_see_all),
                     color = Grey30,
                     style = Typography.subtitle1,
                     textDecoration = TextDecoration.Underline,
@@ -58,21 +61,23 @@ fun Featured(onNavigateToProduct: (String) -> Unit) {
             }
         )
         Spacer(modifier = Modifier.height(24.dp))
-        FilterChipGroup(filters = listOf("All", "Cleanser", "Toner", "Serum", "Handbody")) {
+        FilterChipGroup(
+            filters = listOf("All", "Cleanser", "Toner", "Serum", "Handbody")
+        ) {
 
         }
         Spacer(modifier = Modifier.height(24.dp))
         LeftRightComponent(
             leftComposable = {
                 Text(
-                    text = "Popular Skincare",
+                    text = stringResource(id = R.string.featured_popular_skincare),
                     color = Brown,
                     style = Typography.subtitle1
                 )
             },
             rightComposable = {
                 Text(
-                    text = "See all",
+                    text = stringResource(id = R.string.common_see_all),
                     color = Grey30,
                     style = Typography.subtitle1,
                     textDecoration = TextDecoration.Underline,
@@ -98,21 +103,14 @@ fun Featured(onNavigateToProduct: (String) -> Unit) {
         }
         Spacer(modifier = Modifier.height(15.dp))
         Text(
-            text = "New Product",
+            text = stringResource(id = R.string.featured_new_product),
             color = Brown,
             style = Typography.subtitle1
         )
         Spacer(modifier = Modifier.height(15.dp))
         HorizontalProduct(
-            productModel = com.zrcoding.skincare.ui.product.ProductModel(
-                name = "Toner",
-                description = "Circumference Active Botanical Refining Toner",
-                price = 60.00,
-                image = R.drawable.skincare_products,
-                stars = 4
-            ), onFavoriteClicked = {
-
-            }
+            productModel = fakeProductList[0],
+            onFavoriteClicked = {}
         )
     }
 }

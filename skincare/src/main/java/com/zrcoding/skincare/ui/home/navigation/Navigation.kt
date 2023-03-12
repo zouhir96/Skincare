@@ -48,13 +48,13 @@ fun HomeNavHost(
             Featured(onNavigateToProduct)
         }
         composable(route = HomeScreen.Explore.route) {
-            Explore(homeNavController)
+            Explore()
         }
         composable(route = HomeScreen.Favorites.route) {
-            Favorites(homeNavController)
+            Favorites()
         }
         composable(route = HomeScreen.Profile.route) {
-            Profile(homeNavController)
+            Profile()
         }
     }
 }

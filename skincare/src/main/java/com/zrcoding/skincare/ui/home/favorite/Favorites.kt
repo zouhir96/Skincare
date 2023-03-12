@@ -13,15 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.product.ProductModel
@@ -29,29 +27,25 @@ import com.zrcoding.skincare.ui.product.fakeProductList
 import com.zrcoding.skincare.ui.theme.*
 
 @Composable
-fun Favorites(globalNavController: NavHostController) {
+fun Favorites() {
     val products = remember { mutableStateOf(fakeProductList) }
     Column(
-        Modifier
-            .fillMaxSize()
-            .padding(horizontal = 21.dp)
-            .padding(top = 10.dp)
+        Modifier.fillMaxSize()
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            contentPadding = PaddingValues(bottom = 10.dp),
+            contentPadding = PaddingValues(vertical = 10.dp, horizontal = 21.dp),
             content = {
                 items(products.value) {
-                    FavoritesItem(it) {
-
-                    }
+                    FavoritesItem(
+                        productModel = it,
+                        onAddToCart = {},
+                        onDelete = {}
+                    )
                 }
-            },
-            modifier = Modifier
-                .height(0.dp)
-                .weight(1f)
+            }
         )
     }
 }
@@ -60,7 +54,7 @@ fun Favorites(globalNavController: NavHostController) {
 @Composable
 fun FavoritesPreview() {
     SkincareTheme(darkTheme = false) {
-        Favorites(rememberNavController())
+        Favorites()
     }
 }
 
@@ -68,11 +62,12 @@ fun FavoritesPreview() {
 fun FavoritesItem(
     productModel: ProductModel,
     modifier: Modifier = Modifier,
-    onDeleteClicked: (ProductModel) -> Unit
+    onAddToCart: (ProductModel) -> Unit,
+    onDelete: (ProductModel) -> Unit
 ) {
     Card(
         shape = MaterialTheme.shapes.large,
-        backgroundColor = Color(0xFFFFF3E4),
+        backgroundColor = BrownWhite80,
         elevation = 2.dp,
         modifier = modifier
             .fillMaxWidth()
@@ -117,9 +112,9 @@ fun FavoritesItem(
                 Spacer(modifier = Modifier.height(4.dp))
                 LeftRightComponent(
                     leftComposable = {
-                        TextButton(onClick = { }) {
+                        TextButton(onClick = { onAddToCart(productModel) }) {
                             Text(
-                                text = "Add to cart",
+                                text = stringResource(id = R.string.favorites_add_to_cart),
                                 color = Brown,
                                 style = MaterialTheme.typography.caption
                             )
@@ -127,7 +122,7 @@ fun FavoritesItem(
                     },
                     rightComposable = {
                         Button(
-                            onClick = { },
+                            onClick = { onDelete(productModel) },
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = Red80,
                                 contentColor = Red
@@ -145,7 +140,10 @@ fun FavoritesItem(
                                     modifier = Modifier.size(12.dp)
                                 )
                                 Spacer(modifier = Modifier.width(3.dp))
-                                Text(text = "Delete", style = MaterialTheme.typography.caption)
+                                Text(
+                                    text = stringResource(id = R.string.common_delete),
+                                    style = MaterialTheme.typography.caption
+                                )
                             }
                         }
                     }
@@ -160,9 +158,9 @@ fun FavoritesItem(
 fun FavoritesItemPreview() {
     SkincareTheme(darkTheme = false) {
         FavoritesItem(
-            fakeProductList[0]
-        ) {
-
-        }
+            fakeProductList[0],
+            onAddToCart = {},
+            onDelete = {}
+        )
     }
 }

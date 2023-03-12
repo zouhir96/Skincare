@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -119,14 +120,14 @@ fun ProductDetails(
                         .padding(start = 21.dp, end = 21.dp, top = 30.dp)
                 ) {
                     Text(
-                        text = "Sunscreen",
+                        text = stringResource(id = R.string.product_details_title),
                         style = MaterialTheme.typography.body1,
                         color = Grey50,
                         fontWeight = FontWeight.SemiBold,
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "Protect Available Exclusively from a Skincare",
+                        text = stringResource(id = R.string.product_details_subtitle),
                         style = MaterialTheme.typography.h6,
                         color = Brown,
                         fontWeight = FontWeight.Normal,
@@ -143,7 +144,7 @@ fun ProductDetails(
                     }
                     Spacer(modifier = Modifier.height(24.dp))
                     Text(
-                        text = "Select Volum",
+                        text = stringResource(id = R.string.product_details_select_volume),
                         style = MaterialTheme.typography.body1,
                         color = Brown,
                     )
@@ -155,7 +156,7 @@ fun ProductDetails(
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     Text(
-                        text = "Descriptions",
+                        text = stringResource(id = R.string.product_details_description_label),
                         style = MaterialTheme.typography.body1,
                         color = Brown,
                     )
@@ -181,7 +182,10 @@ fun ProductDetails(
                         .padding(horizontal = 21.dp, vertical = 13.dp),
                     leftComposable = {
                         Column {
-                            Text(text = "Price", style = MaterialTheme.typography.body1)
+                            Text(
+                                text = stringResource(id = R.string.common_product_price_label),
+                                style = MaterialTheme.typography.body1
+                            )
                             Text(text = "100.00$", style = MaterialTheme.typography.h6)
                         }
                     },
@@ -199,7 +203,10 @@ fun ProductDetails(
                             ),
                             modifier = Modifier.height(45.dp)
                         ) {
-                            Text(text = "Buy Now", style = MaterialTheme.typography.button)
+                            Text(
+                                text = stringResource(id = R.string.product_details_buy_now),
+                                style = MaterialTheme.typography.button
+                            )
                         }
                     }
                 )
@@ -247,15 +254,21 @@ fun AddToCart(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = modifier.width(18.dp))
             Column {
-                Text(text = "Price", style = MaterialTheme.typography.body1)
+                Text(
+                    text = stringResource(id = R.string.common_product_price_label),
+                    style = MaterialTheme.typography.body1
+                )
                 Text(text = "100.00$", style = MaterialTheme.typography.body2)
                 Spacer(modifier = modifier.height(5.dp))
-                Text(text = "Stock: 32", style = MaterialTheme.typography.caption)
+                Text(
+                    text = stringResource(id = R.string.add_to_cart_stock, 32),
+                    style = MaterialTheme.typography.caption
+                )
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "Volum",
+            text = stringResource(id = R.string.add_to_cart_volume),
             style = MaterialTheme.typography.body1,
             color = Brown,
         )
@@ -276,7 +289,7 @@ fun AddToCart(modifier: Modifier = Modifier) {
         LeftRightComponent(
             leftComposable = {
                 Text(
-                    text = "Qty",
+                    text = stringResource(id = R.string.add_to_cart_quantity),
                     style = MaterialTheme.typography.body1,
                     color = Brown
                 )
@@ -309,7 +322,10 @@ fun AddToCart(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .height(45.dp)
         ) {
-            Text(text = "Add to cart", style = MaterialTheme.typography.button)
+            Text(
+                text = stringResource(id = R.string.add_to_cart_btn_text),
+                style = MaterialTheme.typography.button
+            )
         }
         Spacer(modifier = Modifier.height(30.dp))
     }
