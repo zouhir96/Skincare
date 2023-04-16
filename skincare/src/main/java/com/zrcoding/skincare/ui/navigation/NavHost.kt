@@ -15,18 +15,23 @@ import com.zrcoding.skincare.ui.product.ProductDetails
 
 @Composable
 fun MainNavHost(
+    onboarded: Boolean,
     globalNavController: NavHostController = rememberNavController(),
     modifier: Modifier
 ) {
     NavHost(
         navController = globalNavController,
-        startDestination = Screen.Onboarding.route,
+        startDestination = if (onboarded) Screen.Home.route else Screen.Onboarding.route,
         modifier = modifier
     ) {
         composable(route = Screen.Onboarding.route) {
-            Onboarding {
-                globalNavController.navigate(route = Screen.Home.route)
-            }
+            Onboarding(
+                onNavigateToHome = {
+                    globalNavController.navigate(route = Screen.Home.route) {
+                        popUpTo(Screen.Onboarding.route) { inclusive = true }
+                    }
+                }
+            )
         }
         composable(route = Screen.Home.route) {
             Home(
