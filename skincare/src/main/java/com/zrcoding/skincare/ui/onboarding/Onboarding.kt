@@ -1,7 +1,5 @@
 package com.zrcoding.skincare.ui.onboarding
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -37,7 +36,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Onboarding(
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState()
     val currentPage = pagerState.currentPage
@@ -89,6 +89,7 @@ fun Onboarding(
                 ),
                 onClick = {
                     if (currentPage == 3) {
+                        viewModel.onOnboardingCompleted()
                         onNavigateToHome()
                     }
                     scope.launch {
@@ -111,7 +112,7 @@ fun Onboarding(
 @Composable
 fun OnboardingPreview() {
     SkincareTheme {
-        Onboarding {}
+        Onboarding({})
     }
 }
 
@@ -175,11 +176,4 @@ private val pages = listOf(
         image = R.drawable.skincare_products,
         index = 3
     ),
-)
-
-data class Page(
-    @StringRes val title: Int,
-    @StringRes val description: Int,
-    @DrawableRes val image: Int,
-    val index: Int
 )
