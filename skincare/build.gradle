@@ -59,6 +59,7 @@ android {
 dependencies {
     // project dependencies
     implementation project(":common")
+    implementation project(":data")
 
     // Core
     implementation "androidx.core:core-ktx:$dep_core_ktx"
