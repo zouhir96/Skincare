@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        dep_core_ktx = '1.12.0-alpha0'
-        dep_compose_compiler = '1.4.0'
-        dep_compose = '1.5.0-alpha0'
+        dep_core_ktx = '1.12.0-alpha03'
+        dep_compose_compiler = '1.4.6'
+        dep_compose = '1.5.0-alpha01'
         dep_material = '1.5.0-alpha03'
         dep_constraintlayout = '1.0.1'
         dep_view_pager = '0.29.0-alpha'
@@ -13,7 +13,7 @@ buildscript {
         dep_hilt_navigation = "1.0.0"
         dep_hilt = '2.44'
         dep_datastore = '1.0.0'
-        kotlin_version = '1.8.21'
+        kotlin_version = '1.8.20'
     }
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:$dep_hilt")
