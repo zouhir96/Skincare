@@ -1,0 +1,75 @@
+package com.zrcoding.skincare.ui.home.featured
+
+import com.zrcoding.skincare.data.domain.model.Product
+import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
+import com.zrcoding.skincare.data.domain.repositories.ProductRepository
+import com.zrcoding.skincare.ui.common.Filter
+import com.zrcoding.skincare.ui.common.filterAll
+import com.zrcoding.skincare.ui.common.toFilter
+import javax.inject.Inject
+
+class BuildFeaturedScreenViewStateUseCase @Inject constructor(
+    private val productRepository: ProductRepository,
+    private val categoryRepository: CategoryRepository
+) {
+    sealed interface Request {
+        object Initial : Request
+        data class SearchOnly(val text: String) : Request
+        data class FilterOnly(val filter: Filter) : Request
+        data class SearchFiltered(val text: String, val filter: Filter) : Request
+    }
+
+    private val maxDisplayedProducts = 2
+    private var filtersCache: List<Filter> = emptyList()
+    private var newestProductCache: Product? = null
+
+    suspend operator fun invoke(request: Request): FeaturedScreenViewState {
+        if (filtersCache.isEmpty()) {
+            filtersCache = categoryRepository.getAll()
+                .map { it.toFilter() }
+                .toMutableList().apply { add(0, filterAll) }
+        }
+
+        if (newestProductCache == null) {
+            newestProductCache = productRepository.getNewestProduct()
+        }
+
+        val viewState = FeaturedScreenViewState(
+            filters = filtersCache,
+            selectedFilter = filterAll,
+            newestProduct = newestProductCache
+        )
+
+
+        return when (request) {
+            Request.Initial -> viewState.copy(
+                products = productRepository.getMostPopularProducts(limit = maxDisplayedProducts)
+            )
+
+            is Request.SearchOnly -> viewState.copy(
+                searchText = request.text,
+                products = productRepository.searchProduct(
+                    searchText = request.text,
+                    limit = maxDisplayedProducts
+                )
+            )
+
+            is Request.FilterOnly -> viewState.copy(
+                products = productRepository.getMostPopularProducts(
+                    limit = maxDisplayedProducts,
+                    categoryUuid = request.filter.id
+                ),
+                selectedFilter = request.filter
+            )
+
+            is Request.SearchFiltered -> viewState.copy(
+                searchText = request.text,
+                products = productRepository.searchCategoryProducts(
+                    searchText = request.text,
+                    categoryUuid = request.filter.id
+                ),
+                selectedFilter = request.filter
+            )
+        }
+    }
+}
