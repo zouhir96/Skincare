@@ -27,4 +27,10 @@ interface ProductRepository {
     suspend fun getMostPopularProducts(limit: Int, categoryUuid: String): List<Product>
 
     suspend fun getNewestProduct(): Product?
+
+    suspend fun observeFavoritesProducts(): Flow<List<Product>>
+
+    suspend fun deleteFromFavorites(uuid: String)
+
+    suspend fun addToFavorites(uuid: String)
 }
