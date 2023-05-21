@@ -2,9 +2,26 @@ package com.zrcoding.skincare.ui.product
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,8 +45,19 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.components.*
-import com.zrcoding.skincare.ui.theme.*
+import com.zrcoding.skincare.ui.common.Filter
+import com.zrcoding.skincare.ui.components.FilterChipGroup
+import com.zrcoding.skincare.ui.components.LeftRightComponent
+import com.zrcoding.skincare.ui.components.QuantityCounter
+import com.zrcoding.skincare.ui.components.ScreenHeader
+import com.zrcoding.skincare.ui.components.Stars
+import com.zrcoding.skincare.ui.theme.Brown
+import com.zrcoding.skincare.ui.theme.BrownWhite50
+import com.zrcoding.skincare.ui.theme.BrownWhite80
+import com.zrcoding.skincare.ui.theme.Grey50
+import com.zrcoding.skincare.ui.theme.SkincareTheme
+import com.zrcoding.skincare.ui.theme.White
+import com.zrcoding.skincare.ui.theme.bottomSheetShape
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
@@ -150,7 +178,10 @@ fun ProductDetails(
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     FilterChipGroup(
-                        filters = listOf("150 ml", "250 ml", "350 ml"),
+                        filters = listOf(
+                            Filter("1", "filter1"),
+                            Filter("2", "filter2"),
+                        ),
                         shape = MaterialTheme.shapes.large,
                         onFilterChanged = {}
                     )
@@ -274,7 +305,10 @@ fun AddToCart(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(12.dp))
         FilterChipGroup(
-            filters = listOf("150 ml", "250 ml", "350 ml"),
+            filters = listOf(
+                Filter("1", "filter1"),
+                Filter("2", "filter2"),
+            ),
             shape = MaterialTheme.shapes.large,
             onFilterChanged = {}
         )

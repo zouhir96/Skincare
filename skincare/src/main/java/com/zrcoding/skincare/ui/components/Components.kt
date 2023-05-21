@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.product.ProductModel
+import com.zrcoding.skincare.data.domain.model.Category
+import com.zrcoding.skincare.data.domain.model.Product
+import com.zrcoding.skincare.ui.common.Filter
 import com.zrcoding.skincare.ui.theme.*
 
 @Composable
@@ -211,11 +213,11 @@ private fun LeftRightTextPreview() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FilterChipGroup(
-    filters: List<String>,
-    selectedFilter: String? = null,
+    filters: List<Filter>,
+    selectedFilter: Filter? = null,
     shape: Shape = MaterialTheme.shapes.medium,
     modifier: Modifier = Modifier,
-    onFilterChanged: (String) -> Unit
+    onFilterChanged: (Filter) -> Unit
 ) {
     val state = remember { mutableStateOf(selectedFilter ?: filters[0]) }
     LazyRow(
@@ -223,7 +225,7 @@ fun FilterChipGroup(
         modifier = modifier.fillMaxWidth()
     ) {
         items(filters) {
-            val selected = state.value == it
+            val selected = state.value.id == it.id
             FilterChip(
                 selected = selected,
                 onClick = {
@@ -243,7 +245,7 @@ fun FilterChipGroup(
                 modifier = Modifier.height(48.dp),
             ) {
                 Text(
-                    text = it,
+                    text = it.value,
                     style = MaterialTheme.typography.subtitle2,
                     modifier = Modifier.padding(horizontal = 6.dp)
                 )
@@ -257,17 +259,24 @@ fun FilterChipGroup(
 private fun FilterChipGroupPreview() {
     SkincareTheme(darkTheme = false) {
         FilterChipGroup(
-            listOf("filter 1", "filter 2", "filter 3", "filter 4", "filter 5", "filter 6"),
-            "filter 2",
+            filters = listOf(
+                Filter("1", "filter 1"),
+                Filter("2", "filter 2"),
+                Filter("3", "filter 3"),
+                Filter("4", "filter 4"),
+                Filter("5", "filter 5"),
+                Filter("6", "filter 6"),
+            ),
+            selectedFilter = Filter("2", "filter 2")
         ) {}
     }
 }
 
 @Composable
-fun Product(
-    productModel: ProductModel,
-    onFavoriteClicked: (ProductModel) -> Unit,
-    onAddToCartClicked: (ProductModel) -> Unit,
+fun VerticalProduct(
+    product: Product,
+    onFavoriteClicked: (Product) -> Unit,
+    onAddToCartClicked: (Product) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -301,7 +310,7 @@ fun Product(
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
                         }
-                        .clickable { onFavoriteClicked(productModel) }
+                        .clickable { onFavoriteClicked(product) }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_favorite),
@@ -313,7 +322,7 @@ fun Product(
                     )
                 }
                 Image(
-                    painter = painterResource(id = productModel.image),
+                    painter = painterResource(id = R.drawable.skincare_products),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -327,9 +336,10 @@ fun Product(
                         }
                 )
                 Text(
-                    text = productModel.description,
+                    text = product.title,
                     style = MaterialTheme.typography.body2,
                     color = Brown,
+                    maxLines = 2,
                     modifier = Modifier
                         .constrainAs(description) {
                             start.linkTo(parent.start)
@@ -338,9 +348,10 @@ fun Product(
                         .padding(bottom = 6.dp)
                 )
                 Text(
-                    text = productModel.name,
+                    text = product.description,
                     style = MaterialTheme.typography.caption,
                     color = Grey,
+                    maxLines = 2,
                     modifier = Modifier
                         .constrainAs(name) {
                             start.linkTo(parent.start)
@@ -351,10 +362,10 @@ fun Product(
                 LeftRightComponent(
                     leftComposable = {
                         Column {
-                            Stars(stars = productModel.stars)
+                            Stars(stars = product.stars)
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "${productModel.price}$",
+                                text = "${product.price}$",
                                 color = Brown,
                                 style = MaterialTheme.typography.h6
                             )
@@ -365,7 +376,7 @@ fun Product(
                                 .size(27.dp)
                                 .clip(CircleShape)
                                 .background(Brown)
-                                .clickable { onAddToCartClicked(productModel) }
+                                .clickable { onAddToCartClicked(product) }
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.ic_bag),
@@ -392,13 +403,16 @@ fun Product(
 @Composable
 private fun ProductPreview() {
     SkincareTheme(darkTheme = false) {
-        Product(
-            productModel = ProductModel(
+        VerticalProduct(
+            product = Product(
                 name = "Toner",
+                title = "Toner",
                 description = "Circumference Active Botanical Refining Toner",
                 price = 60.00,
-                image = R.drawable.skincare_products,
-                stars = 4
+                stars = 4,
+                imagesUrls = listOf(),
+                volumes = listOf(),
+                category = Category("", "")
             ),
             onFavoriteClicked = {},
             onAddToCartClicked = {},
@@ -435,8 +449,8 @@ private fun StarsPreview() {
 
 @Composable
 fun HorizontalProduct(
-    productModel: ProductModel,
-    onFavoriteClicked: (ProductModel) -> Unit,
+    product: Product,
+    onFavoriteClicked: (Product) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -451,7 +465,7 @@ fun HorizontalProduct(
         ) {
             val (image, content, favorite) = createRefs()
             Image(
-                painter = painterResource(id = productModel.image),
+                painter = painterResource(id = R.drawable.skincare_products),
                 contentDescription = null,
                 modifier = Modifier.constrainAs(image) {
                     top.linkTo(parent.top)
@@ -470,7 +484,7 @@ fun HorizontalProduct(
                     }
             ) {
                 Text(
-                    text = productModel.description,
+                    text = product.description,
                     style = MaterialTheme.typography.body2,
                     color = Brown,
                     maxLines = 1,
@@ -478,13 +492,13 @@ fun HorizontalProduct(
                     modifier = Modifier.padding(bottom = 6.dp)
                 )
                 Text(
-                    text = productModel.name,
+                    text = product.name,
                     style = MaterialTheme.typography.caption,
                     color = Grey,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "${productModel.price}$",
+                    text = "${product.price}$",
                     color = Brown,
                     style = MaterialTheme.typography.subtitle1
                 )
@@ -499,7 +513,7 @@ fun HorizontalProduct(
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
                     }
-                    .clickable { onFavoriteClicked(productModel) }
+                    .clickable { onFavoriteClicked(product) }
             )
         }
     }
@@ -510,12 +524,15 @@ fun HorizontalProduct(
 private fun HorizontalProductPreview() {
     SkincareTheme(darkTheme = false) {
         HorizontalProduct(
-            productModel = ProductModel(
+            product = Product(
                 name = "Toner",
+                title = "Toner",
                 description = "Circumference Active Botanical Refining Toner",
                 price = 60.00,
-                image = R.drawable.skincare_products,
-                stars = 4
+                stars = 4,
+                imagesUrls = emptyList(),
+                volumes = emptyList(),
+                category = Category("", "")
             ),
             onFavoriteClicked = {},
             modifier = Modifier.background(color = MaterialTheme.colors.background)
