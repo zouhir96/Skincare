@@ -14,6 +14,10 @@ buildscript {
         dep_hilt = '2.44'
         dep_datastore = '1.0.0'
         kotlin_version = '1.8.20'
+        coroutines_version = '1.3.9'
+
+        dep_junit = '4.13.2'
+        dep_mockk = '1.12.0'
     }
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:$dep_hilt")

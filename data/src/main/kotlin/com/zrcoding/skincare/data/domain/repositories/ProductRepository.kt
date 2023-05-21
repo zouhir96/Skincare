@@ -16,6 +16,12 @@ interface ProductRepository {
 
     suspend fun searchCategoryProducts(searchText: String, categoryUuid: String): List<Product>
 
+    suspend fun searchCategoryProducts(
+        searchText: String,
+        categoryUuid: String,
+        limit: Int
+    ): List<Product>
+
     suspend fun getMostPopularProducts(limit: Int): List<Product>
 
     suspend fun getMostPopularProducts(limit: Int, categoryUuid: String): List<Product>

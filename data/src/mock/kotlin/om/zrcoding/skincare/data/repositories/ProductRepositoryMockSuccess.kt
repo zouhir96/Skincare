@@ -31,6 +31,16 @@ class ProductRepositoryMockSuccess @Inject constructor() : ProductRepository {
         ))
     }
 
+    override suspend fun searchCategoryProducts(
+        searchText: String,
+        categoryUuid: String,
+        limit: Int
+    ) = fakeProducts.filter {
+        it.category.uuid == categoryUuid && (it.name.contains(searchText) || it.title.contains(
+            searchText
+        ))
+    }.take(limit)
+
     override suspend fun getMostPopularProducts(limit: Int) = fakeProducts.take(limit)
 
     override suspend fun getMostPopularProducts(

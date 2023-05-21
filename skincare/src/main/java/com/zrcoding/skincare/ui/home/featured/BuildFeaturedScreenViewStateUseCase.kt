@@ -66,7 +66,8 @@ class BuildFeaturedScreenViewStateUseCase @Inject constructor(
                 searchText = request.text,
                 products = productRepository.searchCategoryProducts(
                     searchText = request.text,
-                    categoryUuid = request.filter.id
+                    categoryUuid = request.filter.id,
+                    limit = maxDisplayedProducts
                 ),
                 selectedFilter = request.filter
             )
