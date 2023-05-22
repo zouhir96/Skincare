@@ -4,11 +4,12 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.home.explore.Explore
+import com.zrcoding.skincare.ui.home.explore.ExploreScreen
 import com.zrcoding.skincare.ui.home.favorite.FavoritesScreen
 import com.zrcoding.skincare.ui.home.featured.FeaturedScreen
 import com.zrcoding.skincare.ui.home.profile.Profile
@@ -45,10 +46,27 @@ fun HomeNavHost(
         modifier = modifier
     ) {
         composable(route = HomeScreen.Featured.route) {
-            FeaturedScreen(onNavigateToProduct = onNavigateToProduct)
+            FeaturedScreen(
+                onNavigateToProduct = onNavigateToProduct,
+                onNavigateToExplore = {
+                    homeNavController.navigate(HomeScreen.Explore.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(homeNavController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                }
+            )
         }
         composable(route = HomeScreen.Explore.route) {
-            Explore()
+            ExploreScreen(onNavigateToProduct = onNavigateToProduct)
         }
         composable(route = HomeScreen.Favorites.route) {
             FavoritesScreen(onNavigateToProduct = onNavigateToProduct)
