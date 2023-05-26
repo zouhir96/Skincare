@@ -107,9 +107,7 @@ fun FeaturedScreen(
             items(viewModel.viewState.value.products, key = { it.uuid }) {
                 VerticalProduct(
                     product = it,
-                    onFavoriteClicked = {
-
-                    },
+                    onFavoriteClicked = viewModel::onAddToFavorites,
                     onAddToCartClicked = { product ->
                         onNavigateToProduct(product.uuid)
                     }
@@ -126,7 +124,7 @@ fun FeaturedScreen(
             Spacer(modifier = Modifier.height(15.dp))
             HorizontalProduct(
                 product = it,
-                onFavoriteClicked = {}
+                onFavoriteClicked = viewModel::onAddToFavorites
             )
         }
     }

@@ -2,11 +2,14 @@ package om.zrcoding.skincare.data.repositories
 
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
+import com.zrcoding.skincare.data.sources.fake.fakeProducts
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
-import java.util.UUID
 import javax.inject.Inject
 
 class ProductRepositoryMockSuccess @Inject constructor() : ProductRepository {
+
+    private val favoriteProducts = MutableStateFlow<List<Product>>(emptyList())
 
     override fun getAll() = flowOf(fakeProducts)
 
@@ -49,142 +52,18 @@ class ProductRepositoryMockSuccess @Inject constructor() : ProductRepository {
     ) = getCategoryProducts(categoryUuid).take(limit)
 
     override suspend fun getNewestProduct(): Product? = fakeProducts.maxByOrNull { it.price }
-}
+    override suspend fun observeFavoritesProducts() = favoriteProducts
+    override suspend fun deleteFromFavorites(uuid: String) {
+        val otherProducts = favoriteProducts.value.filter { it.uuid != uuid }
+        favoriteProducts.emit(otherProducts)
+    }
 
-val fakeProducts = listOf(
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Circumference Active Botanical Refining Toner",
-        title = "Circumference Active Botanical Refining Toner",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 60.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[0]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Protect Available Exclusively from a Skincare",
-        title = "Protect Available Exclusively from a Skincare",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 100.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[1]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Environ package skin EssentiA*",
-        title = "Environ package skin EssentiA*",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 190.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[2]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Circumference Active Botanical Refining Toner",
-        title = "Circumference Active Botanical Refining Toner",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 60.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[3]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Protect Available Exclusively from a Skincare",
-        title = "Protect Available Exclusively from a Skincare",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 100.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[0]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Environ package skin EssentiA*",
-        title = "Environ package skin EssentiA*",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 190.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[1]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Circumference Active Botanical Refining Toner",
-        title = "Circumference Active Botanical Refining Toner",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 60.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[2]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Protect Available Exclusively from a Skincare",
-        title = "Protect Available Exclusively from a Skincare",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 100.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[3]
-    ),
-    Product(
-        uuid = UUID.randomUUID().toString(),
-        name = "Environ package skin EssentiA*",
-        title = "Environ package skin EssentiA*",
-        description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
-        price = 190.0,
-        stars = 5,
-        imagesUrls = listOf(
-            "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
-            "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
-            "https://cdn.shopify.com/s/files/1/0250/0935/6909/products/SmoothingFace_NeckCream_Skincare_30mL_Version1_700px_600x.jpg?v=1622148059"
-        ),
-        volumes = fakeVolumes,
-        category = fakeCategories[0]
-    )
-)
+    override suspend fun addToFavorites(uuid: String) {
+        val alreadyExist = favoriteProducts.value.any { it.uuid == uuid }
+        if (alreadyExist.not()) {
+            val product = fakeProducts.first { it.uuid == uuid }
+            val products = favoriteProducts.value.toMutableList().apply { add(product) }.toList()
+            favoriteProducts.emit(products)
+        }
+    }
+}
