@@ -8,3 +8,8 @@ data class Filter(val id: String, val value: String)
 val filterAll = Filter(UUID.randomUUID().toString(), "All")
 
 fun Category.toFilter() = Filter(uuid, name)
+
+fun List<Category>.toFilters() = map { it.toFilter() }
+    .toMutableList()
+    .apply { add(0, filterAll) }
+    .toList()

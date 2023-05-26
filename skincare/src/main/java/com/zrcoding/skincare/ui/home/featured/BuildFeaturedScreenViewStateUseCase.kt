@@ -5,7 +5,7 @@ import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
 import com.zrcoding.skincare.ui.common.Filter
 import com.zrcoding.skincare.ui.common.filterAll
-import com.zrcoding.skincare.ui.common.toFilter
+import com.zrcoding.skincare.ui.common.toFilters
 import javax.inject.Inject
 
 class BuildFeaturedScreenViewStateUseCase @Inject constructor(
@@ -25,9 +25,7 @@ class BuildFeaturedScreenViewStateUseCase @Inject constructor(
 
     suspend operator fun invoke(request: Request): FeaturedScreenViewState {
         if (filtersCache.isEmpty()) {
-            filtersCache = categoryRepository.getAll()
-                .map { it.toFilter() }
-                .toMutableList().apply { add(0, filterAll) }
+            filtersCache = categoryRepository.getAll().toFilters()
         }
 
         if (newestProductCache == null) {

@@ -36,7 +36,8 @@ import com.zrcoding.skincare.ui.theme.Typography
 @Composable
 fun FeaturedScreen(
     viewModel: FeaturedScreenViewModel = hiltViewModel(),
-    onNavigateToProduct: (String) -> Unit
+    onNavigateToProduct: (String) -> Unit,
+    onNavigateToExplore: () -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
@@ -68,7 +69,7 @@ fun FeaturedScreen(
                     color = Grey30,
                     style = Typography.subtitle1,
                     textDecoration = TextDecoration.Underline,
-                    modifier = Modifier.clickable { }
+                    modifier = Modifier.clickable { onNavigateToExplore() }
                 )
             }
         )
@@ -135,6 +136,6 @@ fun FeaturedScreen(
 @Composable
 fun FeaturedScreenPreview() {
     SkincareTheme(darkTheme = false) {
-        FeaturedScreen(onNavigateToProduct = {})
+        FeaturedScreen(onNavigateToProduct = {}, onNavigateToExplore = {})
     }
 }

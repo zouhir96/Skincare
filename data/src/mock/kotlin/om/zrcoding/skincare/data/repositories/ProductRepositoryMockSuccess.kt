@@ -4,14 +4,13 @@ import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class ProductRepositoryMockSuccess @Inject constructor() : ProductRepository {
 
     private val favoriteProducts = MutableStateFlow<List<Product>>(emptyList())
 
-    override fun getAll() = flowOf(fakeProducts)
+    override fun observeAll() = fakeProducts
 
     override suspend fun getOne(uuid: String) = fakeProducts.find { it.uuid == uuid }
     override suspend fun searchProduct(searchText: String) = fakeProducts.filter {
