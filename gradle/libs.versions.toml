@@ -1,0 +1,66 @@
+[versions]
+depCoreKtx = "1.12.0-alpha03"
+depCoreSplashscreen = "1.1.0-alpha01"
+depCompose = "1.5.0-alpha01"
+depMaterial = "1.5.0-alpha03"
+depConstraintlayout = "1.0.1"
+depActivity = "1.8.0-alpha03"
+depLifecycleRuntimeKtx = "2.5.1"
+depLifecycleExt = "2.2.0"
+depNavigationCompose = "2.5.3"
+depHiltNavigationCompose = "1.0.0"
+depViewPager = "0.29.0-alpha"
+depJunit = "4.13.2"
+depJunitExt = "1.1.5"
+depEspressoCore = "3.5.1"
+depHilt = "2.44"
+depDatastore = '1.0.0'
+depMockk = "1.12.0"
+depCoroutines = "1.3.9"
+
+[libraries]
+
+#core
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "depCoreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "depCoreSplashscreen" }
+
+#ui
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "depCompose" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "depCompose" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "depCompose" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "depMaterial" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "depConstraintlayout" }
+
+#activity
+androidx-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "depActivity" }
+
+#lifeCycle
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "depLifecycleRuntimeKtx" }
+androidx-lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "depLifecycleExt" }
+
+#navigation
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "depNavigationCompose" }
+dagger-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "depHiltNavigationCompose" }
+
+#viewPager
+google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "depViewPager" }
+google-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "depViewPager" }
+
+#tools
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "depCompose" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "depCompose" }
+
+#hilt
+google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "depHilt" }
+google-dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "depHilt" }
+
+#data
+adroidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "depDatastore" }
+
+#mockk framework
+io-mockk = { group = "io.mockk", name = "mockk", version.ref = "depMockk" }
+
+#coroutines framework
+org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "depCoroutines" }
+
+[plugins]
