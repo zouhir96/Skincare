@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.home.explore.ExploreScreen
 import com.zrcoding.skincare.ui.home.favorite.FavoritesScreen
-import com.zrcoding.skincare.ui.home.featured.FeaturedScreen
+import com.zrcoding.skincare.ui.home.featured.FeaturedScreenRoute
 import com.zrcoding.skincare.ui.home.profile.Profile
 
 sealed class HomeScreen(val route: String) {
@@ -46,9 +46,9 @@ fun HomeNavHost(
         modifier = modifier
     ) {
         composable(route = HomeScreen.Featured.route) {
-            FeaturedScreen(
-                onNavigateToProduct = onNavigateToProduct,
-                onNavigateToExplore = {
+            FeaturedScreenRoute(
+                navigateToProduct = onNavigateToProduct,
+                navigateToExplore = {
                     homeNavController.navigate(HomeScreen.Explore.route) {
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
