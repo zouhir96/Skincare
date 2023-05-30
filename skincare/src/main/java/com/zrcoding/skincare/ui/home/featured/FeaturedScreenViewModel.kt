@@ -22,8 +22,8 @@ class FeaturedScreenViewModel @Inject constructor(
     private var searchTextCache: String = EMPTY
     private var selectedFilterCache: Filter? = null
 
-    private val _viewState = MutableStateFlow(FeaturedScreenViewState())
-    val viewState: StateFlow<FeaturedScreenViewState> = _viewState
+    private val _featuredViewState = MutableStateFlow(FeaturedScreenViewState())
+    val featuredState: StateFlow<FeaturedScreenViewState> = _featuredViewState
 
     init {
         updateState()
@@ -48,7 +48,7 @@ class FeaturedScreenViewModel @Inject constructor(
     private fun updateState() {
         val request = requestUseCase(searchText = searchTextCache, filter = selectedFilterCache)
         viewModelScope.launch {
-            _viewState.value = viewStateUseCase(request = request)
+            _featuredViewState.value = viewStateUseCase(request = request)
         }
     }
 }

@@ -41,7 +41,7 @@ fun FeaturedScreenRoute(
     navigateToProduct: (String) -> Unit,
     navigateToExplore: () -> Unit,
 ) {
-    val viewState = viewModel.viewState.collectAsState()
+    val viewState = viewModel.featuredState.collectAsState()
 
     FeaturedScreen(
         state = viewState.value,
