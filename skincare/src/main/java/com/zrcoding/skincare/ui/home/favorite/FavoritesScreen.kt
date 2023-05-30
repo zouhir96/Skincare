@@ -44,7 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
-import com.zrcoding.skincare.ui.components.LeftRightComponent
+import com.zrcoding.skincare.ui.components.SplitLayout
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.Grey
@@ -213,8 +213,8 @@ fun FavoritesItem(
                     color = Grey,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                LeftRightComponent(
-                    leftComposable = {
+                SplitLayout(
+                    startComposable = {
                         TextButton(onClick = { onAddToCart(product) }) {
                             Text(
                                 text = stringResource(id = R.string.favorites_add_to_cart),
@@ -223,7 +223,7 @@ fun FavoritesItem(
                             )
                         }
                     },
-                    rightComposable = {
+                    endComposable = {
                         Button(
                             onClick = { onDelete(product) },
                             colors = ButtonDefaults.buttonColors(

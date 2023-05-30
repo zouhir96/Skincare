@@ -27,7 +27,7 @@ import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.ui.common.Filter
 import com.zrcoding.skincare.ui.components.FilterChipGroup
 import com.zrcoding.skincare.ui.components.HorizontalProduct
-import com.zrcoding.skincare.ui.components.LeftRightComponent
+import com.zrcoding.skincare.ui.components.SplitLayout
 import com.zrcoding.skincare.ui.components.SearchView
 import com.zrcoding.skincare.ui.components.VerticalProduct
 import com.zrcoding.skincare.ui.theme.Brown
@@ -76,15 +76,15 @@ fun FeaturedScreen(
             }
         )
         Spacer(modifier = Modifier.height(24.dp))
-        LeftRightComponent(
-            leftComposable = {
+        SplitLayout(
+            startComposable = {
                 Text(
                     text = stringResource(id = R.string.common_category),
                     color = Brown,
                     style = Typography.subtitle1
                 )
             },
-            rightComposable = {
+            endComposable = {
                 Text(
                     text = stringResource(id = R.string.common_see_all),
                     color = Grey30,
@@ -102,15 +102,15 @@ fun FeaturedScreen(
 
             )
         Spacer(modifier = Modifier.height(24.dp))
-        LeftRightComponent(
-            leftComposable = {
+        SplitLayout(
+            startComposable = {
                 Text(
                     text = stringResource(id = R.string.featured_popular_skincare),
                     color = Brown,
                     style = Typography.subtitle1
                 )
             },
-            rightComposable = {
+            endComposable = {
                 Text(
                     text = stringResource(id = R.string.common_see_all),
                     color = Grey30,

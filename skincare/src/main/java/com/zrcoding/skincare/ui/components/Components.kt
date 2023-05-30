@@ -179,18 +179,18 @@ private fun SearchViewPreview() {
 }
 
 @Composable
-fun LeftRightComponent(
-    leftComposable: @Composable () -> Unit,
-    rightComposable: @Composable () -> Unit,
+fun SplitLayout(
+    startComposable: @Composable () -> Unit,
+    endComposable: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
     ) {
-        leftComposable()
+        startComposable()
         Spacer(modifier = Modifier.weight(1F))
-        rightComposable()
+        endComposable()
     }
 }
 
@@ -198,11 +198,11 @@ fun LeftRightComponent(
 @Composable
 private fun LeftRightTextPreview() {
     SkincareTheme(darkTheme = false) {
-        LeftRightComponent(
-            leftComposable = {
+        SplitLayout(
+            startComposable = {
                 Text(text = "Left text")
             },
-            rightComposable = {
+            endComposable = {
                 Text(text = "Right text")
             },
             modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -359,8 +359,8 @@ fun VerticalProduct(
                         }
                         .padding(bottom = 4.dp)
                 )
-                LeftRightComponent(
-                    leftComposable = {
+                SplitLayout(
+                    startComposable = {
                         Column {
                             Stars(stars = product.stars)
                             Spacer(modifier = Modifier.height(4.dp))
@@ -370,7 +370,7 @@ fun VerticalProduct(
                                 style = MaterialTheme.typography.h6
                             )
                         }
-                    }, rightComposable = {
+                    }, endComposable = {
                         Box(
                             modifier = Modifier
                                 .size(27.dp)

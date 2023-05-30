@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.ui.components.LeftRightComponent
+import com.zrcoding.skincare.ui.components.SplitLayout
 import com.zrcoding.skincare.ui.components.QuantityCounter
 import com.zrcoding.skincare.ui.components.ScreenHeader
 import com.zrcoding.skincare.ui.product.ProductModel
@@ -290,8 +290,8 @@ fun Totals(modifier: Modifier = Modifier) {
             items = totals,
             contentType = { _, _ -> },
             itemContent = { index, total ->
-                LeftRightComponent(
-                    leftComposable = {
+                SplitLayout(
+                    startComposable = {
                         Text(
                             text = total.first,
                             color = Brown,
@@ -299,7 +299,7 @@ fun Totals(modifier: Modifier = Modifier) {
                             fontWeight = FontWeight.W600
                         )
                     },
-                    rightComposable = {
+                    endComposable = {
                         Text(
                             text = total.second,
                             color = Brown,

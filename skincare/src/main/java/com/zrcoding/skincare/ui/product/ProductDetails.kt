@@ -47,7 +47,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.common.Filter
 import com.zrcoding.skincare.ui.components.FilterChipGroup
-import com.zrcoding.skincare.ui.components.LeftRightComponent
+import com.zrcoding.skincare.ui.components.SplitLayout
 import com.zrcoding.skincare.ui.components.QuantityCounter
 import com.zrcoding.skincare.ui.components.ScreenHeader
 import com.zrcoding.skincare.ui.components.Stars
@@ -199,7 +199,7 @@ fun ProductDetails(
                     )
                     Spacer(modifier = Modifier.height(32.dp))
                 }
-                LeftRightComponent(
+                SplitLayout(
                     modifier = Modifier
                         .fillMaxWidth()
                         .constrainAs(buy) {
@@ -211,7 +211,7 @@ fun ProductDetails(
                         .shadow(15.dp)
                         .background(White)
                         .padding(horizontal = 21.dp, vertical = 13.dp),
-                    leftComposable = {
+                    startComposable = {
                         Column {
                             Text(
                                 text = stringResource(id = R.string.common_product_price_label),
@@ -220,7 +220,7 @@ fun ProductDetails(
                             Text(text = "100.00$", style = MaterialTheme.typography.h6)
                         }
                     },
-                    rightComposable = {
+                    endComposable = {
                         Button(
                             onClick = {
                                 coroutineScope.launch {
@@ -320,15 +320,15 @@ fun AddToCart(modifier: Modifier = Modifier) {
                 .background(BrownWhite50)
         )
         Spacer(modifier = Modifier.height(20.dp))
-        LeftRightComponent(
-            leftComposable = {
+        SplitLayout(
+            startComposable = {
                 Text(
                     text = stringResource(id = R.string.add_to_cart_quantity),
                     style = MaterialTheme.typography.body1,
                     color = Brown
                 )
             },
-            rightComposable = {
+            endComposable = {
                 QuantityCounter(
                     quantity = chosenQuantity.value,
                     stock = 10,
