@@ -33,7 +33,6 @@ import com.zrcoding.skincare.ui.components.VerticalProduct
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.Grey30
 import com.zrcoding.skincare.ui.theme.SkincareTheme
-import com.zrcoding.skincare.ui.theme.Typography
 
 @Composable
 fun FeaturedScreenRoute(
@@ -81,14 +80,14 @@ fun FeaturedScreen(
                 Text(
                     text = stringResource(id = R.string.common_category),
                     color = Brown,
-                    style = Typography.subtitle1
+                    style = MaterialTheme.typography.subtitle1
                 )
             },
             endComposable = {
                 Text(
                     text = stringResource(id = R.string.common_see_all),
                     color = Grey30,
-                    style = Typography.subtitle1,
+                    style = MaterialTheme.typography.subtitle1,
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier.clickable { navigateToExplore() }
                 )
@@ -107,14 +106,14 @@ fun FeaturedScreen(
                 Text(
                     text = stringResource(id = R.string.featured_popular_skincare),
                     color = Brown,
-                    style = Typography.subtitle1
+                    style = MaterialTheme.typography.subtitle1
                 )
             },
             endComposable = {
                 Text(
                     text = stringResource(id = R.string.common_see_all),
                     color = Grey30,
-                    style = Typography.subtitle1,
+                    style = MaterialTheme.typography.subtitle1,
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier.clickable { }
                 )
@@ -141,7 +140,7 @@ fun FeaturedScreen(
             Text(
                 text = stringResource(id = R.string.featured_new_product),
                 color = Brown,
-                style = Typography.subtitle1
+                style = MaterialTheme.typography.subtitle1
             )
             Spacer(modifier = Modifier.height(15.dp))
             HorizontalProduct(

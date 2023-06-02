@@ -39,7 +39,6 @@ import com.zrcoding.skincare.ui.theme.Brown80
 import com.zrcoding.skincare.ui.theme.CoralReef
 import com.zrcoding.skincare.ui.theme.Grey
 import com.zrcoding.skincare.ui.theme.Lotion
-import com.zrcoding.skincare.ui.theme.Typography
 import com.zrcoding.skincare.ui.theme.White
 
 @Composable
@@ -78,8 +77,8 @@ fun TopAppBar(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Public", style = Typography.subtitle2)
-                Text(text = "Skincare", style = Typography.body1)
+                Text(text = "Public", style = MaterialTheme.typography.subtitle2)
+                Text(text = "Skincare", style = MaterialTheme.typography.body1)
             }
         },
         navigationIcon = {
