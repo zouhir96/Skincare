@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "skincare"
-include ':skincare'
-include ':common'
-include ':data'
+include(":skincare")
+include(":common")
+include(":data")
