@@ -22,6 +22,7 @@
     <string name="common_log_out">Log out</string>
     <string name="common_see_all">See all</string>
     <string name="common_product_price_label">Price</string>
+    <string name="common_price_with_dollar">%s $</string>
 
 
     <!--    Featured Screen-->
@@ -40,8 +41,7 @@
     <string name="my_refunds">Refund</string>
 
     <!--    Product Screen-->
-    <string name="product_details_title">Sunscreen</string>
-    <string name="product_details_subtitle">Protect Available Exclusively from a Skincare</string>
+    <string name="product_details_product_reviews">(%s Reviews)</string>
     <string name="product_details_select_volume">Select Volume</string>
     <string name="product_details_description_label">Descriptions</string>
     <string name="product_details_buy_now">Buy Now</string>

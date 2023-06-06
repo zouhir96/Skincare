@@ -63,7 +63,9 @@ class BuildFeaturedScreenViewStateUseCaseTest {
             title = "Circumference Active Botanical Refining Toner",
             description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
             price = 60.0,
+            stock = 100,
             stars = 5,
+            reviews = 100,
             imagesUrls = listOf(
                 "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
                 "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
@@ -77,7 +79,9 @@ class BuildFeaturedScreenViewStateUseCaseTest {
             title = "Protect Available Exclusively from a Skincare",
             description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
             price = 100.0,
+            stock = 100,
             stars = 5,
+            reviews = 100,
             imagesUrls = listOf(
                 "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
                 "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
@@ -91,7 +95,9 @@ class BuildFeaturedScreenViewStateUseCaseTest {
             title = "Environ package skin EssentiA*",
             description = "Protect the skin you're in with this reef-safe, non-nano, coated zinc oxide-based sunscreen that offers sheer, long-lasting, and broad-spectrum coverage. Lightweight UVA/UVB mineral protection. Oleosome protected zinc... Read more",
             price = 190.0,
+            stock = 100,
             stars = 5,
+            reviews = 100,
             imagesUrls = listOf(
                 "https://8c3412d76225d04d7baa-be98b6ea17920953fb931282eff9a681.images.lovelyskin.com/jj32dkws_202206201747084860.jpg",
                 "https://static.thcdn.com/images/large/original/productimg/1600/1600/11340437-2054432772871696.jpg",
