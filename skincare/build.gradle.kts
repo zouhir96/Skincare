@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.test.junit4)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.io.coil.kt)
 
     // Activity
     implementation(libs.androidx.activity)
