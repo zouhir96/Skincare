@@ -33,7 +33,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
-import com.zrcoding.skincare.ui.common.Filter
+import com.zrcoding.skincare.ui.common.domain.model.Filter
 import com.zrcoding.skincare.ui.theme.*
 
 @Composable

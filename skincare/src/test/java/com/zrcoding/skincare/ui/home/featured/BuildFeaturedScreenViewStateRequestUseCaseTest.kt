@@ -1,7 +1,7 @@
 package com.zrcoding.skincare.ui.home.featured
 
 import com.zrcoding.skincare.common.utils.StringUtils.EMPTY
-import com.zrcoding.skincare.ui.common.Filter
+import com.zrcoding.skincare.ui.common.domain.model.Filter
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.InjectMockKs
 import org.junit.Assert

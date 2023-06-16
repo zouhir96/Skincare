@@ -6,9 +6,9 @@ import com.zrcoding.skincare.data.domain.model.Volume
 import com.zrcoding.skincare.data.domain.model.VolumeUnit
 import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
-import com.zrcoding.skincare.ui.common.Filter
-import com.zrcoding.skincare.ui.common.filterAll
-import com.zrcoding.skincare.ui.common.toFilter
+import com.zrcoding.skincare.ui.common.domain.model.Filter
+import com.zrcoding.skincare.ui.common.domain.model.filterAll
+import com.zrcoding.skincare.ui.common.domain.model.toFilter
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder

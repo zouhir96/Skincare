@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
-import com.zrcoding.skincare.ui.common.Filter
-import com.zrcoding.skincare.ui.common.filterAll
-import com.zrcoding.skincare.ui.common.toFilters
+import com.zrcoding.skincare.ui.common.domain.model.Filter
+import com.zrcoding.skincare.ui.common.domain.model.filterAll
+import com.zrcoding.skincare.ui.common.domain.model.toFilters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

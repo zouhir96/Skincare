@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.common
+package com.zrcoding.skincare.ui.common.domain.model
 
 import com.zrcoding.skincare.data.domain.model.Category
 import com.zrcoding.skincare.data.domain.model.Volume

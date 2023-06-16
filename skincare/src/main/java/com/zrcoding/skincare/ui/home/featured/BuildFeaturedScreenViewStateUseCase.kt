@@ -3,9 +3,9 @@ package com.zrcoding.skincare.ui.home.featured
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
-import com.zrcoding.skincare.ui.common.Filter
-import com.zrcoding.skincare.ui.common.filterAll
-import com.zrcoding.skincare.ui.common.toFilters
+import com.zrcoding.skincare.ui.common.domain.model.Filter
+import com.zrcoding.skincare.ui.common.domain.model.filterAll
+import com.zrcoding.skincare.ui.common.domain.model.toFilters
 import javax.inject.Inject
 
 class BuildFeaturedScreenViewStateUseCase @Inject constructor(

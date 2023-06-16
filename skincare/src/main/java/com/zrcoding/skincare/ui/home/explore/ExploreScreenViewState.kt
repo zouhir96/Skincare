@@ -1,8 +1,8 @@
 package com.zrcoding.skincare.ui.home.explore
 
 import com.zrcoding.skincare.data.domain.model.Product
-import com.zrcoding.skincare.ui.common.Filter
-import com.zrcoding.skincare.ui.common.filterAll
+import com.zrcoding.skincare.ui.common.domain.model.Filter
+import com.zrcoding.skincare.ui.common.domain.model.filterAll
 
 sealed interface ExploreScreenViewState {
     object Loading : ExploreScreenViewState
