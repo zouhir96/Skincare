@@ -4,6 +4,7 @@ depCoreSplashscreen = "1.1.0-alpha01"
 depCompose = "1.5.0-alpha01"
 depMaterial = "1.5.0-alpha03"
 depConstraintlayout = "1.0.1"
+depCoil = "2.4.0"
 depActivity = "1.8.0-alpha03"
 depLifecycleRuntimeKtx = "2.5.1"
 depLifecycleExt = "2.2.0"
@@ -30,6 +31,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "depCompose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "depMaterial" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "depConstraintlayout" }
+io-coil-kt = { group = "io.coil-kt", name = "coil-compose", version.ref = "depCoil" }
 
 #activity
 androidx-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "depActivity" }

@@ -11,7 +11,7 @@ import androidx.navigation.navArgument
 import com.zrcoding.skincare.ui.cart.Cart
 import com.zrcoding.skincare.ui.home.Home
 import com.zrcoding.skincare.ui.onboarding.Onboarding
-import com.zrcoding.skincare.ui.product.ProductDetails
+import com.zrcoding.skincare.ui.product.ProductDetailsScreen
 
 @Composable
 fun MainNavHost(
@@ -45,10 +45,11 @@ fun MainNavHost(
         }
         composable(
             route = Screen.Product.route,
-            arguments = listOf(navArgument("id") { type = NavType.StringType })
+            arguments = listOf(navArgument("uuid") { type = NavType.StringType })
         ) { backStackEntry ->
-            ProductDetails(
-                id = backStackEntry.arguments?.getString("id"),
+            val uuid = backStackEntry.arguments?.getString("uuid") ?: return@composable
+            ProductDetailsScreen(
+                uuid = uuid,
                 onBackClicked = {
                     globalNavController.popBackStack()
                 }

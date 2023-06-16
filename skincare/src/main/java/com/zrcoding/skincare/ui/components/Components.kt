@@ -15,8 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.data.domain.model.Category
 import com.zrcoding.skincare.data.domain.model.Product
+import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.ui.common.Filter
 import com.zrcoding.skincare.ui.theme.*
 
@@ -219,17 +217,16 @@ fun FilterChipGroup(
     modifier: Modifier = Modifier,
     onFilterChanged: (Filter) -> Unit
 ) {
-    val state = remember { mutableStateOf(selectedFilter ?: filters[0]) }
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.fillMaxWidth()
     ) {
         items(filters) {
-            val selected = state.value.id == it.id
+            val selected = selectedFilter?.id == it.id
             FilterChip(
                 selected = selected,
                 onClick = {
-                    state.value = it
                     onFilterChanged.invoke(it)
                 },
                 shape = shape,
@@ -404,16 +401,7 @@ fun VerticalProduct(
 private fun ProductPreview() {
     SkincareTheme(darkTheme = false) {
         VerticalProduct(
-            product = Product(
-                name = "Toner",
-                title = "Toner",
-                description = "Circumference Active Botanical Refining Toner",
-                price = 60.00,
-                stars = 4,
-                imagesUrls = listOf(),
-                volumes = listOf(),
-                category = Category("", "")
-            ),
+            product = fakeProducts[0],
             onFavoriteClicked = {},
             onAddToCartClicked = {},
             modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -524,16 +512,7 @@ fun HorizontalProduct(
 private fun HorizontalProductPreview() {
     SkincareTheme(darkTheme = false) {
         HorizontalProduct(
-            product = Product(
-                name = "Toner",
-                title = "Toner",
-                description = "Circumference Active Botanical Refining Toner",
-                price = 60.00,
-                stars = 4,
-                imagesUrls = emptyList(),
-                volumes = emptyList(),
-                category = Category("", "")
-            ),
+            product = fakeProducts[0],
             onFavoriteClicked = {},
             modifier = Modifier.background(color = MaterialTheme.colors.background)
         )
