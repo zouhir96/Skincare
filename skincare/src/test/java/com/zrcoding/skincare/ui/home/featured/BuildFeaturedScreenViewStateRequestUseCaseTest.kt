@@ -1,22 +1,13 @@
 package com.zrcoding.skincare.ui.home.featured
 
 import com.zrcoding.skincare.common.utils.StringUtils.EMPTY
+import com.zrcoding.skincare.ui.base.BaseTest
 import com.zrcoding.skincare.ui.common.domain.model.Filter
-import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.InjectMockKs
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@RunWith(JUnit4::class)
-class BuildFeaturedScreenViewStateRequestUseCaseTest {
-
-    @Before
-    fun beforeTest() {
-        MockKAnnotations.init(this)
-    }
+class BuildFeaturedScreenViewStateRequestUseCaseTest : BaseTest() {
 
     @InjectMockKs
     lateinit var useCase: BuildFeaturedScreenViewStateRequestUseCase
