@@ -35,7 +35,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -45,6 +44,7 @@ import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.ui.components.LeftRightComponent
+import com.zrcoding.skincare.ui.components.ScreenEmptyState
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.Grey
@@ -127,29 +127,12 @@ fun WishListPreview() {
 fun EmptyWishList(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.img_empty_wishlist),
-            modifier = Modifier.size(225.dp),
-            contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.height(30.dp))
-        Text(
-            text = stringResource(id = R.string.favorites_empty_wishlist_title),
-            style = MaterialTheme.typography.h6,
-        )
-        Spacer(modifier = Modifier.height(14.dp))
-        Text(
-            text = stringResource(id = R.string.favorites_empty_wishlist_subtitle),
-            style = MaterialTheme.typography.body1,
-            textAlign = TextAlign.Center
-        )
-    }
+    ScreenEmptyState(
+        modifier = modifier,
+        title = R.string.favorites_empty_wishlist_title,
+        description = R.string.favorites_empty_wishlist_subtitle,
+        image = R.drawable.img_empty_wishlist
+    )
 }
 
 @Preview
