@@ -37,7 +37,12 @@ class ProductDetailsScreenViewModel @Inject constructor(
         }
     }
 
-    fun onAddToCart(product: Product, volumeUuid: String, quantity: Int) {
+    fun onAddToCart(
+        product: Product,
+        volumeUuid: String,
+        quantity: Int,
+        onProductAdded: () -> Unit
+    ) {
         val cartProduct = CartProduct(
             product = product,
             quantity = quantity,
@@ -45,6 +50,7 @@ class ProductDetailsScreenViewModel @Inject constructor(
         )
         viewModelScope.launch {
             cartRepository.addProduct(cartProduct)
+            onProductAdded()
         }
     }
 }

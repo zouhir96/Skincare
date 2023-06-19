@@ -11,6 +11,14 @@ data class Cart(
     companion object {
         val Empty = Cart(products = emptyList(), promoCode = PromoCode.Empty)
     }
+
+    fun isEmpty() = products.isEmpty()
+
+    fun productCount() = products.sumOf { it.quantity }
+
+    fun subtotal() = products.sumOf { it.product.price * it.quantity }
+
+    fun total() = subtotal() - promoCode.amount
 }
 
 data class CartProduct(

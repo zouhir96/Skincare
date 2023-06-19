@@ -89,7 +89,7 @@ fun ProductDetailsScreen(
                 product = state.product,
                 volumeUuid = vlm,
                 quantity = qte
-            )
+            ) { onBackClicked() }
         }
 
         ProductDetailsScreenViewState.Error -> Unit
@@ -148,7 +148,6 @@ fun ProductDetailsScreenContent(
                     onBuyBtnClicked = {
                         onBuyBtnClicked(selectedVolume, chosenQuantity)
                         coroutineScope.launch { bottomSheetState.hide() }
-                        onBackClicked()
                     }
                 )
             },

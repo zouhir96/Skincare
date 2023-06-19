@@ -1,10 +1,12 @@
 package com.zrcoding.skincare.ui.cart
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,14 +29,16 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,12 +50,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.data.domain.model.CartProduct
+import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.components.QuantityCounter
+import com.zrcoding.skincare.ui.components.ScreenEmptyState
 import com.zrcoding.skincare.ui.components.ScreenHeader
-import com.zrcoding.skincare.ui.product.ProductModel
-import com.zrcoding.skincare.ui.product.fakeProductList
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.BrownWhite90
@@ -61,65 +68,41 @@ import com.zrcoding.skincare.ui.theme.White
 
 @Composable
 fun CartScreen(
+    viewModel: CartScreenViewModel = hiltViewModel(),
     onBackClicked: () -> Unit
 ) {
+    val viewState = viewModel.viewState.collectAsState()
     Scaffold(
         topBar = {
             ScreenHeader(
                 leftIcon = R.drawable.ic_back_lotion,
-                onLeftIconClicked = { onBackClicked() },
+                onLeftIconClicked = onBackClicked,
                 rightIcon = R.drawable.ic_none,
-                onRightIconClicked = { /*TODO*/ },
+                onRightIconClicked = {},
                 title = stringResource(id = R.string.cart_title)
             )
         },
         backgroundColor = MaterialTheme.colors.background,
-    ) {
-        val emptyText = stringResource(id = R.string.common_empty)
-        val promoCode = remember { mutableStateOf(emptyText) }
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .padding(horizontal = 21.dp)
-                .fillMaxSize()
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                content = {
-                    items(fakeProductList) { item ->
-                        CartItem(productModel = item)
-                    }
-                }
+    ) { padding ->
+        when (val state = viewState.value) {
+            CartScreenViewState.Loading -> {}
+
+            is CartScreenViewState.Data -> CartScreenContent(
+                modifier = Modifier.padding(padding),
+                data = state,
+                onIncrementProductQuantity = { viewModel.incrementProductQte(it) },
+                onDecrementProductQuantity = { viewModel.decrementProductQte(it) },
+                onRemoveProduct = { viewModel.onRemoveProduct(it) },
+                onPromoCodeTyped = { viewModel.onPromoCodeTyped(it) },
+                onApplyPromoCode = { viewModel.applyPromoCode() },
+                onCheckout = { viewModel.onCheckoutCart() }
             )
-            Spacer(modifier = Modifier.height(30.dp))
-            PromoCode(
-                value = promoCode.value,
-                onChanged = { code -> promoCode.value = code },
-                onApply = {}
-            )
-            Spacer(modifier = Modifier.height(30.dp))
-            Totals()
-            Spacer(modifier = Modifier.height(30.dp))
-            Button(
-                onClick = { /*TODO*/ },
-                shape = MaterialTheme.shapes.large,
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Brown,
-                    contentColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(45.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.cart_checkout),
-                    style = MaterialTheme.typography.button
-                )
+
+            CartScreenViewState.Empty -> CartScreenEmptyState()
+
+            CartScreenViewState.GotoPayment -> LaunchedEffect(Unit) {
+                onBackClicked()
             }
-            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
@@ -133,9 +116,131 @@ fun CartScreenPreview() {
 }
 
 @Composable
+fun CartScreenContent(
+    modifier: Modifier = Modifier,
+    data: CartScreenViewState.Data,
+    onIncrementProductQuantity: (CartProduct) -> Unit,
+    onDecrementProductQuantity: (CartProduct) -> Unit,
+    onRemoveProduct: (CartProduct) -> Unit,
+    onPromoCodeTyped: (String) -> Unit,
+    onApplyPromoCode: () -> Unit,
+    onCheckout: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 21.dp)
+            .fillMaxSize()
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            content = {
+                items(data.products) { item ->
+                    CartItem(
+                        cartProduct = item,
+                        onIncrementProductQuantity = { onIncrementProductQuantity(item) },
+                        onDecrementProductQuantity = { onDecrementProductQuantity(item) },
+                        onRemoveProduct = { onRemoveProduct(item) }
+                    )
+                }
+            }
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        PromoCode(
+            value = data.promoCode,
+            errorMsg = data.promoCodeError,
+            onChanged = { onPromoCodeTyped(it) },
+            onApply = { onApplyPromoCode() }
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        Totals(
+            productsCount = data.productsCount,
+            subtotal = data.subtotal,
+            shipping = data.shipping,
+            promoCodeAmount = data.promoCodeAmount,
+            totalPayment = data.totalPayment
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        Button(
+            onClick = onCheckout,
+            shape = MaterialTheme.shapes.large,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Brown,
+                contentColor = Color.White
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(45.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.cart_checkout),
+                style = MaterialTheme.typography.button
+            )
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+    }
+}
+
+@Preview
+@Composable
+fun CartScreenContentPreview() {
+    SkincareTheme(darkTheme = false) {
+        CartScreenContent(
+            modifier = Modifier.background(White),
+            data = CartScreenViewState.Data(
+                products = fakeProducts
+                    .take(3)
+                    .mapIndexed { index, product ->
+                        CartProduct(
+                            product = product,
+                            quantity = index
+                        )
+                    },
+                promoCode = "AAABBB",
+                promoCodeError = null,
+                productsCount = 8,
+                subtotal = 100.0,
+                shipping = 10.0,
+                promoCodeAmount = 8.0,
+                totalPayment = 200.0
+            ),
+            onIncrementProductQuantity = {},
+            onDecrementProductQuantity = {},
+            onRemoveProduct = {},
+            onPromoCodeTyped = {},
+            onApplyPromoCode = {},
+            onCheckout = {}
+        )
+    }
+}
+
+@Composable
+fun CartScreenEmptyState() {
+    ScreenEmptyState(
+        modifier = Modifier.background(White),
+        title = R.string.cart_empty_shopping_cart_title,
+        description = R.string.cart_empty_shopping_cart_subtitle,
+        image = R.drawable.img_empty_cart
+    )
+}
+
+@Preview
+@Composable
+fun CartScreenEmptyStatePreview() {
+    SkincareTheme(darkTheme = false) {
+        CartScreenEmptyState()
+    }
+}
+
+@Composable
 fun CartItem(
-    productModel: ProductModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    cartProduct: CartProduct,
+    onIncrementProductQuantity: () -> Unit,
+    onDecrementProductQuantity: () -> Unit,
+    onRemoveProduct: () -> Unit,
 ) {
     Card(
         shape = MaterialTheme.shapes.large,
@@ -145,9 +250,9 @@ fun CartItem(
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
         ) {
-            val (image, content, quantity) = createRefs()
-            Image(
-                painter = painterResource(id = productModel.image),
+            val (image, content, quantity, delete) = createRefs()
+            AsyncImage(
+                model = cartProduct.product.imagesUrls.firstOrNull(),
                 contentDescription = null,
                 modifier = Modifier
                     .size(90.dp)
@@ -166,11 +271,12 @@ fun CartItem(
                     .constrainAs(content) {
                         top.linkTo(parent.top)
                         start.linkTo(image.end)
+                        end.linkTo(quantity.start)
                         width = Dimension.fillToConstraints
                     }
             ) {
                 Text(
-                    text = productModel.description,
+                    text = cartProduct.product.title,
                     style = MaterialTheme.typography.body2,
                     color = Brown,
                     maxLines = 1,
@@ -178,27 +284,41 @@ fun CartItem(
                     modifier = Modifier.padding(bottom = 6.dp)
                 )
                 Text(
-                    text = productModel.name,
+                    text = cartProduct.product.category.name,
                     style = MaterialTheme.typography.caption,
                     color = Grey,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "${productModel.price}$",
+                    text = stringResource(
+                        id = R.string.common_price_with_dollar,
+                        cartProduct.product.price
+                    ),
                     color = Brown,
                     style = MaterialTheme.typography.subtitle1
                 )
             }
             QuantityCounter(
-                quantity = 0,
-                stock = 10,
-                onMinusClicked = { /*TODO*/ },
-                onPlusClicked = { /*TODO*/ },
+                quantity = cartProduct.quantity,
+                stock = cartProduct.product.stock,
+                onMinusClicked = onDecrementProductQuantity,
+                onPlusClicked = onIncrementProductQuantity,
                 modifier = Modifier
                     .padding(end = 8.dp, bottom = 4.dp)
                     .constrainAs(quantity) {
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
+                    }
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_delete),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(top = 4.dp, end = 8.dp)
+                    .clickable { onRemoveProduct() }
+                    .constrainAs(delete) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
                     }
             )
         }
@@ -210,13 +330,14 @@ fun CartItem(
 fun CartItemPreview() {
     SkincareTheme(darkTheme = false) {
         CartItem(
-            productModel = ProductModel(
-                name = "Toner",
-                description = "Circumference Active Botanical Refining Toner",
-                price = 60.00,
-                image = R.drawable.skincare_products,
-                stars = 4
-            )
+            cartProduct = CartProduct(
+                product = fakeProducts[0],
+                quantity = 10,
+                volume = fakeProducts[0].volumes[0]
+            ),
+            onIncrementProductQuantity = {},
+            onDecrementProductQuantity = {},
+            onRemoveProduct = {}
         )
     }
 }
@@ -225,9 +346,11 @@ fun CartItemPreview() {
 fun PromoCode(
     modifier: Modifier = Modifier,
     value: String,
+    @StringRes errorMsg: Int? = null,
     onChanged: (String) -> Unit,
     onApply: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
@@ -242,7 +365,11 @@ fun PromoCode(
             value = value,
             onValueChange = { onChanged(it) },
             modifier = Modifier.weight(1f),
+            label = {
+                errorMsg?.let { Text(text = stringResource(id = errorMsg)) }
+            },
             placeholder = { Text(text = stringResource(id = R.string.cart_promo_code_placeholder)) },
+            isError = errorMsg != null,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 backgroundColor = MaterialTheme.colors.background,
                 textColor = Brown,
@@ -259,7 +386,14 @@ fun PromoCode(
             )
         )
         Button(
-            onClick = { onApply() },
+            onClick = {
+                onApply()
+                if (value.isNotBlank()) {
+                    focusManager.clearFocus()
+                } else {
+                    focusManager.moveFocus(FocusDirection.Previous)
+                }
+            },
             shape = MaterialTheme.shapes.large,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Brown,
@@ -289,16 +423,35 @@ fun PromoCodePreview() {
 }
 
 @Composable
-fun Totals(modifier: Modifier = Modifier) {
+fun Totals(
+    modifier: Modifier = Modifier,
+    productsCount: Int,
+    subtotal: Double,
+    shipping: Double,
+    promoCodeAmount: Double,
+    totalPayment: Double
+) {
     val totals = listOf(
         Pair(
             stringResource(id = R.string.cart_items_label),
-            stringResource(id = R.string.cart_items, 3)
+            stringResource(id = R.string.cart_items_count, productsCount)
         ),
-        Pair(stringResource(id = R.string.cart_subtotal_label), "260.000$"),
-        Pair(stringResource(id = R.string.cart_shipping_label), "1.00$"),
-        Pair(stringResource(id = R.string.cart_promo_label), "none"),
-        Pair(stringResource(id = R.string.cart_total_payment_label), "261.000$"),
+        Pair(
+            stringResource(id = R.string.cart_subtotal_label),
+            stringResource(id = R.string.common_price_with_dollar, subtotal)
+        ),
+        Pair(
+            stringResource(id = R.string.cart_shipping_label),
+            stringResource(id = R.string.common_price_with_dollar, shipping)
+        ),
+        Pair(
+            stringResource(id = R.string.cart_promo_label),
+            stringResource(id = R.string.common_price_with_dollar, promoCodeAmount)
+        ),
+        Pair(
+            stringResource(id = R.string.cart_total_payment_label),
+            stringResource(id = R.string.common_price_with_dollar, totalPayment)
+        ),
     )
     LazyColumn(
         verticalArrangement = Arrangement.Center,
@@ -314,24 +467,7 @@ fun Totals(modifier: Modifier = Modifier) {
             items = totals,
             contentType = { _, _ -> },
             itemContent = { index, total ->
-                LeftRightComponent(
-                    leftComposable = {
-                        Text(
-                            text = total.first,
-                            color = Brown,
-                            style = MaterialTheme.typography.caption,
-                            fontWeight = FontWeight.W600
-                        )
-                    },
-                    rightComposable = {
-                        Text(
-                            text = total.second,
-                            color = Brown,
-                            style = MaterialTheme.typography.caption,
-                            fontWeight = FontWeight.W600
-                        )
-                    }
-                )
+                Total(total = total)
                 if (totals.lastIndex != index) {
                     Spacer(modifier = Modifier.height(16.dp))
                     DashedDivider(thickness = 1.dp, color = BrownWhite90)
@@ -342,11 +478,55 @@ fun Totals(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+private fun Total(
+    modifier: Modifier = Modifier,
+    total: Pair<String, String>
+) {
+    LeftRightComponent(
+        modifier = modifier,
+        leftComposable = {
+            Text(
+                text = total.first,
+                color = Brown,
+                style = MaterialTheme.typography.caption,
+                fontWeight = FontWeight.W600
+            )
+        },
+        rightComposable = {
+            Text(
+                text = total.second,
+                color = Brown,
+                style = MaterialTheme.typography.caption,
+                fontWeight = FontWeight.W600
+            )
+        }
+    )
+}
+
+@Preview
+@Composable
+fun TotalPreview() {
+    SkincareTheme(darkTheme = false) {
+        Total(
+            modifier = Modifier.background(White),
+            total = Pair("subtotal", "100$")
+        )
+    }
+}
+
 @Preview
 @Composable
 fun TotalsPreview() {
     SkincareTheme(darkTheme = false) {
-        Totals(modifier = Modifier.background(White))
+        Totals(
+            modifier = Modifier.background(White),
+            productsCount = 3,
+            subtotal = 100.0,
+            shipping = 0.0,
+            promoCodeAmount = 10.0,
+            totalPayment = 90.0
+        )
     }
 }
 

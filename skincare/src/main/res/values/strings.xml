@@ -23,6 +23,8 @@
     <string name="common_see_all">See all</string>
     <string name="common_product_price_label">Price</string>
     <string name="common_price_with_dollar">%s $</string>
+    <string name="common_network_error_with_try_later">An error has occurred, please try again later</string>
+    <string name="common_required_field">Required</string>
 
 
     <!--    Featured Screen-->
@@ -52,15 +54,20 @@
     <string name="add_to_cart_quantity">Qty</string>
     <string name="add_to_cart_btn_text">Add to cart</string>
 
-    <!--    Add to cart Screen-->
+    <!--    Cart Screen-->
     <string name="cart_title">Product Cart</string>
     <string name="cart_promo_code_placeholder">Promo Code…</string>
     <string name="cart_promo_code_apply">Apply</string>
     <string name="cart_items_label">Items</string>
-    <string name="cart_items">%s Product</string>
+    <string name="cart_items_count">%s Product</string>
     <string name="cart_subtotal_label">Subtotal</string>
     <string name="cart_shipping_label">Shipping</string>
     <string name="cart_promo_label">Promo</string>
     <string name="cart_total_payment_label">Total Payment</string>
     <string name="cart_checkout">Checkout</string>
+    <string name="cart_empty_shopping_cart_title">Your Shopping cart is empty :(</string>
+    <string name="cart_empty_shopping_cart_subtitle">Tip: you can add products to your Shopping cart\nby clicking on the 👜 icon</string>
+    <string name="cart_promo_code_expired">Expired promo code</string>
+    <string name="cart_promo_code_invalid">Invalid promo code</string>
+
 </resources>
