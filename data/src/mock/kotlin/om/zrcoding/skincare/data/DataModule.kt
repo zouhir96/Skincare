@@ -1,5 +1,6 @@
 package om.zrcoding.skincare.data
 
+import com.zrcoding.skincare.data.domain.repositories.CartRepository
 import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
 import com.zrcoding.skincare.data.domain.repositories.VolumeRepository
@@ -7,6 +8,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import om.zrcoding.skincare.data.repositories.CartRepositoryMockSuccess
 import om.zrcoding.skincare.data.repositories.CategoryRepositoryMockSuccess
 import om.zrcoding.skincare.data.repositories.ProductRepositoryMockSuccess
 import om.zrcoding.skincare.data.repositories.VolumeRepositoryMockSuccess
@@ -33,4 +35,10 @@ abstract class DataModule {
     abstract fun provideVolumeRepository(
         volumeRepositoryMockSuccess: VolumeRepositoryMockSuccess
     ): VolumeRepository
+
+    @Binds
+    @Singleton
+    abstract fun provideCartRepository(
+        cartRepositoryMockSuccess: CartRepositoryMockSuccess
+    ): CartRepository
 }
