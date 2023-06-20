@@ -1,7 +1,8 @@
 package com.zrcoding.skincare.common
 
-import org.junit.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
+
 
 /**
  * Example local unit test, which will execute on the development machine (host).

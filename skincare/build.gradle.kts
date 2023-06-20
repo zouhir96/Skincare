@@ -78,7 +78,6 @@ dependencies {
     // UI
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.ui.test.junit4)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.io.coil.kt)
@@ -98,8 +97,9 @@ dependencies {
     implementation(libs.google.accompanist.pager.indicators)
 
     // Tools
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.compose.ui.test.manifest)
 
     // di: hilt
     implementation(libs.google.dagger.hilt.android)

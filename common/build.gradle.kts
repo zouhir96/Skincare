@@ -57,4 +57,7 @@ dependencies {
     // di: hilt
     implementation(libs.google.dagger.hilt.android)
     kapt(libs.google.dagger.hilt.android.compiler)
+
+    // Unit test
+    api(libs.test.junit)
 }
