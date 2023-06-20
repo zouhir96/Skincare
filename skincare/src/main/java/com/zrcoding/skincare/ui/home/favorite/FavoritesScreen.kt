@@ -89,9 +89,7 @@ fun FavoritesScreen(
             is FavoritesScreenViewState.WishList -> WishList(
                 favorites = viewState.wishList,
                 onAddToCart = { onNavigateToProduct(it.uuid) },
-                onDelete = {
-                    scope.launch { onDeleteProduct(it.uuid) }
-                },
+                onDelete = { onDeleteProduct(it.uuid) },
                 modifier = Modifier.padding(padding)
             )
         }
@@ -103,8 +101,8 @@ fun FavoritesScreen(
 fun FavoritesScreenPreview() {
     SkincareTheme(darkTheme = false) {
         FavoritesScreen(
-            onNavigateToProduct = {},
             viewState = FavoritesScreenViewState.EmptyWishList,
+            onNavigateToProduct = {},
             onDeleteProduct = {},
         )
     }
