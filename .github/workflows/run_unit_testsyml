@@ -2,7 +2,8 @@ name: Android CI
 
 on:
   pull_request:
-    branches: [ "skincare" ]
+    branches:
+      - skincare
 
 jobs:
   run_unit_tests:
