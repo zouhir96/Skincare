@@ -10,10 +10,15 @@
     <string name="onboarding_title_4">An Evolving collection of treatments 4</string>
     <string name="onboarding_description_4">The ordinary is born to disallow commodity to be disguised as ingenuity. The Ordinary is “Clinical Formulations with us 4</string>
 
+    <!--    Bottom navigation bar-->
     <string name="home">home</string>
     <string name="explore">explore</string>
     <string name="favorites">favorites</string>
     <string name="profile">profile</string>
+
+    <!--    Toolbar-->
+    <string name="toolbar_title_part1">Public</string>
+    <string name="toolbar_title_part2">Skincare</string>
 
     <!--    Common-->
     <string name="common_category">Category</string>
