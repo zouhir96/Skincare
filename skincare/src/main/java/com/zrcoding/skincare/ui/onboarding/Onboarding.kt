@@ -33,11 +33,22 @@ import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.SkincareTheme
 import kotlinx.coroutines.launch
 
+@Composable
+fun OnboardingRoute(
+    onNavigateToHome: () -> Unit,
+    viewModel: OnboardingViewModel = hiltViewModel()
+) {
+    Onboarding(
+        onNavigateToHome = onNavigateToHome,
+        onOnboardingCompleted = viewModel::onOnboardingCompleted
+    )
+}
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Onboarding(
     onNavigateToHome: () -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel()
+    onOnboardingCompleted: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
     val currentPage = pagerState.currentPage
@@ -89,7 +100,7 @@ fun Onboarding(
                 ),
                 onClick = {
                     if (currentPage == 3) {
-                        viewModel.onOnboardingCompleted()
+                        onOnboardingCompleted()
                         onNavigateToHome()
                     }
                     scope.launch {
@@ -112,7 +123,7 @@ fun Onboarding(
 @Composable
 fun OnboardingPreview() {
     SkincareTheme {
-        Onboarding({})
+        Onboarding(onNavigateToHome = {}, onOnboardingCompleted = {})
     }
 }
 
