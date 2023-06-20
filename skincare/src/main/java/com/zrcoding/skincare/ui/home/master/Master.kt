@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.home
+package com.zrcoding.skincare.ui.home.master
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,6 +18,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -39,18 +41,22 @@ import com.zrcoding.skincare.ui.theme.Brown80
 import com.zrcoding.skincare.ui.theme.CoralReef
 import com.zrcoding.skincare.ui.theme.Grey
 import com.zrcoding.skincare.ui.theme.Lotion
-import com.zrcoding.skincare.ui.theme.Typography
 import com.zrcoding.skincare.ui.theme.White
 
 @Composable
 fun Home(
+    viewModel: MasterViewModel = hiltViewModel(),
     onNavigateToProduct: (String) -> Unit,
     onNavigateToCart: () -> Unit,
 ) {
     val homeNavController = rememberNavController()
+    val cartItemsCount = viewModel.cartItemsCount.collectAsState()
     Scaffold(
         topBar = {
-            TopAppBar(onNavigateToCart = { onNavigateToCart() })
+            TopAppBar(
+                cartItemsCount = cartItemsCount.value,
+                onNavigateToCart = onNavigateToCart
+            )
         },
         bottomBar = {
             BottomNavigationBar(
@@ -78,8 +84,14 @@ fun TopAppBar(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Public", style = Typography.subtitle2)
-                Text(text = "Skincare", style = Typography.body1)
+                Text(
+                    text = stringResource(R.string.toolbar_title_part1),
+                    style = MaterialTheme.typography.subtitle2
+                )
+                Text(
+                    text = stringResource(R.string.toolbar_title_part2),
+                    style = MaterialTheme.typography.body1
+                )
             }
         },
         navigationIcon = {

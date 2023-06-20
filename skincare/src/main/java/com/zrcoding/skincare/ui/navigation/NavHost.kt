@@ -8,8 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.zrcoding.skincare.ui.cart.Cart
-import com.zrcoding.skincare.ui.home.Home
+import com.zrcoding.skincare.ui.cart.CartScreen
+import com.zrcoding.skincare.ui.home.master.Home
 import com.zrcoding.skincare.ui.onboarding.Onboarding
 import com.zrcoding.skincare.ui.product.ProductDetailsScreen
 
@@ -56,7 +56,7 @@ fun MainNavHost(
             )
         }
         composable(route = Screen.Cart.route) {
-            Cart(
+            CartScreen(
                 onBackClicked = {
                     globalNavController.popBackStack()
                 }

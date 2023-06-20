@@ -48,6 +48,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.data.domain.model.MIN_CART_PRODUCT_QUANTITY
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.ui.common.domain.model.toFilter
@@ -66,69 +67,32 @@ import com.zrcoding.skincare.ui.theme.White
 import com.zrcoding.skincare.ui.theme.bottomSheetShape
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProductDetailsScreen(
-    viewModel: ProductDetailsScreenViewModel = hiltViewModel(),
     uuid: String,
+    viewModel: ProductDetailsScreenViewModel = hiltViewModel<ProductDetailsScreenViewModel>()
+        .apply { getProductDetails(uuid) },
     onBackClicked: () -> Unit
 ) {
-    viewModel.getProductDetails(uuid)
+
     val viewState = viewModel.viewState.collectAsState()
 
-    val coroutineScope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        skipHalfExpanded = true
-    )
-    Scaffold(
-        topBar = {
-            ScreenHeader(
-                leftIcon = R.drawable.ic_back_brown20,
-                onLeftIconClicked = { onBackClicked() },
-                rightIcon = R.drawable.ic_favorite_brown20,
-                onRightIconClicked = { viewModel.onAddToFavorites(uuid) },
-            )
-        },
-        backgroundColor = BrownWhite80
-    ) { paddingValues ->
-        when (val state = viewState.value) {
-            ProductDetailsScreenViewState.Loading -> Unit
+    when (val state = viewState.value) {
+        ProductDetailsScreenViewState.Loading -> Unit
 
-            is ProductDetailsScreenViewState.Details -> {
-                val (selectedVolume, setSelectedVolume) = remember {
-                    mutableStateOf(state.product.volumes.firstOrNull()?.uuid.orEmpty())
-                }
-                val (selectedQuantity, setSelectedQuantity) = remember {
-                    mutableStateOf(0)
-                }
-                ModalBottomSheetLayout(
-                    sheetState = bottomSheetState,
-                    sheetShape = bottomSheetShape,
-                    sheetContent = {
-                        AddToCart(
-                            product = state.product,
-                            selectedVolumeUuid = selectedVolume,
-                            onVolumeSelected = setSelectedVolume,
-                            onQuantitySelected = setSelectedQuantity,
-                            onBuyBtnClicked = {
-                                coroutineScope.launch { bottomSheetState.hide() }
-                            }
-                        )
-                    },
-                ) {
-                    ProductDetailsScreenContent(
-                        product = state.product,
-                        selectedVolumeUuid = selectedVolume,
-                        onBuyBtnClicked = { coroutineScope.launch { bottomSheetState.show() } },
-                        onVolumeSelected = setSelectedVolume,
-                        modifier = Modifier.padding(paddingValues)
-                    )
-                }
-            }
-
-            ProductDetailsScreenViewState.Error -> Unit
+        is ProductDetailsScreenViewState.Details -> ProductDetailsScreenContent(
+            state = state,
+            onBackClicked = onBackClicked,
+            onAddToFavorites = { viewModel.onAddToFavorites(it) }
+        ) { vlm, qte ->
+            viewModel.onAddToCart(
+                product = state.product,
+                volumeUuid = vlm,
+                quantity = qte
+            ) { onBackClicked() }
         }
+
+        ProductDetailsScreenViewState.Error -> Unit
     }
 }
 
@@ -138,8 +102,82 @@ fun ProductDetailsScreenPreview() {
     ProductDetailsScreen(uuid = "") {}
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProductDetailsScreenContent(
+    state: ProductDetailsScreenViewState.Details,
+    onBackClicked: () -> Unit,
+    onAddToFavorites: (String) -> Unit,
+    onBuyBtnClicked: (String, Int) -> Unit
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
+    )
+
+    Scaffold(
+        topBar = {
+            ScreenHeader(
+                leftIcon = R.drawable.ic_back_brown20,
+                onLeftIconClicked = onBackClicked,
+                rightIcon = R.drawable.ic_favorite_brown20,
+                onRightIconClicked = { onAddToFavorites(state.product.uuid) },
+            )
+        },
+        backgroundColor = BrownWhite80
+    ) { paddingValues ->
+
+        val (selectedVolume, setSelectedVolume) = remember {
+            mutableStateOf(state.product.volumes.firstOrNull()?.uuid.orEmpty())
+        }
+        val (chosenQuantity, setChosenQuantity) = remember {
+            mutableStateOf(MIN_CART_PRODUCT_QUANTITY)
+        }
+        ModalBottomSheetLayout(
+            sheetState = bottomSheetState,
+            sheetShape = bottomSheetShape,
+            sheetContent = {
+                AddToCart(
+                    product = state.product,
+                    selectedVolumeUuid = selectedVolume,
+                    onVolumeSelected = setSelectedVolume,
+                    chosenQuantity = chosenQuantity,
+                    onIncrementQuantity = { setChosenQuantity(chosenQuantity + 1) },
+                    onDecrementQuantity = { setChosenQuantity(chosenQuantity - 1) },
+                    onBuyBtnClicked = {
+                        onBuyBtnClicked(selectedVolume, chosenQuantity)
+                        coroutineScope.launch { bottomSheetState.hide() }
+                    }
+                )
+            },
+        ) {
+            ProductDetails(
+                product = state.product,
+                selectedVolumeUuid = selectedVolume,
+                onBuyBtnClicked = { coroutineScope.launch { bottomSheetState.show() } },
+                onVolumeSelected = setSelectedVolume,
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
+
+    }
+}
+
+@Preview
+@Composable
+fun ProductDetailsScreenContentPreview() {
+    SkincareTheme(darkTheme = false) {
+        ProductDetailsScreenContent(
+            state = ProductDetailsScreenViewState.Details(fakeProducts[0]),
+            onBackClicked = {},
+            onAddToFavorites = {}
+        ) { _, _ -> }
+    }
+}
+
+@Composable
+fun ProductDetails(
     product: Product,
     onBuyBtnClicked: () -> Unit,
     onVolumeSelected: (String) -> Unit,
@@ -151,7 +189,7 @@ fun ProductDetailsScreenContent(
     ) {
         val (images, content, buy) = createRefs()
 
-        ProductDetailsScreenContentImages(
+        ProductImages(
             images = product.imagesUrls,
             modifier = Modifier.constrainAs(images) {
                 top.linkTo(parent.top)
@@ -277,9 +315,9 @@ fun ProductDetailsScreenContent(
 
 @Preview
 @Composable
-fun ProductDetailsScreenContentPreview() {
+fun ProductDetailsPreview() {
     SkincareTheme(darkTheme = false) {
-        ProductDetailsScreenContent(
+        ProductDetails(
             product = fakeProducts[0],
             onBuyBtnClicked = { },
             onVolumeSelected = {},
@@ -292,7 +330,7 @@ fun ProductDetailsScreenContentPreview() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ProductDetailsScreenContentImages(
+fun ProductImages(
     images: List<String>,
     modifier: Modifier = Modifier
 ) {
@@ -328,9 +366,9 @@ fun ProductDetailsScreenContentImages(
 
 @Preview
 @Composable
-fun ProductDetailsScreenContentImagesPreview() {
+fun ProductImagesPreview() {
     SkincareTheme(darkTheme = false) {
-        ProductDetailsScreenContentImages(
+        ProductImages(
             images = fakeProducts[0].imagesUrls,
             modifier = Modifier.background(Color.White)
         )
@@ -343,11 +381,12 @@ fun AddToCart(
     product: Product,
     selectedVolumeUuid: String,
     onVolumeSelected: (String) -> Unit,
-    onQuantitySelected: (Int) -> Unit,
+    chosenQuantity: Int,
+    onIncrementQuantity: () -> Unit,
+    onDecrementQuantity: () -> Unit,
     onBuyBtnClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val chosenQuantity = remember { mutableStateOf(0) }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -424,16 +463,10 @@ fun AddToCart(
             },
             rightComposable = {
                 QuantityCounter(
-                    quantity = chosenQuantity.value,
+                    quantity = chosenQuantity,
                     stock = 10,
-                    onMinusClicked = {
-                        chosenQuantity.value -= 1
-                        onQuantitySelected(chosenQuantity.value)
-                    },
-                    onPlusClicked = {
-                        chosenQuantity.value += 1
-                        onQuantitySelected(chosenQuantity.value)
-                    }
+                    onMinusClicked = onDecrementQuantity,
+                    onPlusClicked = onIncrementQuantity
                 )
             }
         )
@@ -446,9 +479,7 @@ fun AddToCart(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
-            onClick = {
-                onBuyBtnClicked()
-            },
+            onClick = { onBuyBtnClicked() },
             shape = MaterialTheme.shapes.large,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Brown,
@@ -475,7 +506,9 @@ fun AddToCartPreview() {
             product = fakeProducts[0],
             selectedVolumeUuid = fakeProducts[0].volumes[0].uuid,
             onVolumeSelected = { },
-            onQuantitySelected = { },
+            chosenQuantity = 10,
+            onIncrementQuantity = { },
+            onDecrementQuantity = { },
             onBuyBtnClicked = {},
             modifier = Modifier.background(White)
         )

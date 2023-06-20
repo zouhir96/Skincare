@@ -28,7 +28,6 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 #ui
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "depCompose" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "depCompose" }
-androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "depCompose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "depMaterial" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "depConstraintlayout" }
 io-coil-kt = { group = "io.coil-kt", name = "coil-compose", version.ref = "depCoil" }
@@ -49,6 +48,8 @@ google-accompanist-pager = { group = "com.google.accompanist", name = "accompani
 google-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "depViewPager" }
 
 #tools
+test-junit = { group = "junit", name = "junit", version.ref = "depJunit" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "depCompose" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "depCompose" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "depCompose" }
 

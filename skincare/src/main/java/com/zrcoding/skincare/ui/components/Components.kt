@@ -1,6 +1,7 @@
 package com.zrcoding.skincare.ui.components
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,12 +26,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.data.domain.model.MIN_CART_PRODUCT_QUANTITY
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.ui.common.domain.model.Filter
@@ -537,7 +540,7 @@ fun QuantityCounter(
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
-                .clickable { if (quantity > 0) onMinusClicked() },
+                .clickable { if (quantity > MIN_CART_PRODUCT_QUANTITY) onMinusClicked() },
             tint = Color.Unspecified
         )
 
@@ -568,6 +571,38 @@ fun QuantityCounterPreview() {
             onMinusClicked = {},
             onPlusClicked = {},
             modifier = Modifier.background(White)
+        )
+    }
+}
+
+@Composable
+fun ScreenEmptyState(
+    modifier: Modifier = Modifier,
+    @StringRes title: Int,
+    @StringRes description: Int,
+    @DrawableRes image: Int
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Image(
+            painter = painterResource(id = image),
+            modifier = Modifier.size(225.dp),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        Text(
+            text = stringResource(id = title),
+            style = MaterialTheme.typography.h6,
+        )
+        Spacer(modifier = Modifier.height(14.dp))
+        Text(
+            text = stringResource(id = description),
+            style = MaterialTheme.typography.body1,
+            textAlign = TextAlign.Center
         )
     }
 }

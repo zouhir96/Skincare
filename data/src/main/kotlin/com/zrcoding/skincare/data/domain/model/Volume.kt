@@ -11,3 +11,5 @@ data class Volume(
 enum class VolumeUnit {
     ML
 }
+
+fun Product.findVolume(uuid: String) = volumes.firstOrNull { it.uuid == uuid }
