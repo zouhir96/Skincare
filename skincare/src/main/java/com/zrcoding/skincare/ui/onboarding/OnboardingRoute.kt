@@ -145,7 +145,8 @@ fun Page(page: Page, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = stringResource(id = page.description),
-            style = MaterialTheme.typography.body2,
+            modifier = Modifier.padding(21.dp),
+            style = MaterialTheme.typography.subtitle2,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(42.dp))
