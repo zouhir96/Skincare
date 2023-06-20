@@ -54,16 +54,30 @@ import com.zrcoding.skincare.ui.theme.SkincareTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun FavoritesScreen(
+fun FavoritesScreenRoute(
     onNavigateToProduct: (String) -> Unit,
     viewModel: FavoritesScreenViewModel = hiltViewModel()
 ) {
+    val viewState = viewModel.viewState.collectAsState().value
+
+    FavoritesScreen(
+        viewState = viewState,
+        onDeleteProduct = viewModel::onDeleteProduct,
+        onNavigateToProduct = onNavigateToProduct
+    )
+}
+
+@Composable
+fun FavoritesScreen(
+    onNavigateToProduct: (String) -> Unit,
+    onDeleteProduct: (String) -> Unit,
+    viewState: FavoritesScreenViewState,
+) {
     val scope = rememberCoroutineScope()
-    val viewState = viewModel.viewState.collectAsState()
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { padding ->
-        when (val state = viewState.value) {
+        when (viewState) {
             FavoritesScreenViewState.Loading -> {
                 // Not yet implemented}
             }
@@ -73,9 +87,11 @@ fun FavoritesScreen(
             )
 
             is FavoritesScreenViewState.WishList -> WishList(
-                favorites = state.wishList,
+                favorites = viewState.wishList,
                 onAddToCart = { onNavigateToProduct(it.uuid) },
-                onDelete = { scope.launch { viewModel.onDeleteProduct(it.uuid) } },
+                onDelete = {
+                    scope.launch { onDeleteProduct(it.uuid) }
+                },
                 modifier = Modifier.padding(padding)
             )
         }
@@ -86,7 +102,11 @@ fun FavoritesScreen(
 @Composable
 fun FavoritesScreenPreview() {
     SkincareTheme(darkTheme = false) {
-        FavoritesScreen(onNavigateToProduct = {})
+        FavoritesScreen(
+            onNavigateToProduct = {},
+            viewState = FavoritesScreenViewState.EmptyWishList,
+            onDeleteProduct = {},
+        )
     }
 }
 
