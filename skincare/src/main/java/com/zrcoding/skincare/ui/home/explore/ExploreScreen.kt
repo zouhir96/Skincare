@@ -26,23 +26,39 @@ import com.zrcoding.skincare.ui.components.VerticalProduct
 import com.zrcoding.skincare.ui.theme.SkincareTheme
 
 @Composable
-fun ExploreScreen(
+fun ExploreScreenRoute(
     onNavigateToProduct: (String) -> Unit,
-    viewModel: ExploreScreenViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    viewModel: ExploreScreenViewModel = hiltViewModel()
 ) {
-    val viewState = viewModel.viewState.collectAsState()
+    val viewState = viewModel.viewState.collectAsState().value
+
+    ExploreScreen(
+        viewState = viewState,
+        onNavigateToProduct = onNavigateToProduct,
+        onFilterChanged = viewModel::onFilterChanged,
+        onAddToFavorites = viewModel::onAddToFavorites
+    )
+}
+
+@Composable
+fun ExploreScreen(
+    modifier: Modifier = Modifier,
+    onNavigateToProduct: (String) -> Unit,
+    onFilterChanged: (Filter) -> Unit,
+    onAddToFavorites: (Product) -> Unit,
+    viewState: ExploreScreenViewState
+) {
 
     Scaffold { padding ->
-        when (val state = viewState.value) {
+        when (viewState) {
             ExploreScreenViewState.Loading -> {
                 // Not yet implemented.
             }
 
             is ExploreScreenViewState.ExploreState -> ExploreScreenContent(
-                exploreState = state,
-                onFilterChanged = viewModel::onFilterChanged,
-                onFavoriteClicked = viewModel::onAddToFavorites,
+                exploreState = viewState,
+                onFilterChanged = onFilterChanged,
+                onFavoriteClicked = onAddToFavorites,
                 onAddToCartClicked = { onNavigateToProduct(it.uuid) },
                 modifier = modifier.padding(padding)
             )
@@ -55,8 +71,11 @@ fun ExploreScreen(
 fun ExploreScreenPreview() {
     SkincareTheme(darkTheme = false) {
         ExploreScreen(
+            modifier = Modifier.background(MaterialTheme.colors.background),
             onNavigateToProduct = {},
-            modifier = Modifier.background(MaterialTheme.colors.background)
+            viewState = ExploreScreenViewState.Loading,
+            onFilterChanged = {},
+            onAddToFavorites = {}
         )
     }
 }
