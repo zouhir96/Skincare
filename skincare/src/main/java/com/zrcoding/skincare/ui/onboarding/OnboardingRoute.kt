@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,13 +32,28 @@ import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.SkincareTheme
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+@Composable
+fun OnboardingRoute(
+    onNavigateToHome: () -> Unit,
+    viewModel: OnboardingViewModel = hiltViewModel()
+) {
+    LaunchedEffect(Unit) {
+        viewModel.navigateToHome.collectLatest {
+            onNavigateToHome()
+        }
+    }
+    OnboardingScreen {
+        viewModel.onOnboardingCompleted()
+    }
+}
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Onboarding(
-    onNavigateToHome: () -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel()
+fun OnboardingScreen(
+    onOnboardingCompleted: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
     val currentPage = pagerState.currentPage
@@ -69,10 +85,11 @@ fun Onboarding(
                     shape = RoundedCornerShape(50)
                 ),
                 onClick = {
-                    if (currentPage > 0)
+                    if (currentPage > 0) {
                         scope.launch {
                             pagerState.animateScrollToPage(currentPage - 1)
                         }
+                    }
                 }
             ) {
                 Icon(
@@ -88,12 +105,10 @@ fun Onboarding(
                     shape = RoundedCornerShape(50)
                 ),
                 onClick = {
-                    if (currentPage == 3) {
-                        viewModel.onOnboardingCompleted()
-                        onNavigateToHome()
-                    }
-                    scope.launch {
-                        pagerState.animateScrollToPage(if (currentPage == 3) 0 else currentPage + 1)
+                    if (currentPage < 3) {
+                        scope.launch { pagerState.animateScrollToPage(currentPage + 1) }
+                    } else {
+                        onOnboardingCompleted()
                     }
                 }
             ) {
@@ -108,11 +123,11 @@ fun Onboarding(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun OnboardingPreview() {
-    SkincareTheme {
-        Onboarding({})
+fun OnboardingScreenPreview() {
+    SkincareTheme(darkTheme = false) {
+        OnboardingScreen {}
     }
 }
 
