@@ -134,7 +134,7 @@ fun OnboardingScreenPreview() {
 @Composable
 fun Page(page: Page, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 21.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -145,7 +145,6 @@ fun Page(page: Page, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = stringResource(id = page.description),
-            modifier = Modifier.padding(21.dp),
             style = MaterialTheme.typography.subtitle2,
             textAlign = TextAlign.Center
         )
@@ -153,43 +152,43 @@ fun Page(page: Page, modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(id = page.image),
             contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.weight(1f)
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         )
     }
 }
 
 @Preview(showBackground = true)
-@Composable()
+@Composable
 fun PagePreview() {
-    SkincareTheme {
-        Page(page = pages[0])
-    }
+    SkincareTheme { Page(page = pages[0]) }
 }
 
 private val pages = listOf(
     Page(
         title = R.string.onboarding_title_1,
         description = R.string.onboarding_description_1,
-        image = R.drawable.skincare_products,
+        image = R.drawable.img_onboarding_first_page,
         index = 0
     ),
     Page(
         title = R.string.onboarding_title_2,
         description = R.string.onboarding_description_2,
-        image = R.drawable.skincare_products,
+        image = R.drawable.img_onboarding_second_page,
         index = 1
     ),
     Page(
         title = R.string.onboarding_title_3,
         description = R.string.onboarding_description_3,
-        image = R.drawable.skincare_products,
+        image = R.drawable.img_onboarding_third_page,
         index = 2
     ),
     Page(
         title = R.string.onboarding_title_4,
         description = R.string.onboarding_description_4,
-        image = R.drawable.skincare_products,
+        image = R.drawable.img_onboarding_fourth_page,
         index = 3
     ),
 )
