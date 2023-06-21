@@ -12,7 +12,7 @@ import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.home.explore.ExploreScreen
 import com.zrcoding.skincare.ui.home.favorite.FavoritesScreen
 import com.zrcoding.skincare.ui.home.featured.FeaturedScreen
-import com.zrcoding.skincare.ui.home.profile.Profile
+import com.zrcoding.skincare.ui.home.profile.ProfileRoute
 
 sealed class HomeScreen(val route: String) {
     object Featured : HomeScreen("featured")
@@ -72,7 +72,7 @@ fun HomeNavHost(
             FavoritesScreen(onNavigateToProduct = onNavigateToProduct)
         }
         composable(route = HomeScreen.Profile.route) {
-            Profile()
+            ProfileRoute()
         }
     }
 }
