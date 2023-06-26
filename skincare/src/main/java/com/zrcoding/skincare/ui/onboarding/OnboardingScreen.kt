@@ -26,7 +26,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.components.HorizontalSteps
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
@@ -72,7 +71,7 @@ fun OnboardingScreen(
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) { page: Int ->
-            Page(page = pages[page], modifier = Modifier.fillMaxSize())
+            Page(page = onboardingPages[page], modifier = Modifier.fillMaxSize())
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -163,32 +162,5 @@ fun Page(page: Page, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PagePreview() {
-    SkincareTheme { Page(page = pages[0]) }
+    SkincareTheme { Page(page = onboardingPages[0]) }
 }
-
-private val pages = listOf(
-    Page(
-        title = R.string.onboarding_title_1,
-        description = R.string.onboarding_description_1,
-        image = R.drawable.img_onboarding_first_page,
-        index = 0
-    ),
-    Page(
-        title = R.string.onboarding_title_2,
-        description = R.string.onboarding_description_2,
-        image = R.drawable.img_onboarding_second_page,
-        index = 1
-    ),
-    Page(
-        title = R.string.onboarding_title_3,
-        description = R.string.onboarding_description_3,
-        image = R.drawable.img_onboarding_third_page,
-        index = 2
-    ),
-    Page(
-        title = R.string.onboarding_title_4,
-        description = R.string.onboarding_description_4,
-        image = R.drawable.img_onboarding_fourth_page,
-        index = 3
-    ),
-)
