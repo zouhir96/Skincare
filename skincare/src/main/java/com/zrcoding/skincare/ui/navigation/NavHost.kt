@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.zrcoding.skincare.ui.cart.CartScreen
 import com.zrcoding.skincare.ui.home.master.Home
-import com.zrcoding.skincare.ui.onboarding.Onboarding
+import com.zrcoding.skincare.ui.onboarding.OnboardingRoute
 import com.zrcoding.skincare.ui.product.ProductDetailsScreen
 
 @Composable
@@ -25,7 +25,7 @@ fun MainNavHost(
         modifier = modifier
     ) {
         composable(route = Screen.Onboarding.route) {
-            Onboarding(
+            OnboardingRoute(
                 onNavigateToHome = {
                     globalNavController.navigate(route = Screen.Home.route) {
                         popUpTo(Screen.Onboarding.route) { inclusive = true }

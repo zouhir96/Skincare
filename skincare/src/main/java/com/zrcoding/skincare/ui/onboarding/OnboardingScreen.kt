@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,19 +26,33 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.zrcoding.skincare.R
 import com.zrcoding.skincare.ui.components.HorizontalSteps
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.SkincareTheme
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+@Composable
+fun OnboardingRoute(
+    onNavigateToHome: () -> Unit,
+    viewModel: OnboardingViewModel = hiltViewModel()
+) {
+    LaunchedEffect(Unit) {
+        viewModel.navigateToHome.collectLatest {
+            onNavigateToHome()
+        }
+    }
+    OnboardingScreen {
+        viewModel.onOnboardingCompleted()
+    }
+}
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Onboarding(
-    onNavigateToHome: () -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel()
+fun OnboardingScreen(
+    onOnboardingCompleted: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
     val currentPage = pagerState.currentPage
@@ -56,7 +71,7 @@ fun Onboarding(
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) { page: Int ->
-            Page(page = pages[page], modifier = Modifier.fillMaxSize())
+            Page(page = onboardingPages[page], modifier = Modifier.fillMaxSize())
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -69,10 +84,11 @@ fun Onboarding(
                     shape = RoundedCornerShape(50)
                 ),
                 onClick = {
-                    if (currentPage > 0)
+                    if (currentPage > 0) {
                         scope.launch {
                             pagerState.animateScrollToPage(currentPage - 1)
                         }
+                    }
                 }
             ) {
                 Icon(
@@ -88,12 +104,10 @@ fun Onboarding(
                     shape = RoundedCornerShape(50)
                 ),
                 onClick = {
-                    if (currentPage == 3) {
-                        viewModel.onOnboardingCompleted()
-                        onNavigateToHome()
-                    }
-                    scope.launch {
-                        pagerState.animateScrollToPage(if (currentPage == 3) 0 else currentPage + 1)
+                    if (currentPage < 3) {
+                        scope.launch { pagerState.animateScrollToPage(currentPage + 1) }
+                    } else {
+                        onOnboardingCompleted()
                     }
                 }
             ) {
@@ -108,18 +122,18 @@ fun Onboarding(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun OnboardingPreview() {
-    SkincareTheme {
-        Onboarding({})
+fun OnboardingScreenPreview() {
+    SkincareTheme(darkTheme = false) {
+        OnboardingScreen {}
     }
 }
 
 @Composable
 fun Page(page: Page, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 21.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -130,50 +144,23 @@ fun Page(page: Page, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = stringResource(id = page.description),
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.subtitle2,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(42.dp))
         Image(
             painter = painterResource(id = page.image),
             contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.weight(1f)
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         )
     }
 }
 
 @Preview(showBackground = true)
-@Composable()
+@Composable
 fun PagePreview() {
-    SkincareTheme {
-        Page(page = pages[0])
-    }
+    SkincareTheme { Page(page = onboardingPages[0]) }
 }
-
-private val pages = listOf(
-    Page(
-        title = R.string.onboarding_title_1,
-        description = R.string.onboarding_description_1,
-        image = R.drawable.skincare_products,
-        index = 0
-    ),
-    Page(
-        title = R.string.onboarding_title_2,
-        description = R.string.onboarding_description_2,
-        image = R.drawable.skincare_products,
-        index = 1
-    ),
-    Page(
-        title = R.string.onboarding_title_3,
-        description = R.string.onboarding_description_3,
-        image = R.drawable.skincare_products,
-        index = 2
-    ),
-    Page(
-        title = R.string.onboarding_title_4,
-        description = R.string.onboarding_description_4,
-        image = R.drawable.skincare_products,
-        index = 3
-    ),
-)
