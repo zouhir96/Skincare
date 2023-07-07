@@ -2,23 +2,25 @@ package com.zrcoding.skincare.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.zrcoding.skincare.ui.cart.CartScreen
+import com.zrcoding.skincare.ui.editaccount.EditAccountRoute
 import com.zrcoding.skincare.ui.home.master.Home
 import com.zrcoding.skincare.ui.onboarding.OnboardingRoute
+import com.zrcoding.skincare.ui.orders.OrdersRoute
 import com.zrcoding.skincare.ui.product.ProductDetailsScreen
+import com.zrcoding.skincare.ui.refund.RefundRoute
 
 @Composable
 fun MainNavHost(
     onboarded: Boolean,
-    globalNavController: NavHostController = rememberNavController(),
     modifier: Modifier
 ) {
+    val globalNavController = rememberNavController()
     NavHost(
         navController = globalNavController,
         startDestination = if (onboarded) Screen.Home.route else Screen.Onboarding.route,
@@ -40,6 +42,11 @@ fun MainNavHost(
                 },
                 onNavigateToCart = {
                     globalNavController.navigate(Screen.Cart.route)
+                },
+                onNavigateToRoute = {
+                    if (it.isNotBlank()) {
+                        globalNavController.navigate(it)
+                    }
                 }
             )
         }
@@ -61,6 +68,15 @@ fun MainNavHost(
                     globalNavController.popBackStack()
                 }
             )
+        }
+        composable(route = Screen.EditAccount.route) {
+            EditAccountRoute()
+        }
+        composable(route = Screen.Orders.route) {
+            OrdersRoute()
+        }
+        composable(route = Screen.Refund.route) {
+            RefundRoute()
         }
     }
 }

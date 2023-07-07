@@ -48,6 +48,7 @@ fun Home(
     viewModel: MasterViewModel = hiltViewModel(),
     onNavigateToProduct: (String) -> Unit,
     onNavigateToCart: () -> Unit,
+    onNavigateToRoute: (String) -> Unit,
 ) {
     val homeNavController = rememberNavController()
     val cartItemsCount = viewModel.cartItemsCount.collectAsState()
@@ -68,6 +69,7 @@ fun Home(
         HomeNavHost(
             homeNavController = homeNavController,
             onNavigateToProduct = onNavigateToProduct,
+            onNavigateToRoute = onNavigateToRoute,
             modifier = Modifier.padding(innerPadding)
         )
     }
