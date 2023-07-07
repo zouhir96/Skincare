@@ -2,7 +2,6 @@ package com.zrcoding.skincare.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,9 +15,9 @@ import com.zrcoding.skincare.ui.product.ProductDetailsScreen
 @Composable
 fun MainNavHost(
     onboarded: Boolean,
-    globalNavController: NavHostController = rememberNavController(),
     modifier: Modifier
 ) {
+    val globalNavController = rememberNavController()
     NavHost(
         navController = globalNavController,
         startDestination = if (onboarded) Screen.Home.route else Screen.Onboarding.route,
@@ -40,6 +39,11 @@ fun MainNavHost(
                 },
                 onNavigateToCart = {
                     globalNavController.navigate(Screen.Cart.route)
+                },
+                onNavigateToRoute = {
+                    if (it.isNotBlank()) {
+                        globalNavController.navigate(it)
+                    }
                 }
             )
         }

@@ -1,7 +1,8 @@
 package com.zrcoding.skincare.ui.home.profile
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -23,6 +26,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,37 +42,59 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.data.domain.model.GENDER
+import com.zrcoding.skincare.ui.common.exts.localizedText
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.ColumbiaBlue
 import com.zrcoding.skincare.ui.theme.SkincareTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProfileRoute(
-    viewModel: ProfileScreenViewModel = hiltViewModel()
+    viewModel: ProfileScreenViewModel = hiltViewModel(),
+    navigateTo: (String) -> Unit
 ) {
 
     val viewState = viewModel.viewState.collectAsState()
+    ProfileScreen(
+        viewState = viewState.value,
+        onProfileImageUploaded = viewModel::onProfileImageUploaded,
+        onRedirectionClicked = navigateTo,
+        onLogout = viewModel::onLogoutClicked
+    )
+    LaunchedEffect(Unit) {
+        viewModel.goToAuth.collectLatest {
+            // TODO Add route to the auth navgraph
+            navigateTo("")
+        }
+    }
+}
 
-    when (val state = viewState.value) {
+@Composable
+fun ProfileScreen(
+    viewState: ProfileScreenViewState,
+    onProfileImageUploaded: (Uri) -> Unit,
+    onRedirectionClicked: (String) -> Unit,
+    onLogout: () -> Unit
+) {
+    when (viewState) {
         ProfileScreenViewState.Loading -> Unit
-        is ProfileScreenViewState.Info -> ProfileScreen(
-            accountInfo = state,
-            onEditProfile = {},
-            onNavigateToOrders = {},
-            onNavigateToRefunds = {},
-            onLogout = {}
+
+        is ProfileScreenViewState.Info -> ProfileScreenContent(
+            accountInfo = viewState,
+            onProfileImageUploaded = onProfileImageUploaded,
+            onRedirectionClicked = onRedirectionClicked,
+            onLogout = onLogout
         )
     }
 }
 
-
 @Composable
-fun ProfileScreen(
+fun ProfileScreenContent(
     accountInfo: ProfileScreenViewState.Info,
-    onEditProfile: () -> Unit,
-    onNavigateToOrders: () -> Unit,
-    onNavigateToRefunds: () -> Unit,
+    onProfileImageUploaded: (Uri) -> Unit,
+    onRedirectionClicked: (String) -> Unit,
     onLogout: () -> Unit
 ) {
     ConstraintLayout(
@@ -83,7 +109,9 @@ fun ProfileScreen(
             },
             imageUrl = accountInfo.imageUrl,
             fullName = accountInfo.fullName,
-            phoneNumber = accountInfo.phoneNumber
+            gender = accountInfo.gender,
+            phoneNumber = accountInfo.phoneNumber,
+            onProfileImageUploaded = onProfileImageUploaded
         )
         Spacer(
             modifier = Modifier
@@ -102,9 +130,8 @@ fun ProfileScreen(
                 bottom.linkTo(parent.bottom)
                 height = Dimension.fillToConstraints
             },
-            onEditProfile = onEditProfile,
-            onNavigateToOrders = onNavigateToOrders,
-            onNavigateToRefunds = onNavigateToRefunds
+            redirections = profileScreenRedirections,
+            onRedirectionClicked = onRedirectionClicked
         )
         Button(
             onClick = { onLogout() },
@@ -135,15 +162,15 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreenPreview() {
     SkincareTheme(darkTheme = false) {
-        ProfileScreen(
+        ProfileScreenContent(
             accountInfo = ProfileScreenViewState.Info(
                 imageUrl = "",
                 fullName = "Dua LIPA",
+                gender = GENDER.FEMALE,
                 phoneNumber = "+212 666 666666"
             ),
-            onEditProfile = {},
-            onNavigateToOrders = {},
-            onNavigateToRefunds = {},
+            onProfileImageUploaded = {},
+            onRedirectionClicked = {},
             onLogout = {}
         )
     }
@@ -154,8 +181,15 @@ private fun AccountInfo(
     modifier: Modifier = Modifier,
     imageUrl: String,
     fullName: String,
-    phoneNumber: String
+    phoneNumber: String,
+    gender: GENDER,
+    onProfileImageUploaded: (Uri) -> Unit
 ) {
+    val imageLoadLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { it?.let { onProfileImageUploaded(it) } }
+    )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxWidth()
@@ -170,7 +204,6 @@ private fun AccountInfo(
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = R.drawable.img_avatar),
-                error = painterResource(id = R.drawable.img_avatar),
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_galery),
@@ -178,12 +211,14 @@ private fun AccountInfo(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .clip(MaterialTheme.shapes.large)
-                    .clickable { }
+                    .clickable {
+                        imageLoadLauncher.launch("image/*")
+                    }
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = fullName,
+            text = "${stringResource(id = gender.localizedText())}. $fullName",
             style = MaterialTheme.typography.h6
         )
         Spacer(modifier = Modifier.height(6.dp))
@@ -201,17 +236,17 @@ fun AccountInfoPreview() {
         AccountInfo(
             imageUrl = "",
             fullName = "Dua LIPA",
-            phoneNumber = "+212 666 666666"
-        )
+            phoneNumber = "+212 666 666666",
+            gender = GENDER.FEMALE
+        ) {}
     }
 }
 
 @Composable
 fun Redirections(
     modifier: Modifier = Modifier,
-    onEditProfile: () -> Unit,
-    onNavigateToOrders: () -> Unit,
-    onNavigateToRefunds: () -> Unit,
+    redirections: List<ProfileScreenRedirection>,
+    onRedirectionClicked: (String) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -220,25 +255,16 @@ fun Redirections(
             .background(BrownWhite80, RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
     ) {
         Spacer(modifier = Modifier.height(24.dp))
-        Redirection(
-            icon = R.drawable.ic_manage_account,
-            text = R.string.my_profile,
-            onClick = onEditProfile
-        )
+        LazyColumn {
+            items(items = redirections, key = { it.route }) {
+                RedirectionItem(
+                    redirection = it,
+                    onClick = { onRedirectionClicked(it.route) }
+                )
 
-        Spacer(modifier = Modifier.height(10.dp))
-        Redirection(
-            icon = R.drawable.ic_order,
-            text = R.string.my_orders,
-            onClick = onNavigateToOrders
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-        Redirection(
-            icon = R.drawable.ic_refund,
-            text = R.string.my_refunds,
-            onClick = onNavigateToRefunds
-        )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+        }
     }
 }
 
@@ -247,17 +273,15 @@ fun Redirections(
 fun RedirectionsPreview() {
     SkincareTheme(darkTheme = false) {
         Redirections(
-            onEditProfile = {},
-            onNavigateToOrders = {},
-            onNavigateToRefunds = {},
+            redirections = profileScreenRedirections,
+            onRedirectionClicked = {}
         )
     }
 }
 
 @Composable
-fun Redirection(
-    @DrawableRes icon: Int,
-    @StringRes text: Int,
+fun RedirectionItem(
+    redirection: ProfileScreenRedirection,
     onClick: () -> Unit
 ) {
     Row(
@@ -273,7 +297,7 @@ fun Redirection(
                 .background(Color.White)
         ) {
             Image(
-                painter = painterResource(id = icon),
+                painter = painterResource(id = redirection.icon),
                 contentDescription = null,
                 alignment = Alignment.Center,
                 modifier = Modifier
@@ -282,7 +306,10 @@ fun Redirection(
             )
         }
         Spacer(modifier = Modifier.width(24.dp))
-        Text(text = stringResource(id = text), style = MaterialTheme.typography.body1)
+        Text(
+            text = stringResource(id = redirection.title),
+            style = MaterialTheme.typography.body1
+        )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.ic_arrow_right),
@@ -295,8 +322,8 @@ fun Redirection(
 
 @Preview(showBackground = true)
 @Composable
-fun RedirectionPreview() {
+fun RedirectionItemPreview() {
     SkincareTheme(darkTheme = false) {
-        Redirection(icon = R.drawable.ic_user, text = R.string.profile) {}
+        RedirectionItem(redirection = profileScreenRedirections[0]) {}
     }
 }

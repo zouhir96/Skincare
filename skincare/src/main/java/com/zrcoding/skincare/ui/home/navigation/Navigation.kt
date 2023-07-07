@@ -38,6 +38,7 @@ val bottomNavigationBarScreens = listOf(
 fun HomeNavHost(
     homeNavController: NavHostController,
     onNavigateToProduct: (String) -> Unit,
+    onNavigateToRoute: (String) -> Unit,
     modifier: Modifier
 ) {
     NavHost(
@@ -72,7 +73,7 @@ fun HomeNavHost(
             FavoritesScreen(onNavigateToProduct = onNavigateToProduct)
         }
         composable(route = HomeScreen.Profile.route) {
-            ProfileRoute()
+            ProfileRoute(navigateTo = onNavigateToRoute)
         }
     }
 }

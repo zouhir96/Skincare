@@ -30,6 +30,8 @@
     <string name="common_price_with_dollar">%s $</string>
     <string name="common_network_error_with_try_later">An error has occurred, please try again later</string>
     <string name="common_required_field">Required</string>
+    <string name="common_gender_female_abbreviation">Ms</string>
+    <string name="common_gender_male_abbreviation">Mr</string>
 
 
     <!--    Featured Screen-->
