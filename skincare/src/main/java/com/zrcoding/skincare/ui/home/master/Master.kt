@@ -1,5 +1,7 @@
 package com.zrcoding.skincare.ui.home.master
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -207,7 +209,7 @@ fun BottomNavigationBar(
     navController: NavController,
     navigationBarScreens: List<BottomBarItem>,
 ) {
-    BottomNavigation(backgroundColor = White) {
+    BottomNavigation(backgroundColor = MaterialTheme.colors.background) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         navigationBarScreens.forEach { screen ->
@@ -255,11 +257,13 @@ fun BottomNavigationBarPreview() {
     }
 }
 
+data class DrawerItem(@DrawableRes val icon: Int, @StringRes val title: Int, val route: String)
+
 val navigationDrawerItems = listOf(
-    Triple(R.drawable.ic_user_40, R.string.nd_about, ""),
-    Triple(R.drawable.ic_user_40, R.string.nd_rate, ""),
-    Triple(R.drawable.ic_user_40, R.string.nd_share, ""),
-    Triple(R.drawable.ic_user_40, R.string.nd_support, ""),
+    DrawerItem(icon = R.drawable.ic_user_40, title = R.string.nd_about, route = ""),
+    DrawerItem(icon = R.drawable.ic_user_40, title = R.string.nd_rate, route = ""),
+    DrawerItem(icon = R.drawable.ic_user_40, title = R.string.nd_share, route = ""),
+    DrawerItem(icon = R.drawable.ic_user_40, title = R.string.nd_support, route = ""),
 )
 
 @Composable
@@ -281,7 +285,7 @@ fun NavigationDrawer(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             itemsIndexed(navigationDrawerItems) { index, item ->
-                NavigationDrawerItem(data = item) { onItemClicked(item.third) }
+                NavigationDrawerItem(data = item) { onItemClicked(item.route) }
                 if (navigationDrawerItems.lastIndex > index) {
                     Spacer(modifier = Modifier.height(12.dp))
                 }
@@ -299,7 +303,7 @@ fun NavigationDrawerPreview() {
 }
 
 @Composable
-fun NavigationDrawerItem(data: Triple<Int, Int, String>, onClick: () -> Unit) {
+fun NavigationDrawerItem(data: DrawerItem, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -310,11 +314,11 @@ fun NavigationDrawerItem(data: Triple<Int, Int, String>, onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(id = data.first),
+            painter = painterResource(id = data.icon),
             contentDescription = null
         )
         Text(
-            text = stringResource(id = data.second),
+            text = stringResource(id = data.title),
             color = Brown,
             style = MaterialTheme.typography.body1
         )
@@ -326,10 +330,10 @@ fun NavigationDrawerItem(data: Triple<Int, Int, String>, onClick: () -> Unit) {
 fun NavigationDrawerItemPreview() {
     SkincareTheme(darkTheme = false) {
         NavigationDrawerItem(
-            Triple(
-                first = R.drawable.ic_user_40,
-                second = R.string.nd_about,
-                third = ""
+            DrawerItem(
+                icon = R.drawable.ic_user_40,
+                title = R.string.nd_about,
+                route = ""
             )
         ) {}
     }
