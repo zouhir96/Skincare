@@ -16,3 +16,4 @@ rootProject.name = "skincare"
 include(":skincare")
 include(":common")
 include(":data")
+include(":ui-kit")

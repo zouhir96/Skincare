@@ -10,8 +10,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.zrcoding.skincare.common.preferences.Preferences
+import com.zrcoding.skincare.theme.SkincareTheme
 import com.zrcoding.skincare.ui.navigation.MainNavHost
-import com.zrcoding.skincare.ui.theme.SkincareTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

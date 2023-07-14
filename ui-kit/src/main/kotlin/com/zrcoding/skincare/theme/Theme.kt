@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.theme
+package com.zrcoding.skincare.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

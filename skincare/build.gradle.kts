@@ -68,19 +68,13 @@ android {
 
 dependencies {
     // project dependencies
+    implementation(project(":ui-kit"))
     implementation(project(":common"))
     implementation(project(":data"))
 
     // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
-
-    // UI
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.io.coil.kt)
 
     // Activity
     implementation(libs.androidx.activity)
@@ -95,11 +89,6 @@ dependencies {
     // ViewPager
     implementation(libs.google.accompanist.pager)
     implementation(libs.google.accompanist.pager.indicators)
-
-    // Tools
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.compose.ui.test.manifest)
 
     // di: hilt
     implementation(libs.google.dagger.hilt.android)

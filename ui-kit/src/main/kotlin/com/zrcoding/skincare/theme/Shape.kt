@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.theme
+package com.zrcoding.skincare.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

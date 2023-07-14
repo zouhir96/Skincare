@@ -55,16 +55,16 @@ import coil.compose.AsyncImage
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.CartProduct
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
+import com.zrcoding.skincare.theme.Brown
+import com.zrcoding.skincare.theme.BrownWhite80
+import com.zrcoding.skincare.theme.BrownWhite90
+import com.zrcoding.skincare.theme.Grey
+import com.zrcoding.skincare.theme.SkincareTheme
+import com.zrcoding.skincare.theme.White
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.components.QuantityCounter
 import com.zrcoding.skincare.ui.components.ScreenEmptyState
 import com.zrcoding.skincare.ui.components.ScreenHeader
-import com.zrcoding.skincare.ui.theme.Brown
-import com.zrcoding.skincare.ui.theme.BrownWhite80
-import com.zrcoding.skincare.ui.theme.BrownWhite90
-import com.zrcoding.skincare.ui.theme.Grey
-import com.zrcoding.skincare.ui.theme.SkincareTheme
-import com.zrcoding.skincare.ui.theme.White
 
 @Composable
 fun CartScreen(

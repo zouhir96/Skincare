@@ -26,11 +26,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.zrcoding.skincare.theme.Brown
+import com.zrcoding.skincare.theme.BrownWhite30
+import com.zrcoding.skincare.theme.BrownWhite80
+import com.zrcoding.skincare.theme.SkincareTheme
 import com.zrcoding.skincare.ui.components.HorizontalSteps
-import com.zrcoding.skincare.ui.theme.Brown
-import com.zrcoding.skincare.ui.theme.BrownWhite30
-import com.zrcoding.skincare.ui.theme.BrownWhite80
-import com.zrcoding.skincare.ui.theme.SkincareTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

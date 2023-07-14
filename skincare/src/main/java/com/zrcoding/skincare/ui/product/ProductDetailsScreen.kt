@@ -51,6 +51,13 @@ import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.MIN_CART_PRODUCT_QUANTITY
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
+import com.zrcoding.skincare.theme.Brown
+import com.zrcoding.skincare.theme.BrownWhite50
+import com.zrcoding.skincare.theme.BrownWhite80
+import com.zrcoding.skincare.theme.Grey50
+import com.zrcoding.skincare.theme.SkincareTheme
+import com.zrcoding.skincare.theme.White
+import com.zrcoding.skincare.theme.bottomSheetShape
 import com.zrcoding.skincare.ui.common.domain.model.toFilter
 import com.zrcoding.skincare.ui.common.domain.model.toFilters
 import com.zrcoding.skincare.ui.components.FilterChipGroup
@@ -58,13 +65,6 @@ import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.components.QuantityCounter
 import com.zrcoding.skincare.ui.components.ScreenHeader
 import com.zrcoding.skincare.ui.components.Stars
-import com.zrcoding.skincare.ui.theme.Brown
-import com.zrcoding.skincare.ui.theme.BrownWhite50
-import com.zrcoding.skincare.ui.theme.BrownWhite80
-import com.zrcoding.skincare.ui.theme.Grey50
-import com.zrcoding.skincare.ui.theme.SkincareTheme
-import com.zrcoding.skincare.ui.theme.White
-import com.zrcoding.skincare.ui.theme.bottomSheetShape
 import kotlinx.coroutines.launch
 
 @Composable

@@ -43,11 +43,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.GENDER
+import com.zrcoding.skincare.theme.Brown
+import com.zrcoding.skincare.theme.BrownWhite80
+import com.zrcoding.skincare.theme.ColumbiaBlue
+import com.zrcoding.skincare.theme.SkincareTheme
 import com.zrcoding.skincare.ui.common.exts.localizedText
-import com.zrcoding.skincare.ui.theme.Brown
-import com.zrcoding.skincare.ui.theme.BrownWhite80
-import com.zrcoding.skincare.ui.theme.ColumbiaBlue
-import com.zrcoding.skincare.ui.theme.SkincareTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

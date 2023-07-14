@@ -43,14 +43,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
+import com.zrcoding.skincare.theme.Brown
+import com.zrcoding.skincare.theme.BrownWhite80
+import com.zrcoding.skincare.theme.Grey
+import com.zrcoding.skincare.theme.Red
+import com.zrcoding.skincare.theme.Red80
+import com.zrcoding.skincare.theme.SkincareTheme
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.components.ScreenEmptyState
-import com.zrcoding.skincare.ui.theme.Brown
-import com.zrcoding.skincare.ui.theme.BrownWhite80
-import com.zrcoding.skincare.ui.theme.Grey
-import com.zrcoding.skincare.ui.theme.Red
-import com.zrcoding.skincare.ui.theme.Red80
-import com.zrcoding.skincare.ui.theme.SkincareTheme
 import kotlinx.coroutines.launch
 
 @Composable

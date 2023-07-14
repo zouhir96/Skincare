@@ -36,8 +36,8 @@ import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.MIN_CART_PRODUCT_QUANTITY
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
+import com.zrcoding.skincare.theme.*
 import com.zrcoding.skincare.ui.common.domain.model.Filter
-import com.zrcoding.skincare.ui.theme.*
 
 @Composable
 fun ScreenHeader(

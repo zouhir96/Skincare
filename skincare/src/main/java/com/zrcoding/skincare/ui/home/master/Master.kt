@@ -33,15 +33,15 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.theme.Brown
+import com.zrcoding.skincare.theme.Brown80
+import com.zrcoding.skincare.theme.CoralReef
+import com.zrcoding.skincare.theme.Grey
+import com.zrcoding.skincare.theme.Lotion
+import com.zrcoding.skincare.theme.White
 import com.zrcoding.skincare.ui.home.navigation.BottomBarItem
 import com.zrcoding.skincare.ui.home.navigation.HomeNavHost
 import com.zrcoding.skincare.ui.home.navigation.bottomNavigationBarScreens
-import com.zrcoding.skincare.ui.theme.Brown
-import com.zrcoding.skincare.ui.theme.Brown80
-import com.zrcoding.skincare.ui.theme.CoralReef
-import com.zrcoding.skincare.ui.theme.Grey
-import com.zrcoding.skincare.ui.theme.Lotion
-import com.zrcoding.skincare.ui.theme.White
 
 @Composable
 fun Home(

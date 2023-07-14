@@ -23,15 +23,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.theme.Brown
+import com.zrcoding.skincare.theme.Grey30
+import com.zrcoding.skincare.theme.SkincareTheme
+import com.zrcoding.skincare.theme.Typography
 import com.zrcoding.skincare.ui.components.FilterChipGroup
 import com.zrcoding.skincare.ui.components.HorizontalProduct
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.components.SearchView
 import com.zrcoding.skincare.ui.components.VerticalProduct
-import com.zrcoding.skincare.ui.theme.Brown
-import com.zrcoding.skincare.ui.theme.Grey30
-import com.zrcoding.skincare.ui.theme.SkincareTheme
-import com.zrcoding.skincare.ui.theme.Typography
 
 @Composable
 fun FeaturedScreen(
