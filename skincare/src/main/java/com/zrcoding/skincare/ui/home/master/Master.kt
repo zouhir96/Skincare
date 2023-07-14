@@ -3,11 +3,18 @@ package com.zrcoding.skincare.ui.home.master
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
 import androidx.compose.material.BottomNavigation
@@ -17,14 +24,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -38,24 +48,50 @@ import com.zrcoding.skincare.ui.home.navigation.HomeNavHost
 import com.zrcoding.skincare.ui.home.navigation.bottomNavigationBarScreens
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.Brown80
+import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.CoralReef
 import com.zrcoding.skincare.ui.theme.Grey
 import com.zrcoding.skincare.ui.theme.Lotion
+import com.zrcoding.skincare.ui.theme.SkincareTheme
 import com.zrcoding.skincare.ui.theme.White
+import kotlinx.coroutines.launch
 
 @Composable
-fun Home(
+fun HomeRoute(
     viewModel: MasterViewModel = hiltViewModel(),
     onNavigateToProduct: (String) -> Unit,
     onNavigateToCart: () -> Unit,
     onNavigateToRoute: (String) -> Unit,
 ) {
-    val homeNavController = rememberNavController()
     val cartItemsCount = viewModel.cartItemsCount.collectAsState()
+
+    Home(
+        cartItemsCount = cartItemsCount.value,
+        onNavigateToProduct = onNavigateToProduct,
+        onNavigateToCart = onNavigateToCart,
+        onNavigateToRoute = onNavigateToRoute
+    )
+}
+
+@Composable
+fun Home(
+    cartItemsCount: Int,
+    onNavigateToProduct: (String) -> Unit,
+    onNavigateToCart: () -> Unit,
+    onNavigateToRoute: (String) -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    val homeNavController = rememberNavController()
+    val scaffoldState = rememberScaffoldState()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
-                cartItemsCount = cartItemsCount.value,
+                cartItemsCount = cartItemsCount,
+                onNavigateIconClicked = {
+                    scope.launch { scaffoldState.drawerState.open() }
+                },
                 onNavigateToCart = onNavigateToCart
             )
         },
@@ -64,7 +100,13 @@ fun Home(
                 navController = homeNavController,
                 navigationBarScreens = bottomNavigationBarScreens,
             )
-        }
+        },
+        drawerContent = {
+            NavigationDrawer {
+                scope.launch { scaffoldState.drawerState.close() }
+            }
+        },
+        drawerShape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp)
     ) { innerPadding ->
         HomeNavHost(
             homeNavController = homeNavController,
@@ -75,9 +117,23 @@ fun Home(
     }
 }
 
+@Preview
+@Composable
+fun HomePreview() {
+    SkincareTheme(darkTheme = false) {
+        Home(
+            cartItemsCount = 10,
+            onNavigateToCart = {},
+            onNavigateToProduct = {},
+            onNavigateToRoute = {}
+        )
+    }
+}
+
 @Composable
 fun TopAppBar(
     cartItemsCount: Int = 0,
+    onNavigateIconClicked: () -> Unit,
     onNavigateToCart: () -> Unit,
 ) {
     TopAppBar(
@@ -100,7 +156,9 @@ fun TopAppBar(
             Image(
                 painter = painterResource(id = R.drawable.ic_menu),
                 contentDescription = null,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier
+                    .size(40.dp)
+                    .clickable { onNavigateIconClicked() }
             )
         },
         actions = {
@@ -136,14 +194,20 @@ fun TopAppBar(
     )
 }
 
+@Preview
+@Composable
+fun TopAppBarPreview() {
+    SkincareTheme(darkTheme = false) {
+        TopAppBar(cartItemsCount = 10, onNavigateIconClicked = {}, onNavigateToCart = {})
+    }
+}
+
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
     navigationBarScreens: List<BottomBarItem>,
 ) {
-    BottomNavigation(
-        backgroundColor = White,
-    ) {
+    BottomNavigation(backgroundColor = White) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         navigationBarScreens.forEach { screen ->
@@ -177,5 +241,96 @@ fun BottomNavigationBar(
                 }
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun BottomNavigationBarPreview() {
+    SkincareTheme(darkTheme = false) {
+        BottomNavigationBar(
+            navController = rememberNavController(),
+            navigationBarScreens = bottomNavigationBarScreens
+        )
+    }
+}
+
+val navigationDrawerItems = listOf(
+    Triple(R.drawable.ic_user_40, R.string.nd_about, ""),
+    Triple(R.drawable.ic_user_40, R.string.nd_rate, ""),
+    Triple(R.drawable.ic_user_40, R.string.nd_share, ""),
+    Triple(R.drawable.ic_user_40, R.string.nd_support, ""),
+)
+
+@Composable
+fun NavigationDrawer(
+    modifier: Modifier = Modifier,
+    onItemClicked: (String) -> Unit
+) {
+    Column(
+        modifier = modifier.padding(horizontal = 22.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.app_name),
+            color = Brown,
+            style = MaterialTheme.typography.h3
+        )
+        LazyColumn(
+            modifier = modifier.weight(1f),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            itemsIndexed(navigationDrawerItems) { index, item ->
+                NavigationDrawerItem(data = item) { onItemClicked(item.third) }
+                if (navigationDrawerItems.lastIndex > index) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun NavigationDrawerPreview() {
+    SkincareTheme(darkTheme = false) {
+        NavigationDrawer(modifier = Modifier.background(White)) {}
+    }
+}
+
+@Composable
+fun NavigationDrawerItem(data: Triple<Int, Int, String>, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = BrownWhite80, shape = MaterialTheme.shapes.large)
+            .clickable { onClick() }
+            .padding(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = data.first),
+            contentDescription = null
+        )
+        Text(
+            text = stringResource(id = data.second),
+            color = Brown,
+            style = MaterialTheme.typography.body1
+        )
+    }
+}
+
+@Preview
+@Composable
+fun NavigationDrawerItemPreview() {
+    SkincareTheme(darkTheme = false) {
+        NavigationDrawerItem(
+            Triple(
+                first = R.drawable.ic_user_40,
+                second = R.string.nd_about,
+                third = ""
+            )
+        ) {}
     }
 }
