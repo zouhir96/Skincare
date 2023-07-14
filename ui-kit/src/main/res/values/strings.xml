@@ -20,6 +20,12 @@
     <string name="toolbar_title_part1">Public</string>
     <string name="toolbar_title_part2">Skincare</string>
 
+    <!--    Navigation drawer-->
+    <string name="nd_about">About us</string>
+    <string name="nd_rate">Rate us</string>
+    <string name="nd_share">Share with your friends</string>
+    <string name="nd_support">Support</string>
+
     <!--    Common-->
     <string name="common_category">Category</string>
     <string name="common_delete">Delete</string>
