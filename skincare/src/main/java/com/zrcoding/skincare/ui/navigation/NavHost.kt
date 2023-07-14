@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.zrcoding.skincare.ui.cart.CartScreen
 import com.zrcoding.skincare.ui.editaccount.EditAccountRoute
-import com.zrcoding.skincare.ui.home.master.Home
+import com.zrcoding.skincare.ui.home.master.HomeRoute
 import com.zrcoding.skincare.ui.onboarding.OnboardingRoute
 import com.zrcoding.skincare.ui.orders.OrdersRoute
 import com.zrcoding.skincare.ui.product.ProductDetailsScreen
@@ -36,7 +36,7 @@ fun MainNavHost(
             )
         }
         composable(route = Screen.Home.route) {
-            Home(
+            HomeRoute(
                 onNavigateToProduct = {
                     globalNavController.navigate(Screen.Product.routeWithId(it))
                 },
