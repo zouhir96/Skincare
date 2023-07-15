@@ -3,9 +3,9 @@ package com.zrcoding.skincare.ui.home.profile
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zrcoding.skincare.common.domain.usecases.GetLocalOrRemoteAccountUseCase
 import com.zrcoding.skincare.common.utils.capitalize
 import com.zrcoding.skincare.data.domain.repositories.AccountRepository
-import com.zrcoding.skincare.ui.common.domain.usecases.GetLocalOrRemoteAccountUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

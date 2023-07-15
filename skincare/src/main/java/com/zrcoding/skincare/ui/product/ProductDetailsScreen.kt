@@ -48,11 +48,11 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.common.domain.model.toFilter
+import com.zrcoding.skincare.common.domain.model.toFilters
 import com.zrcoding.skincare.data.domain.model.MIN_CART_PRODUCT_QUANTITY
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
-import com.zrcoding.skincare.ui.common.domain.model.toFilter
-import com.zrcoding.skincare.ui.common.domain.model.toFilters
 import com.zrcoding.skincare.ui.components.FilterChipGroup
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.components.QuantityCounter

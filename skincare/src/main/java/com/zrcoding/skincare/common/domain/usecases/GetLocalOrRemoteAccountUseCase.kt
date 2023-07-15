@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.common.domain.usecases
+package com.zrcoding.skincare.common.domain.usecases
 
 import com.zrcoding.skincare.data.domain.model.Account
 import com.zrcoding.skincare.data.domain.repositories.AccountRepository

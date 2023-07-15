@@ -1,4 +1,4 @@
-package com.zrcoding.skincare.ui.common.exts
+package com.zrcoding.skincare.common.exts
 
 import androidx.annotation.StringRes
 import com.zrcoding.skincare.R

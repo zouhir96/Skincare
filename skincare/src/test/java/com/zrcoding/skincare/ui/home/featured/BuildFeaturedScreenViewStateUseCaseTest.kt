@@ -1,13 +1,13 @@
 package com.zrcoding.skincare.ui.home.featured
 
+import com.zrcoding.skincare.common.domain.model.Filter
+import com.zrcoding.skincare.common.domain.model.filterAll
+import com.zrcoding.skincare.common.domain.model.toFilter
 import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
 import com.zrcoding.skincare.data.sources.fake.fakeCategories
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.ui.base.BaseTest
-import com.zrcoding.skincare.ui.common.domain.model.Filter
-import com.zrcoding.skincare.ui.common.domain.model.filterAll
-import com.zrcoding.skincare.ui.common.domain.model.toFilter
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.impl.annotations.InjectMockKs

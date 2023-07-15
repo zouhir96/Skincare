@@ -1,5 +1,6 @@
 package com.zrcoding.skincare.ui.common.domain.usecases
 
+import com.zrcoding.skincare.common.domain.usecases.GetLocalOrRemoteAccountUseCase
 import com.zrcoding.skincare.data.domain.model.Account
 import com.zrcoding.skincare.data.domain.repositories.AccountRepository
 import com.zrcoding.skincare.ui.base.BaseTest

@@ -42,8 +42,8 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zrcoding.skincare.R
+import com.zrcoding.skincare.common.exts.localizedText
 import com.zrcoding.skincare.data.domain.model.GENDER
-import com.zrcoding.skincare.ui.common.exts.localizedText
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite80
 import com.zrcoding.skincare.ui.theme.ColumbiaBlue
