@@ -1,23 +1,24 @@
 [versions]
-depCoreKtx = "1.12.0-alpha03"
-depCoreSplashscreen = "1.1.0-alpha01"
-depCompose = "1.5.0-alpha01"
-depMaterial = "1.5.0-alpha03"
+depCoreKtx = "1.12.0-alpha05"
+depCoreSplashscreen = "1.0.1"
+depCompose = "1.6.0-alpha01"
+depMaterial = "1.6.0-alpha01"
 depConstraintlayout = "1.0.1"
 depCoil = "2.4.0"
-depActivity = "1.8.0-alpha03"
-depLifecycleRuntimeKtx = "2.5.1"
+depLottie = "6.1.0"
+depActivity = "1.8.0-alpha06"
+depLifecycleRuntimeKtx = "2.6.1"
 depLifecycleExt = "2.2.0"
-depNavigationCompose = "2.5.3"
+depNavigationCompose = "2.6.0"
 depHiltNavigationCompose = "1.0.0"
-depViewPager = "0.29.0-alpha"
+depViewPager = "0.31.5-beta"
 depJunit = "4.13.2"
 depJunitExt = "1.1.5"
 depEspressoCore = "3.5.1"
-depHilt = "2.44"
+depHilt = "2.47"
 depDatastore = '1.0.0'
-depMockk = "1.12.0"
-depCoroutines = "1.3.9"
+depMockk = "1.13.5"
+depCoroutines = "1.7.2"
 
 [libraries]
 
@@ -31,6 +32,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "depMaterial" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "depConstraintlayout" }
 io-coil-kt = { group = "io.coil-kt", name = "coil-compose", version.ref = "depCoil" }
+com-airbnb-android-lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "depLottie" }
 
 #activity
 androidx-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "depActivity" }
