@@ -24,8 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.PagerScope
 import com.zrcoding.skincare.ui.components.HorizontalSteps
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
@@ -36,12 +35,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingRoute(
-    onNavigateToHome: () -> Unit,
+    onNavigateToAuthentication: () -> Unit,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
         viewModel.navigateToHome.collectLatest {
-            onNavigateToHome()
+            onNavigateToAuthentication()
         }
     }
     OnboardingScreen {
@@ -54,7 +53,7 @@ fun OnboardingRoute(
 fun OnboardingScreen(
     onOnboardingCompleted: () -> Unit,
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = androidx.compose.foundation.pager.rememberPagerState()
     val currentPage = pagerState.currentPage
     val scope = rememberCoroutineScope()
 
@@ -65,12 +64,13 @@ fun OnboardingScreen(
             .background(color = BrownWhite30)
     ) {
         Spacer(modifier = Modifier.height(80.dp))
-        HorizontalPager(
-            count = 4,
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            state = pagerState,
-            modifier = Modifier.weight(1f)
-        ) { page: Int ->
+        Modifier.weight(1f)
+        PaddingValues(horizontal = 12.dp)
+        PagerDefaults.flingBehavior(
+            state = state,
+            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
+        )
+        fun PagerScope.(page: Int) {
             Page(page = onboardingPages[page], modifier = Modifier.fillMaxSize())
         }
         Spacer(modifier = Modifier.height(20.dp))
