@@ -725,7 +725,7 @@ fun ScTextFieldPreview() {
     SkincareTheme(darkTheme = false) {
         ScTextField(
             modifier = Modifier.background(MaterialTheme.colors.background),
-            placeholder = R.string.sign_in_email_placeholder,
+            placeholder = R.string.common_email_placeholder,
             text = "",
             onValueChanged = {}
         )
@@ -738,10 +738,10 @@ fun ScTextFieldErrorPreview() {
     SkincareTheme(darkTheme = false) {
         ScTextField(
             modifier = Modifier.background(MaterialTheme.colors.background),
-            placeholder = R.string.sign_in_email_placeholder,
-            text = stringResource(id = R.string.sign_in_email_placeholder),
+            placeholder = R.string.common_email_placeholder,
+            text = stringResource(id = R.string.common_email_placeholder),
             onValueChanged = {},
-            error = R.string.sign_in_invalid_email
+            error = R.string.common_required_field
         )
     }
 }

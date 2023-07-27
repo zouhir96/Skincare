@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.zrcoding.skincare.ui.auth.navigation.AuthScreen.Companion.NAV_GRAPH_ROUTE
 import com.zrcoding.skincare.ui.auth.signin.SignInRoute
+import com.zrcoding.skincare.ui.auth.signup.SignUpRoute
 
 sealed class AuthScreen(val route: String) {
     companion object {
@@ -14,7 +15,7 @@ sealed class AuthScreen(val route: String) {
 
     object SignIn : AuthScreen("signIn")
     object SignUp : AuthScreen("signUn")
-    object CompleteInfo : AuthScreen("completeInfo")
+    object CompleteAccount : AuthScreen("completeAccount")
 }
 
 
@@ -29,7 +30,14 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigateToSignUp = { navController.navigate(AuthScreen.SignUp.route) }
             )
         }
-        composable(route = AuthScreen.SignUp.route) {}
-        composable(route = AuthScreen.CompleteInfo.route) {}
+        composable(route = AuthScreen.SignUp.route) {
+            SignUpRoute(
+                onNavigateToSignIn = {
+                    navController.navigate(AuthScreen.SignIn.route)
+                },
+                onNavigateToCompleteInfo = {}
+            )
+        }
+        composable(route = AuthScreen.CompleteAccount.route) {}
     }
 }

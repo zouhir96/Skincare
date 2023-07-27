@@ -15,12 +15,16 @@
     <!--    Sign in screen-->
     <string name="sign_in_title">Sign In</string>
     <string name="sign_in_subtitle">Enter your email and password for signing in. Thanks.</string>
-    <string name="sign_in_email_placeholder">jhon.doe@yopmail.com</string>
-    <string name="sign_in_password_placeholder">*********</string>
     <string name="sign_in_login">Login</string>
     <string name="sign_in_no_account">No account?</string>
     <string name="sign_in_create_one">Create one.</string>
-    <string name="sign_in_invalid_email">Invalid email.</string>
+    <!--    Sign up screen-->
+    <string name="sign_up_title">Create an account</string>
+    <string name="sign_up_subtitle">Create your account to fully experience the app.</string>
+    <string name="sign_up_next">Continue</string>
+    <string name="sign_up_already_have_account">Already have account?</string>
+    <string name="sign_up_already_have_account_sign_in">Sign In.</string>
+    <string name="sign_up_passwords_do_not_match">Passwords don\'t match!</string>
 
     <!--    Bottom navigation bar-->
     <string name="home">home</string>
@@ -50,6 +54,9 @@
     <string name="common_required_field">Required</string>
     <string name="common_gender_female_abbreviation">Ms</string>
     <string name="common_gender_male_abbreviation">Mr</string>
+    <string name="common_email_placeholder">jhon.doe@yopmail.com</string>
+    <string name="common_password_placeholder">*********</string>
+    <string name="common_invalid_email">Invalid email.</string>
 
 
     <!--    Featured Screen-->

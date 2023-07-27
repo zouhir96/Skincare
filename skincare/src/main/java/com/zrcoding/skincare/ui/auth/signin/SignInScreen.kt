@@ -42,6 +42,7 @@ fun SignInRoute(
     val viewState = viewModel.viewState.collectAsState()
     SignInScreen(
         viewState = viewState.value,
+        onNavigateToSignUp = onNavigateToSignUp,
         onEmailTyped = viewModel::onEmailTyped,
         onPasswordTyped = viewModel::onPasswordTyped,
         onSubmit = viewModel::onSubmit
@@ -52,6 +53,7 @@ fun SignInRoute(
 fun SignInScreen(
     modifier: Modifier = Modifier,
     viewState: SignInScreenViewState,
+    onNavigateToSignUp: () -> Unit,
     onEmailTyped: (String) -> Unit,
     onPasswordTyped: (String) -> Unit,
     onSubmit: () -> Unit,
@@ -75,7 +77,7 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(45.dp))
             ScTextField(
                 enabled = viewState.isProcessing.not(),
-                placeholder = R.string.sign_in_email_placeholder,
+                placeholder = R.string.common_email_placeholder,
                 text = viewState.email,
                 onValueChanged = onEmailTyped,
                 error = viewState.emailError,
@@ -84,7 +86,7 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(20.dp))
             ScTextField(
                 enabled = viewState.isProcessing.not(),
-                placeholder = R.string.sign_in_password_placeholder,
+                placeholder = R.string.common_password_placeholder,
                 text = viewState.password,
                 onValueChanged = onPasswordTyped,
                 error = viewState.passwordError,
@@ -102,8 +104,9 @@ fun SignInScreen(
         AuthBottomQuestionAndClickableText(
             modifier = Modifier.align(Alignment.BottomCenter),
             questionText = R.string.sign_in_no_account,
-            clickableTextText = R.string.sign_in_create_one
-        ) {}
+            clickableTextText = R.string.sign_in_create_one,
+            onClick = onNavigateToSignUp
+        )
     }
     if (viewState.isProcessing) {
         ProcessingOperationAnimation(modifier = Modifier.fillMaxSize())
@@ -119,6 +122,7 @@ fun SignInScreenPreview() {
                 email = "zouhir.rajdaoui@rajdaoui.com",
                 password = "myPassword"
             ),
+            onNavigateToSignUp = {},
             onEmailTyped = {},
             onPasswordTyped = {},
             onSubmit = {}
@@ -136,6 +140,7 @@ fun SignInScreenLoadingPreview() {
                 password = "myPassword",
                 isProcessing = true
             ),
+            onNavigateToSignUp = {},
             onEmailTyped = {},
             onPasswordTyped = {},
             onSubmit = {}
@@ -150,9 +155,10 @@ fun SignInScreenErrorPreview() {
         SignInScreen(
             viewState = SignInScreenViewState(
                 email = "zouhir.rajdaoui@rajdaoui.com",
-                emailError = R.string.sign_in_invalid_email,
+                emailError = R.string.common_required_field,
                 password = "myPassword"
             ),
+            onNavigateToSignUp = {},
             onEmailTyped = {},
             onPasswordTyped = {},
             onSubmit = {}
