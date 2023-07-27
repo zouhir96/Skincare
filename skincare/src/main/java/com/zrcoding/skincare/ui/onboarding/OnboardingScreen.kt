@@ -1,8 +1,12 @@
 package com.zrcoding.skincare.ui.onboarding
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -23,8 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerScope
 import com.zrcoding.skincare.ui.components.HorizontalSteps
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
@@ -43,17 +45,18 @@ fun OnboardingRoute(
             onNavigateToAuthentication()
         }
     }
-    OnboardingScreen {
+    OnboardingScreen(onboardingPages) {
         viewModel.onOnboardingCompleted()
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen(
+    pages: List<Page>,
     onOnboardingCompleted: () -> Unit,
 ) {
-    val pagerState = androidx.compose.foundation.pager.rememberPagerState()
+    val pagerState = rememberPagerState(initialPage = 0) { pages.size }
     val currentPage = pagerState.currentPage
     val scope = rememberCoroutineScope()
 
@@ -67,11 +70,13 @@ fun OnboardingScreen(
         Modifier.weight(1f)
         PaddingValues(horizontal = 12.dp)
         PagerDefaults.flingBehavior(
-            state = state,
-            endContentPadding = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
+            state = pagerState,
         )
-        fun PagerScope.(page: Int) {
-            Page(page = onboardingPages[page], modifier = Modifier.fillMaxSize())
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.weight(1f)
+        ) {
+            Page(page = pages[it])
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -126,7 +131,7 @@ fun OnboardingScreen(
 @Composable
 fun OnboardingScreenPreview() {
     SkincareTheme(darkTheme = false) {
-        OnboardingScreen {}
+        OnboardingScreen(onboardingPages) {}
     }
 }
 

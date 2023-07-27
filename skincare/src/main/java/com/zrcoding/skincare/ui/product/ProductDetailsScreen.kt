@@ -1,5 +1,6 @@
 package com.zrcoding.skincare.ui.product
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -43,10 +46,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.common.domain.model.toFilter
 import com.zrcoding.skincare.common.domain.model.toFilters
@@ -54,6 +53,7 @@ import com.zrcoding.skincare.data.domain.model.MIN_CART_PRODUCT_QUANTITY
 import com.zrcoding.skincare.data.domain.model.Product
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.ui.components.FilterChipGroup
+import com.zrcoding.skincare.ui.components.HorizontalSteps
 import com.zrcoding.skincare.ui.components.LeftRightComponent
 import com.zrcoding.skincare.ui.components.QuantityCounter
 import com.zrcoding.skincare.ui.components.ScreenHeader
@@ -328,7 +328,7 @@ fun ProductDetailsPreview() {
 }
 
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProductImages(
     images: List<String>,
@@ -338,10 +338,9 @@ fun ProductImages(
         horizontalAlignment = CenterHorizontally,
         modifier = modifier
     ) {
-        val pagerState = rememberPagerState()
+        val pagerState = rememberPagerState(0) { images.size }
         Spacer(modifier = Modifier.height(12.dp))
         HorizontalPager(
-            count = images.size,
             state = pagerState,
             modifier = Modifier
                 .height(0.dp)
@@ -354,12 +353,7 @@ fun ProductImages(
                 modifier = Modifier.fillMaxHeight()
             )
         }
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier
-                .align(CenterHorizontally)
-                .padding(16.dp),
-        )
+        HorizontalSteps(count = images.size, index = pagerState.currentPage)
         Spacer(modifier = Modifier.height(20.dp))
     }
 }

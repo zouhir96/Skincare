@@ -11,7 +11,6 @@ depLifecycleRuntimeKtx = "2.6.1"
 depLifecycleExt = "2.2.0"
 depNavigationCompose = "2.6.0"
 depHiltNavigationCompose = "1.0.0"
-depViewPager = "0.31.5-beta"
 depJunit = "4.13.2"
 depJunitExt = "1.1.5"
 depEspressoCore = "3.5.1"
@@ -44,10 +43,6 @@ androidx-lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycl
 #navigation
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "depNavigationCompose" }
 dagger-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "depHiltNavigationCompose" }
-
-#viewPager
-google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "depViewPager" }
-google-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "depViewPager" }
 
 #tools
 test-junit = { group = "junit", name = "junit", version.ref = "depJunit" }

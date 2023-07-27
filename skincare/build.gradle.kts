@@ -92,10 +92,6 @@ dependencies {
     implementation(libs.androidx.navigation)
     implementation(libs.dagger.hilt.navigation)
 
-    // ViewPager
-    implementation(libs.google.accompanist.pager)
-    implementation(libs.google.accompanist.pager.indicators)
-
     // Tools
     debugImplementation(libs.androidx.compose.ui.tooling)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
