@@ -833,7 +833,10 @@ fun ProcessingOperationAnimation(modifier: Modifier = Modifier) {
     )
 
     Box(
-        modifier = Modifier.background(color = Color.Transparent),
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(enabled = false) { }
+            .background(color = Color.Black.copy(alpha = 0.6F)),
         contentAlignment = Alignment.Center
     ) {
         LottieAnimation(

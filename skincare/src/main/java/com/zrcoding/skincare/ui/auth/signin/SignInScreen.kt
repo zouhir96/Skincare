@@ -1,7 +1,7 @@
 package com.zrcoding.skincare.ui.auth.signin
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -58,7 +58,7 @@ fun SignInScreen(
     onPasswordTyped: (String) -> Unit,
     onSubmit: () -> Unit,
 ) {
-    BoxWithConstraints(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colors.background)
@@ -76,7 +76,6 @@ fun SignInScreen(
             AuthScreenSubtitle(title = R.string.sign_in_subtitle)
             Spacer(modifier = Modifier.height(45.dp))
             ScTextField(
-                enabled = viewState.isProcessing.not(),
                 placeholder = R.string.common_email_placeholder,
                 text = viewState.email,
                 onValueChanged = onEmailTyped,
@@ -85,7 +84,6 @@ fun SignInScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             ScTextField(
-                enabled = viewState.isProcessing.not(),
                 placeholder = R.string.common_password_placeholder,
                 text = viewState.password,
                 onValueChanged = onPasswordTyped,
@@ -95,7 +93,6 @@ fun SignInScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             ScPremiumButton(
-                enabled = viewState.isProcessing.not(),
                 text = R.string.common_log_out,
                 onClick = onSubmit
             )
