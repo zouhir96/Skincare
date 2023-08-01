@@ -35,7 +35,9 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigateToSignIn = {
                     navController.navigate(AuthScreen.SignIn.route)
                 },
-                onNavigateToCompleteInfo = {}
+                onNavigateToCompleteInfo = {
+                    navController.navigate(AuthScreen.CompleteAccount.route)
+                }
             )
         }
         composable(route = AuthScreen.CompleteAccount.route) {}

@@ -1,6 +1,7 @@
 package com.zrcoding.skincare.common.domain.usecases
 
-import android.util.Patterns
+import androidx.core.util.PatternsCompat
+import com.zrcoding.skincare.ui.auth.signup.PasswordValidationConstraints
 import javax.inject.Inject
 
 class FormValidatorUseCase @Inject constructor() {
@@ -10,15 +11,24 @@ class FormValidatorUseCase @Inject constructor() {
 
     fun validateEmail(email: String): Result = when {
         email.isBlank() -> Result.EMPTY
-        Patterns.EMAIL_ADDRESS.matcher(email).matches() -> Result.VALID
+        PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() -> Result.VALID
         else -> Result.INVALID
     }
 
-    fun validatePassword(password: String): Result {
-        if (password.isBlank()) return Result.EMPTY
+    fun validatePassword(password: String): PasswordValidationConstraints {
+        if (password.isBlank()) return PasswordValidationConstraints()
+        val minCharactersConstrains = password.length >= 8
+        val containsUppercase = password.contains("[A-Z]".toRegex())
+        val containsSymbol = password.contains(
+            "[!\"#$%&'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]".toRegex()
+        )
+        val containsNumber = password.contains("[0-9]".toRegex())
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(password).matches()) return Result.INVALID
-
-        return Result.VALID
+        return PasswordValidationConstraints(
+            passwordConstraint8Characters = minCharactersConstrains,
+            passwordConstraint1Uppercase = containsUppercase,
+            passwordConstraint1Symbol = containsSymbol,
+            passwordConstraint1Number = containsNumber
+        )
     }
 }

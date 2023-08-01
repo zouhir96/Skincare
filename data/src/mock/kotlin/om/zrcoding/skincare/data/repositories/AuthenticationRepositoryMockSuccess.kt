@@ -13,4 +13,12 @@ class AuthenticationRepositoryMockSuccess @Inject constructor() : Authentication
             refreshToken = "DDDD-EEEE-FFFF"
         )
     }
+
+    override suspend fun signup(email: String, password: String): Token {
+        delay(3000)
+        return Token(
+            accessToken = "AAAA-BBBB-CCCC",
+            refreshToken = "DDDD-EEEE-FFFF"
+        )
+    }
 }

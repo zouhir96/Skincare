@@ -1,19 +1,28 @@
 package com.zrcoding.skincare.ui.auth.signup
 
+import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,7 +36,9 @@ import com.zrcoding.skincare.ui.components.AuthScreenTitle
 import com.zrcoding.skincare.ui.components.ProcessingOperationAnimation
 import com.zrcoding.skincare.ui.components.ScPremiumButton
 import com.zrcoding.skincare.ui.components.ScTextField
+import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.SkincareTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SignUpRoute(
@@ -35,13 +46,16 @@ fun SignUpRoute(
     onNavigateToSignIn: () -> Unit,
     onNavigateToCompleteInfo: () -> Unit,
 ) {
+    LaunchedEffect(key1 = Unit) {
+        viewModel.isSignedUp.collectLatest { onNavigateToCompleteInfo() }
+    }
+
     val viewState = viewModel.viewState.collectAsState().value
     SignUpScreen(
         viewState = viewState,
         onNavigateToSignIn = onNavigateToSignIn,
         onEmailTyped = viewModel::onEmailTyped,
         onPasswordTyped = viewModel::onPasswordTyped,
-        onConfirmPasswordTyped = viewModel::onConfirmPasswordTyped,
         onSubmit = viewModel::onSubmit
     )
 }
@@ -52,7 +66,6 @@ fun SignUpScreen(
     onNavigateToSignIn: () -> Unit,
     onEmailTyped: (String) -> Unit,
     onPasswordTyped: (String) -> Unit,
-    onConfirmPasswordTyped: (String) -> Unit,
     onSubmit: () -> Unit
 ) {
     BoxWithConstraints(
@@ -73,7 +86,6 @@ fun SignUpScreen(
             AuthScreenSubtitle(title = R.string.sign_up_subtitle)
             Spacer(modifier = Modifier.height(45.dp))
             ScTextField(
-                enabled = viewState.isProcessing.not(),
                 placeholder = R.string.common_email_placeholder,
                 text = viewState.email,
                 onValueChanged = onEmailTyped,
@@ -82,27 +94,27 @@ fun SignUpScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             ScTextField(
-                enabled = viewState.isProcessing.not(),
                 placeholder = R.string.common_password_placeholder,
                 text = viewState.password,
                 onValueChanged = onPasswordTyped,
-                error = viewState.passwordError,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            ScTextField(
-                enabled = viewState.isProcessing.not(),
-                placeholder = R.string.common_password_placeholder,
-                text = viewState.confirmPassword,
-                onValueChanged = onConfirmPasswordTyped,
-                error = viewState.confirmPasswordError,
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
+            PasswordValidationConstraints(
+                modifier = Modifier.padding(start = 20.dp),
+                constraints = with(viewState.passwordValidationConstraints) {
+                    listOf(
+                        R.string.sign_up_password_validation_constraint_1 to passwordConstraint8Characters,
+                        R.string.sign_up_password_validation_constraint_2 to passwordConstraint1Uppercase,
+                        R.string.sign_up_password_validation_constraint_3 to passwordConstraint1Symbol,
+                        R.string.sign_up_password_validation_constraint_4 to passwordConstraint1Number,
+                    )
+                }
             )
             Spacer(modifier = Modifier.height(20.dp))
             ScPremiumButton(
-                enabled = viewState.isProcessing.not(),
+                enabled = viewState.canSubmit(),
                 text = R.string.sign_up_next,
                 onClick = onSubmit
             )
@@ -130,15 +142,11 @@ fun SignUpScreenPreview() {
                     email = "randy.goff@example.com",
                     emailError = null,
                     password = "mypassword",
-                    passwordError = null,
-                    confirmPassword = "mypassword",
-                    confirmPasswordError = null,
                     isProcessing = false
                 ),
                 onNavigateToSignIn = {},
                 onEmailTyped = {},
                 onPasswordTyped = {},
-                onConfirmPasswordTyped = {}
             ) {
 
             }
@@ -156,15 +164,11 @@ fun SignUpScreenRequiredEmailPreview() {
                     email = "",
                     emailError = R.string.common_required_field,
                     password = "mypassword",
-                    passwordError = null,
-                    confirmPassword = "mypassword",
-                    confirmPasswordError = null,
                     isProcessing = false
                 ),
                 onNavigateToSignIn = {},
                 onEmailTyped = {},
                 onPasswordTyped = {},
-                onConfirmPasswordTyped = {}
             ) {
 
             }
@@ -174,7 +178,7 @@ fun SignUpScreenRequiredEmailPreview() {
 
 @Preview
 @Composable
-fun SignUpScreenPasswordsDoNotMatchPreview() {
+fun SignUpScreenPasswordNotValidPreview() {
     SkincareTheme {
         Surface {
             SignUpScreen(
@@ -182,18 +186,143 @@ fun SignUpScreenPasswordsDoNotMatchPreview() {
                     email = stringResource(id = R.string.common_email_placeholder),
                     emailError = null,
                     password = "mypassword12",
-                    passwordError = null,
-                    confirmPassword = "mypassword34",
-                    confirmPasswordError = R.string.sign_up_passwords_do_not_match,
                     isProcessing = false
                 ),
                 onNavigateToSignIn = {},
                 onEmailTyped = {},
                 onPasswordTyped = {},
-                onConfirmPasswordTyped = {}
             ) {
 
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SignUpScreenPasswordValidPreview() {
+    SkincareTheme {
+        Surface {
+            SignUpScreen(
+                viewState = SignUpScreenViewState(
+                    email = stringResource(id = R.string.common_email_placeholder),
+                    emailError = null,
+                    password = "mypassword12",
+                    passwordValidationConstraints = PasswordValidationConstraints(
+                        passwordConstraint8Characters = true,
+                        passwordConstraint1Uppercase = true,
+                        passwordConstraint1Symbol = true,
+                        passwordConstraint1Number = true
+                    ),
+                    isProcessing = false
+                ),
+                onNavigateToSignIn = {},
+                onEmailTyped = {},
+                onPasswordTyped = {},
+            ) {
+
+            }
+        }
+    }
+}
+
+@Composable
+fun PasswordValidationConstraints(
+    modifier: Modifier = Modifier,
+    constraints: List<Pair<Int, Boolean>>
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        constraints.forEach {
+            PasswordValidationConstraint(
+                validated = it.second,
+                text = it.first
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PasswordValidationConstraintsPreview() {
+    SkincareTheme {
+        Surface {
+            PasswordValidationConstraints(
+                constraints = listOf(
+                    R.string.sign_up_password_validation_constraint_1 to false,
+                    R.string.sign_up_password_validation_constraint_2 to false,
+                    R.string.sign_up_password_validation_constraint_3 to false,
+                    R.string.sign_up_password_validation_constraint_4 to false
+                )
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PasswordValidationConstraintsAllValidPreview() {
+    SkincareTheme {
+        Surface {
+            PasswordValidationConstraints(
+                constraints = listOf(
+                    R.string.sign_up_password_validation_constraint_1 to true,
+                    R.string.sign_up_password_validation_constraint_2 to true,
+                    R.string.sign_up_password_validation_constraint_3 to true,
+                    R.string.sign_up_password_validation_constraint_4 to true
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun PasswordValidationConstraint(
+    validated: Boolean,
+    @StringRes text: Int
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        val iconId = if (validated) R.drawable.ic_checked else R.drawable.ic_unchecked
+        Image(
+            painter = painterResource(id = iconId),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = stringResource(id = text),
+            color = Brown,
+            style = MaterialTheme.typography.body2
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PasswordValidationConstraintPreview() {
+    SkincareTheme {
+        Surface {
+            PasswordValidationConstraint(
+                validated = false,
+                text = R.string.sign_up_password_validation_constraint_1
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PasswordValidationConstraintValidatedPreview() {
+    SkincareTheme {
+        Surface {
+            PasswordValidationConstraint(
+                validated = true,
+                text = R.string.sign_up_password_validation_constraint_1
+            )
         }
     }
 }

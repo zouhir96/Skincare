@@ -24,7 +24,10 @@
     <string name="sign_up_next">Continue</string>
     <string name="sign_up_already_have_account">Already have account?</string>
     <string name="sign_up_already_have_account_sign_in">Sign In.</string>
-    <string name="sign_up_passwords_do_not_match">Passwords don\'t match!</string>
+    <string name="sign_up_password_validation_constraint_1">At least 8 characters</string>
+    <string name="sign_up_password_validation_constraint_2">1 uppercase</string>
+    <string name="sign_up_password_validation_constraint_3">1 symbol</string>
+    <string name="sign_up_password_validation_constraint_4">1 number</string>
 
     <!--    Bottom navigation bar-->
     <string name="home">home</string>

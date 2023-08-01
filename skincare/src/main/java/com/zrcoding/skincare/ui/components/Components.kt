@@ -762,9 +762,9 @@ fun ScPremiumButton(
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Brown,
-            disabledBackgroundColor = Brown,
+            disabledBackgroundColor = BrownWhite90,
             contentColor = Color.White,
-            disabledContentColor = Color.White
+            disabledContentColor = Color.Black
         ),
     ) {
         Text(
