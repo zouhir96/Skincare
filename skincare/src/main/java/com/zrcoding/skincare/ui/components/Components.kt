@@ -852,3 +852,22 @@ fun ProcessingOperationAnimation(modifier: Modifier = Modifier) {
 fun ProcessingOperationAnimationPreview() {
     SkincareTheme { Surface { ProcessingOperationAnimation() } }
 }
+
+@Composable
+fun ScInputLabel(text: String) {
+    Text(
+        text = text,
+        color = Brown,
+        style = MaterialTheme.typography.body1
+    )
+}
+
+@Preview
+@Composable
+fun ScInputLabelPreview() {
+    SkincareTheme {
+        Surface {
+            ScInputLabel(text = "Name")
+        }
+    }
+}
