@@ -10,9 +10,11 @@ const val AGE_MAX_STEPS = 75
 data class CompleteAccountScreenViewState(
     val fullName: String = "",
     val age: Int = AGE_MIN_VALUE,
-    val gender: GENDER = GENDER.FEMALE
+    val gender: GENDER = GENDER.FEMALE,
+    val isProcessing: Boolean = false
 ) {
-    fun canSubmit() = fullName.isNotBlank() && age >= AGE_MIN_VALUE && age <= AGE_MAX_VALUE
+    fun canSubmit() =
+        isProcessing.not() && fullName.isNotBlank() && age >= AGE_MIN_VALUE && age <= AGE_MAX_VALUE
 }
 
 fun GENDER.getNameResId() = when (this) {

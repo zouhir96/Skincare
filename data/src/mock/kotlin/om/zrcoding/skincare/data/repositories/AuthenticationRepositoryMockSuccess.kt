@@ -1,5 +1,6 @@
 package om.zrcoding.skincare.data.repositories
 
+import com.zrcoding.skincare.data.domain.model.GENDER
 import com.zrcoding.skincare.data.domain.model.Token
 import com.zrcoding.skincare.data.domain.repositories.AuthenticationRepository
 import kotlinx.coroutines.delay
@@ -20,5 +21,10 @@ class AuthenticationRepositoryMockSuccess @Inject constructor() : Authentication
             accessToken = "AAAA-BBBB-CCCC",
             refreshToken = "DDDD-EEEE-FFFF"
         )
+    }
+
+    override suspend fun completeAccount(fullName: String, age: Int, gender: GENDER): Boolean {
+        delay(3000)
+        return true
     }
 }

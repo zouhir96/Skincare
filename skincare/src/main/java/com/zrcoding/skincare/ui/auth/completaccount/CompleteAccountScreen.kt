@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.data.domain.model.GENDER
 import com.zrcoding.skincare.ui.components.LeftRightComponent
+import com.zrcoding.skincare.ui.components.ProcessingOperationAnimation
 import com.zrcoding.skincare.ui.components.ScInputLabel
 import com.zrcoding.skincare.ui.components.ScPremiumButton
 import com.zrcoding.skincare.ui.components.ScTextField
@@ -142,6 +143,9 @@ fun CompleteAccountScreen(
             text = R.string.common_save,
             onClick = onSubmit
         )
+    }
+    if (state.isProcessing) {
+        ProcessingOperationAnimation(modifier = Modifier.fillMaxSize())
     }
 }
 
