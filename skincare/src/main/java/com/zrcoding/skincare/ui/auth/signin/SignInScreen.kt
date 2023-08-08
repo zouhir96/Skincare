@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,6 +69,7 @@ fun SignInScreen(
             modifier = Modifier.align(Alignment.TopCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val focusManager = LocalFocusManager.current
             AuthScreenTitle(
                 modifier = Modifier,
                 title = R.string.sign_in_title
@@ -94,7 +96,10 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(20.dp))
             ScPremiumButton(
                 text = R.string.common_log_out,
-                onClick = onSubmit
+                onClick = {
+                    focusManager.clearFocus()
+                    onSubmit()
+                }
             )
         }
 

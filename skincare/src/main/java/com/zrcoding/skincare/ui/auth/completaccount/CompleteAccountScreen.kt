@@ -1,12 +1,10 @@
 package com.zrcoding.skincare.ui.auth.completaccount
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
@@ -20,7 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -68,80 +65,76 @@ fun CompleteAccountScreen(
     onGenderChanged: (GENDER) -> Unit,
     onSubmit: () -> Unit
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 40.dp, bottom = 30.dp)
             .padding(horizontal = 25.dp)
     ) {
-        Column(
-            modifier = Modifier.align(Alignment.TopCenter)
-        ) {
-            val focusManager = LocalFocusManager.current
+        val focusManager = LocalFocusManager.current
 
-            ScInputLabel(text = stringResource(id = R.string.complete_account_name_label))
-            Spacer(modifier = Modifier.height(16.dp))
-            ScTextField(
-                placeholder = R.string.complete_account_name_placeholder,
-                text = state.fullName,
-                onValueChanged = onNameChanged,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Next
+        ScInputLabel(text = stringResource(id = R.string.complete_account_name_label))
+        Spacer(modifier = Modifier.height(16.dp))
+        ScTextField(
+            placeholder = R.string.complete_account_name_placeholder,
+            text = state.fullName,
+            onValueChanged = onNameChanged,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            )
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+        LeftRightComponent(
+            leftComposable = {
+                ScInputLabel(text = stringResource(id = R.string.complete_account_age_label))
+            },
+            rightComposable = {
+                Text(
+                    text = stringResource(
+                        id = R.string.complete_account_age_value,
+                        state.age
+                    ),
+                    color = BrownWhite50,
+                    style = MaterialTheme.typography.subtitle2
                 )
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-            LeftRightComponent(
-                leftComposable = {
-                    ScInputLabel(text = stringResource(id = R.string.complete_account_age_label))
-                },
-                rightComposable = {
-                    Text(
-                        text = stringResource(
-                            id = R.string.complete_account_age_value,
-                            state.age
-                        ),
-                        color = BrownWhite50,
-                        style = MaterialTheme.typography.subtitle2
-                    )
-                }
-            )
-            Slider(
-                value = state.age.toFloat(),
-                onValueChange = {
-                    focusManager.clearFocus()
-                    onAgeChanged(it)
-                },
-                valueRange = AGE_MIN_VALUE.toFloat()..AGE_MAX_VALUE.toFloat(),
-                steps = AGE_MAX_STEPS,
-                colors = SliderDefaults.colors(
-                    thumbColor = Brown,
-                    activeTickColor = Brown,
-                    inactiveTickColor = BrownWhite80,
-                    activeTrackColor = Brown,
-                    inactiveTrackColor = BrownWhite80
-                )
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-            ScInputLabel(text = stringResource(id = R.string.complete_account_gender_label))
-            Column(
-                modifier = Modifier.selectableGroup()
-            ) {
-                GENDER.values().forEach {
-                    Gender(
-                        gender = it,
-                        selected = state.gender == it,
-                        onClick = onGenderChanged,
-                    )
-                }
             }
+        )
+        Slider(
+            value = state.age.toFloat(),
+            onValueChange = {
+                focusManager.clearFocus()
+                onAgeChanged(it)
+            },
+            valueRange = AGE_MIN_VALUE.toFloat()..AGE_MAX_VALUE.toFloat(),
+            steps = AGE_MAX_STEPS,
+            colors = SliderDefaults.colors(
+                thumbColor = Brown,
+                activeTickColor = Brown,
+                inactiveTickColor = BrownWhite80,
+                activeTrackColor = Brown,
+                inactiveTrackColor = BrownWhite80
+            )
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+        ScInputLabel(text = stringResource(id = R.string.complete_account_gender_label))
+        GENDER.values().forEach {
+            Gender(
+                gender = it,
+                selected = state.gender == it,
+                onClick = onGenderChanged,
+            )
         }
+
+        Spacer(modifier = Modifier.height(30.dp))
         ScPremiumButton(
-            modifier = Modifier.align(Alignment.BottomCenter),
             enabled = state.canSubmit(),
             text = R.string.common_save,
-            onClick = onSubmit
+            onClick = {
+                focusManager.clearFocus()
+                onSubmit()
+            }
         )
     }
     if (state.isProcessing) {

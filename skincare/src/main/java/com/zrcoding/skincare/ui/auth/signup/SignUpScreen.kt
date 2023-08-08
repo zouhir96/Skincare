@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -78,6 +79,7 @@ fun SignUpScreen(
             modifier = Modifier.align(Alignment.TopCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val focusManager = LocalFocusManager.current
             AuthScreenTitle(
                 modifier = Modifier,
                 title = R.string.sign_up_title
@@ -116,7 +118,10 @@ fun SignUpScreen(
             ScPremiumButton(
                 enabled = viewState.canSubmit(),
                 text = R.string.sign_up_next,
-                onClick = onSubmit
+                onClick = {
+                    focusManager.clearFocus()
+                    onSubmit()
+                }
             )
         }
 
