@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.zrcoding.skincare.ui.auth.completaccount.CompleteAccountRoute
 import com.zrcoding.skincare.ui.auth.navigation.AuthScreen.Companion.NAV_GRAPH_ROUTE
 import com.zrcoding.skincare.ui.auth.signin.SignInRoute
 import com.zrcoding.skincare.ui.auth.signup.SignUpRoute
@@ -40,6 +41,8 @@ fun NavGraphBuilder.authNavGraph(
                 }
             )
         }
-        composable(route = AuthScreen.CompleteAccount.route) {}
+        composable(route = AuthScreen.CompleteAccount.route) {
+            CompleteAccountRoute(onNavigateToHome = onNavigateToHome)
+        }
     }
 }
