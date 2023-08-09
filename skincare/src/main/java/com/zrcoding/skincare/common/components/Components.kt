@@ -57,7 +57,6 @@ import com.zrcoding.skincare.theme.Grey30
 import com.zrcoding.skincare.theme.Grey40
 import com.zrcoding.skincare.theme.SkincareTheme
 import com.zrcoding.skincare.theme.White
-import com.zrcoding.skincare.ui.theme.*
 
 @Composable
 fun ScreenHeader(
