@@ -1,7 +1,7 @@
 package com.zrcoding.skincare.common.domain.usecases
 
 import androidx.core.util.PatternsCompat
-import com.zrcoding.skincare.ui.auth.signup.PasswordValidationConstraints
+import com.zrcoding.skincare.features.auth.signup.PasswordValidationConstraints
 import javax.inject.Inject
 
 class FormValidatorUseCase @Inject constructor() {

@@ -2,6 +2,8 @@ package com.zrcoding.skincare.ui.home.featured
 
 import com.zrcoding.skincare.common.domain.model.Filter
 import com.zrcoding.skincare.common.utils.StringUtils.EMPTY
+import com.zrcoding.skincare.features.connected.home.featured.BuildFeaturedScreenViewStateRequestUseCase
+import com.zrcoding.skincare.features.connected.home.featured.BuildFeaturedScreenViewStateUseCase
 import com.zrcoding.skincare.ui.base.BaseTest
 import io.mockk.impl.annotations.InjectMockKs
 import org.junit.Assert

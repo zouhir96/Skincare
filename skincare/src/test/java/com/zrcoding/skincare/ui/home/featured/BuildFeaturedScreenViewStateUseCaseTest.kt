@@ -7,6 +7,8 @@ import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
 import com.zrcoding.skincare.data.sources.fake.fakeCategories
 import com.zrcoding.skincare.data.sources.fake.fakeProducts
+import com.zrcoding.skincare.features.connected.home.featured.BuildFeaturedScreenViewStateUseCase
+import com.zrcoding.skincare.features.connected.home.featured.FeaturedScreenViewState
 import com.zrcoding.skincare.ui.base.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
