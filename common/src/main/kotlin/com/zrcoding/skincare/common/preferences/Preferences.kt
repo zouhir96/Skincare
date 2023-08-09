@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface Preferences {
     companion object {
         const val ONBOARDING_COMPLETED_KEY = "tutorial_completed_key"
+        const val ACCESS_TOKEN_KEY = "access_token_key"
+        const val REFRESH_TOKEN_KEY = "refresh_token_key"
     }
 
     suspend fun storeString(key: String, value: String)

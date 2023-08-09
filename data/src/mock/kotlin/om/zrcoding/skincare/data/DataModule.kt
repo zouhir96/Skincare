@@ -1,6 +1,7 @@
 package om.zrcoding.skincare.data
 
 import com.zrcoding.skincare.data.domain.repositories.AccountRepository
+import com.zrcoding.skincare.data.domain.repositories.AuthenticationRepository
 import com.zrcoding.skincare.data.domain.repositories.CartRepository
 import com.zrcoding.skincare.data.domain.repositories.CategoryRepository
 import com.zrcoding.skincare.data.domain.repositories.ProductRepository
@@ -10,6 +11,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import om.zrcoding.skincare.data.repositories.AccountRepositoryMockSuccess
+import om.zrcoding.skincare.data.repositories.AuthenticationRepositoryMockSuccess
 import om.zrcoding.skincare.data.repositories.CartRepositoryMockSuccess
 import om.zrcoding.skincare.data.repositories.CategoryRepositoryMockSuccess
 import om.zrcoding.skincare.data.repositories.ProductRepositoryMockSuccess
@@ -49,4 +51,10 @@ abstract class DataModule {
     abstract fun provideAccountRepository(
         accountRepositoryMockSuccess: AccountRepositoryMockSuccess
     ): AccountRepository
+
+    @Binds
+    @Singleton
+    abstract fun provideAuthenticationRepository(
+        authenticationRepositoryMockSuccess: AuthenticationRepositoryMockSuccess
+    ): AuthenticationRepository
 }

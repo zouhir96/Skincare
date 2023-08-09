@@ -11,11 +11,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,13 +28,22 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.zrcoding.skincare.R
 import com.zrcoding.skincare.common.domain.model.Filter
 import com.zrcoding.skincare.data.domain.model.MIN_CART_PRODUCT_QUANTITY
@@ -604,5 +616,258 @@ fun ScreenEmptyState(
             style = MaterialTheme.typography.body1,
             textAlign = TextAlign.Center
         )
+    }
+}
+
+@Composable
+fun AuthScreenTitle(
+    modifier: Modifier = Modifier,
+    @StringRes title: Int
+) {
+    Text(
+        text = stringResource(id = title),
+        modifier = modifier,
+        color = Brown,
+        style = MaterialTheme.typography.h4,
+        maxLines = 1,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Preview(device = Devices.NEXUS_5)
+@Composable
+fun AuthScreenTitlePreview() {
+    SkincareTheme(darkTheme = false) {
+        AuthScreenTitle(
+            title = R.string.cart_title,
+            modifier = Modifier.background(MaterialTheme.colors.background)
+        )
+    }
+}
+
+@Composable
+fun AuthScreenSubtitle(
+    modifier: Modifier = Modifier,
+    @StringRes title: Int
+) {
+    Text(
+        text = stringResource(id = title),
+        modifier = modifier,
+        color = BrownWhite50,
+        style = MaterialTheme.typography.subtitle1,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Preview(device = Devices.NEXUS_5)
+@Composable
+fun AuthScreenSubtitlePreview() {
+    SkincareTheme(darkTheme = false) {
+        AuthScreenSubtitle(
+            title = R.string.cart_empty_shopping_cart_subtitle,
+            modifier = Modifier.background(MaterialTheme.colors.background)
+        )
+    }
+}
+
+@Composable
+fun ScTextField(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    @StringRes placeholder: Int,
+    text: String,
+    onValueChanged: (String) -> Unit,
+    error: Int? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        OutlinedTextField(
+            value = text,
+            onValueChange = onValueChanged,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            enabled = enabled,
+            placeholder = {
+                Text(text = stringResource(id = placeholder))
+            },
+            isError = error != null,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            shape = MaterialTheme.shapes.small,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = MaterialTheme.colors.background,
+                textColor = if (error != null) MaterialTheme.colors.error else Brown,
+                placeholderColor = BrownWhite50,
+                cursorColor = Brown,
+                focusedBorderColor = Brown,
+                unfocusedBorderColor = BrownWhite50,
+                leadingIconColor = BrownWhite50,
+                trailingIconColor = BrownWhite50,
+            ),
+        )
+        if (error != null) {
+            Text(
+                text = stringResource(id = error),
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.body2
+            )
+        }
+    }
+}
+
+@Preview(device = Devices.NEXUS_5)
+@Composable
+fun ScTextFieldPreview() {
+    SkincareTheme(darkTheme = false) {
+        ScTextField(
+            modifier = Modifier.background(MaterialTheme.colors.background),
+            placeholder = R.string.common_email_placeholder,
+            text = "",
+            onValueChanged = {}
+        )
+    }
+}
+
+@Preview(device = Devices.NEXUS_5)
+@Composable
+fun ScTextFieldErrorPreview() {
+    SkincareTheme(darkTheme = false) {
+        ScTextField(
+            modifier = Modifier.background(MaterialTheme.colors.background),
+            placeholder = R.string.common_email_placeholder,
+            text = stringResource(id = R.string.common_email_placeholder),
+            onValueChanged = {},
+            error = R.string.common_required_field
+        )
+    }
+}
+
+@Composable
+fun ScPremiumButton(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    @StringRes text: Int,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .height(45.dp)
+            .fillMaxWidth(),
+        enabled = enabled,
+        shape = MaterialTheme.shapes.medium,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Brown,
+            disabledBackgroundColor = BrownWhite90,
+            contentColor = Color.White,
+            disabledContentColor = Color.Black
+        ),
+    ) {
+        Text(
+            text = stringResource(id = text),
+            style = MaterialTheme.typography.button
+        )
+    }
+}
+
+@Preview(device = Devices.NEXUS_5)
+@Composable
+fun ScPremiumButtonPreview() {
+    SkincareTheme(darkTheme = false) {
+        ScPremiumButton(
+            modifier = Modifier.background(MaterialTheme.colors.background),
+            text = R.string.common_log_out,
+        ) {}
+    }
+}
+
+@Composable
+fun AuthBottomQuestionAndClickableText(
+    modifier: Modifier = Modifier,
+    @StringRes questionText: Int,
+    @StringRes clickableTextText: Int,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = stringResource(id = questionText),
+            color = Grey30,
+            style = MaterialTheme.typography.body1
+        )
+        ClickableText(
+            text = AnnotatedString(
+                text = " ${stringResource(id = clickableTextText)}",
+                spanStyle = SpanStyle(color = Brown)
+            ),
+            style = MaterialTheme.typography.body1,
+            onClick = { onClick() }
+        )
+    }
+}
+
+@Preview(device = Devices.NEXUS_5)
+@Composable
+fun AuthBottomQuestionAndClickableTextPreview() {
+    SkincareTheme(darkTheme = false) {
+        AuthBottomQuestionAndClickableText(
+            modifier = Modifier.background(MaterialTheme.colors.background),
+            questionText = R.string.sign_in_no_account,
+            clickableTextText = R.string.sign_in_create_one
+        ) {}
+    }
+}
+
+@Composable
+fun ProcessingOperationAnimation(modifier: Modifier = Modifier) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.processing))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(enabled = false) { }
+            .background(color = Color.Black.copy(alpha = 0.6F)),
+        contentAlignment = Alignment.Center
+    ) {
+        LottieAnimation(
+            modifier = modifier,
+            composition = composition,
+            progress = { progress },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ProcessingOperationAnimationPreview() {
+    SkincareTheme { Surface { ProcessingOperationAnimation() } }
+}
+
+@Composable
+fun ScInputLabel(text: String) {
+    Text(
+        text = text,
+        color = Brown,
+        style = MaterialTheme.typography.body1
+    )
+}
+
+@Preview
+@Composable
+fun ScInputLabelPreview() {
+    SkincareTheme {
+        Surface {
+            ScInputLabel(text = "Name")
+        }
     }
 }

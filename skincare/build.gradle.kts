@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.zrcoding.skincare"
 
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.zrcoding.compose"
@@ -21,7 +21,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        compileSdkPreview = "UpsideDownCake"
     }
 
     buildTypes {
@@ -81,6 +80,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.io.coil.kt)
+    implementation(libs.com.airbnb.android.lottie)
 
     // Activity
     implementation(libs.androidx.activity)
@@ -91,10 +91,6 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation)
     implementation(libs.dagger.hilt.navigation)
-
-    // ViewPager
-    implementation(libs.google.accompanist.pager)
-    implementation(libs.google.accompanist.pager.indicators)
 
     // Tools
     debugImplementation(libs.androidx.compose.ui.tooling)

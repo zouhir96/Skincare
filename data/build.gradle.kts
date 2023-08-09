@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.zrcoding.skincare.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -15,7 +15,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        compileSdkPreview = "UpsideDownCake"
     }
 
     buildTypes {

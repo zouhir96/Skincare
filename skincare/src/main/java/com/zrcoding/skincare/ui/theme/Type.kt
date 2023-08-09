@@ -16,6 +16,42 @@ val SOFIA_SANS = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    h1 = TextStyle(
+        fontFamily = SOFIA_SANS,
+        fontWeight = FontWeight.Light,
+        fontSize = 96.sp,
+        letterSpacing = (-1.5).sp
+    ),
+    h2 = TextStyle(
+        fontFamily = SOFIA_SANS,
+        fontWeight = FontWeight.Light,
+        fontSize = 60.sp,
+        letterSpacing = (-0.5).sp
+    ),
+    h3 = TextStyle(
+        fontFamily = SOFIA_SANS,
+        fontWeight = FontWeight.Normal,
+        fontSize = 48.sp,
+        letterSpacing = 0.sp
+    ),
+    h4 = TextStyle(
+        fontFamily = SOFIA_SANS,
+        fontWeight = FontWeight.Normal,
+        fontSize = 34.sp,
+        letterSpacing = 0.25.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = SOFIA_SANS,
+        fontWeight = FontWeight.Normal,
+        fontSize = 24.sp,
+        letterSpacing = 0.sp
+    ),
+    h6 = TextStyle(
+        fontFamily = SOFIA_SANS,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        letterSpacing = 0.15.sp
+    ),
     subtitle1 = TextStyle(
         fontFamily = SOFIA_SANS,
         fontWeight = FontWeight.Normal,

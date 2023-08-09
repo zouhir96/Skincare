@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.zrcoding.skincare.ui.auth.navigation.AuthScreen
+import com.zrcoding.skincare.ui.auth.navigation.authNavGraph
 import com.zrcoding.skincare.ui.cart.CartScreen
 import com.zrcoding.skincare.ui.editaccount.EditAccountRoute
 import com.zrcoding.skincare.ui.home.master.HomeRoute
@@ -28,13 +30,21 @@ fun MainNavHost(
     ) {
         composable(route = Screen.Onboarding.route) {
             OnboardingRoute(
-                onNavigateToHome = {
-                    globalNavController.navigate(route = Screen.Home.route) {
+                onNavigateToAuthentication = {
+                    globalNavController.navigate(route = AuthScreen.NAV_GRAPH_ROUTE) {
                         popUpTo(Screen.Onboarding.route) { inclusive = true }
                     }
                 }
             )
         }
+        authNavGraph(
+            navController = globalNavController,
+            onNavigateToHome = {
+                globalNavController.navigate(route = Screen.Home.route) {
+                    popUpTo(AuthScreen.NAV_GRAPH_ROUTE) { inclusive = true }
+                }
+            }
+        )
         composable(route = Screen.Home.route) {
             HomeRoute(
                 onNavigateToProduct = {
@@ -78,5 +88,6 @@ fun MainNavHost(
         composable(route = Screen.Refund.route) {
             RefundRoute()
         }
+
     }
 }

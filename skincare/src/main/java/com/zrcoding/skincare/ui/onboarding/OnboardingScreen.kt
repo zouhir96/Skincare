@@ -1,8 +1,12 @@
 package com.zrcoding.skincare.ui.onboarding
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -23,9 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
 import com.zrcoding.skincare.ui.components.HorizontalSteps
 import com.zrcoding.skincare.ui.theme.Brown
 import com.zrcoding.skincare.ui.theme.BrownWhite30
@@ -36,25 +37,26 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingRoute(
-    onNavigateToHome: () -> Unit,
+    onNavigateToAuthentication: () -> Unit,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
         viewModel.navigateToHome.collectLatest {
-            onNavigateToHome()
+            onNavigateToAuthentication()
         }
     }
-    OnboardingScreen {
+    OnboardingScreen(onboardingPages) {
         viewModel.onOnboardingCompleted()
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen(
+    pages: List<Page>,
     onOnboardingCompleted: () -> Unit,
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(initialPage = 0) { pages.size }
     val currentPage = pagerState.currentPage
     val scope = rememberCoroutineScope()
 
@@ -65,13 +67,16 @@ fun OnboardingScreen(
             .background(color = BrownWhite30)
     ) {
         Spacer(modifier = Modifier.height(80.dp))
+        Modifier.weight(1f)
+        PaddingValues(horizontal = 12.dp)
+        PagerDefaults.flingBehavior(
+            state = pagerState,
+        )
         HorizontalPager(
-            count = 4,
-            contentPadding = PaddingValues(horizontal = 12.dp),
             state = pagerState,
             modifier = Modifier.weight(1f)
-        ) { page: Int ->
-            Page(page = onboardingPages[page], modifier = Modifier.fillMaxSize())
+        ) {
+            Page(page = pages[it])
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -126,7 +131,7 @@ fun OnboardingScreen(
 @Composable
 fun OnboardingScreenPreview() {
     SkincareTheme(darkTheme = false) {
-        OnboardingScreen {}
+        OnboardingScreen(onboardingPages) {}
     }
 }
 

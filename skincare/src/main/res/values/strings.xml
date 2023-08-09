@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Skincare</string>
 
+    <!--    Onboarding screens-->
     <string name="onboarding_title_1">Welcome to Skincare</string>
     <string name="onboarding_description_1">Discover the best skincare products and indulge in a luxurious self-care routine with our curated collection. Let\'s get started!</string>
     <string name="onboarding_title_2">Browse and Shop</string>
@@ -9,6 +10,32 @@
     <string name="onboarding_description_3">Experience hassle-free shopping with our streamlined checkout process. Enjoy secure payments and fast delivery.</string>
     <string name="onboarding_title_4">Share the Love</string>
     <string name="onboarding_description_4">Spread the joy of skincare with your friends and family. Refer them to Skincare and earn exclusive rewards!</string>
+
+    <!--    Authentication screens-->
+    <!--    Sign in screen-->
+    <string name="sign_in_title">Sign In</string>
+    <string name="sign_in_subtitle">Enter your email and password for signing in. Thanks.</string>
+    <string name="sign_in_login">Login</string>
+    <string name="sign_in_no_account">No account?</string>
+    <string name="sign_in_create_one">Create one.</string>
+    <!--    Sign up screen-->
+    <string name="sign_up_title">Create an account</string>
+    <string name="sign_up_subtitle">Create your account to fully experience the app.</string>
+    <string name="sign_up_next">Continue</string>
+    <string name="sign_up_already_have_account">Already have account?</string>
+    <string name="sign_up_already_have_account_sign_in">Sign In.</string>
+    <string name="sign_up_password_validation_constraint_1">At least 8 characters</string>
+    <string name="sign_up_password_validation_constraint_2">1 uppercase</string>
+    <string name="sign_up_password_validation_constraint_3">1 symbol</string>
+    <string name="sign_up_password_validation_constraint_4">1 number</string>
+    <!--    complete account screen-->
+    <string name="complete_account_name_label">Name*</string>
+    <string name="complete_account_name_placeholder">Jhon DOE</string>
+    <string name="complete_account_age_label">Age*</string>
+    <string name="complete_account_age_value">%d yo</string>
+    <string name="complete_account_gender_label">Gender*</string>
+    <string name="complete_account_gender_man">Man</string>
+    <string name="complete_account_gender_woman">Woman</string>
 
     <!--    Bottom navigation bar-->
     <string name="home">home</string>
@@ -38,6 +65,10 @@
     <string name="common_required_field">Required</string>
     <string name="common_gender_female_abbreviation">Ms</string>
     <string name="common_gender_male_abbreviation">Mr</string>
+    <string name="common_email_placeholder">jhon.doe@yopmail.com</string>
+    <string name="common_password_placeholder">*********</string>
+    <string name="common_invalid_email">Invalid email.</string>
+    <string name="common_save">Save</string>
 
 
     <!--    Featured Screen-->
