@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    val depHilt by extra("2.44")
-    val depKotlin by extra("1.8.20")
+    val depHilt by extra("2.47")
+    val depKotlin by extra("1.9.0")
 
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:$depHilt")
@@ -12,9 +12,9 @@ buildscript {
     }
 }
 plugins {
-    id("com.android.application") version "8.0.2" apply false
-    id("com.android.library") version "8.0.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.8.20" apply false
+    id("com.android.application") version "8.1.1" apply false
+    id("com.android.library") version "8.1.1" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
 }
 
 tasks.register("clean", Delete::class) {
