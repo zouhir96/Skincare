@@ -28,18 +28,45 @@ import com.zrcoding.skincare.common.components.HorizontalProduct
 import com.zrcoding.skincare.common.components.LeftRightComponent
 import com.zrcoding.skincare.common.components.SearchView
 import com.zrcoding.skincare.common.components.VerticalProduct
+import com.zrcoding.skincare.common.domain.model.Filter
+import com.zrcoding.skincare.common.domain.model.filterAll
+import com.zrcoding.skincare.common.domain.model.toFilters
+import com.zrcoding.skincare.data.domain.model.Product
+import com.zrcoding.skincare.data.sources.fake.fakeCategories
+import com.zrcoding.skincare.data.sources.fake.fakeProducts
 import com.zrcoding.skincare.theme.Brown
 import com.zrcoding.skincare.theme.Grey30
 import com.zrcoding.skincare.theme.SkincareTheme
 import com.zrcoding.skincare.theme.Typography
 
+
 @Composable
-fun FeaturedScreen(
+fun FeaturedScreenRoute(
     viewModel: FeaturedScreenViewModel = hiltViewModel(),
     onNavigateToProduct: (String) -> Unit,
     onNavigateToExplore: () -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
+    FeaturedScreen(
+        viewState.value,
+        onNavigateToProduct = onNavigateToProduct,
+        onNavigateToExplore = onNavigateToExplore,
+        onSearchStarted = viewModel::onSearchStarted,
+        onFilterChanged = viewModel::onFilterChanged,
+        onAddToFavorites = viewModel::onAddToFavorites
+    )
+}
+
+@Composable
+fun FeaturedScreen(
+    viewState: FeaturedScreenViewState,
+    onNavigateToProduct: (String) -> Unit,
+    onNavigateToExplore: () -> Unit,
+    onSearchStarted: (String) -> Unit,
+    onFilterChanged: (Filter) -> Unit,
+    onAddToFavorites: (Product) -> Unit,
+) {
+
 
     Column(
         modifier = Modifier
@@ -48,11 +75,9 @@ fun FeaturedScreen(
             .padding(horizontal = 21.dp, vertical = 10.dp)
     ) {
         SearchView(
-            searchText = viewState.value.searchText,
+            searchText = viewState.searchText,
             placeholder = stringResource(id = R.string.featured_search_placeholder),
-            onValueChanged = {
-                viewModel.onSearchStarted(it)
-            }
+            onValueChanged = { onSearchStarted(it) }
         )
         Spacer(modifier = Modifier.height(24.dp))
         LeftRightComponent(
@@ -75,11 +100,10 @@ fun FeaturedScreen(
         )
         Spacer(modifier = Modifier.height(24.dp))
         FilterChipGroup(
-            filters = viewState.value.filters,
-            selectedFilter = viewState.value.selectedFilter
-        ) {
-            viewModel.onFilterChanged(it)
-        }
+            filters = viewState.filters,
+            selectedFilter = viewState.selectedFilter,
+            onFilterChanged = { onFilterChanged(it) }
+        )
         Spacer(modifier = Modifier.height(24.dp))
         LeftRightComponent(
             leftComposable = {
@@ -105,17 +129,17 @@ fun FeaturedScreen(
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             contentPadding = PaddingValues(vertical = 5.dp)
         ) {
-            items(viewModel.viewState.value.products, key = { it.uuid }) {
+            items(viewState.products, key = { it.uuid }) { item ->
                 VerticalProduct(
-                    product = it,
-                    onFavoriteClicked = viewModel::onAddToFavorites,
+                    product = item,
+                    onFavoriteClicked = { onAddToFavorites(it) },
                     onAddToCartClicked = { product ->
                         onNavigateToProduct(product.uuid)
                     }
                 )
             }
         }
-        viewState.value.newestProduct?.let {
+        viewState.newestProduct?.let { newestProduct ->
             Spacer(modifier = Modifier.height(15.dp))
             Text(
                 text = stringResource(id = R.string.featured_new_product),
@@ -124,8 +148,8 @@ fun FeaturedScreen(
             )
             Spacer(modifier = Modifier.height(15.dp))
             HorizontalProduct(
-                product = it,
-                onFavoriteClicked = viewModel::onAddToFavorites
+                product = newestProduct,
+                onFavoriteClicked = { onAddToFavorites(it) }
             )
         }
     }
@@ -136,6 +160,19 @@ fun FeaturedScreen(
 @Composable
 fun FeaturedScreenPreview() {
     SkincareTheme(darkTheme = false) {
-        FeaturedScreen(onNavigateToProduct = {}, onNavigateToExplore = {})
+        FeaturedScreen(
+            viewState = FeaturedScreenViewState(
+                searchText = "",
+                products = fakeProducts.take(2),
+                filters = fakeCategories.toFilters(),
+                selectedFilter = filterAll,
+                newestProduct = fakeProducts.first()
+            ),
+            onNavigateToProduct = {},
+            onNavigateToExplore = {},
+            onSearchStarted = {},
+            onFilterChanged = {},
+            onAddToFavorites = {}
+        )
     }
 }
