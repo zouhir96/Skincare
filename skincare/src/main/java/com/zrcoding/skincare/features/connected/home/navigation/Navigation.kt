@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.features.connected.home.explore.ExploreScreen
+import com.zrcoding.skincare.features.connected.home.explore.ExploreRoute
 import com.zrcoding.skincare.features.connected.home.favorite.FavoritesRoute
 import com.zrcoding.skincare.features.connected.home.featured.FeaturedScreenRoute
 import com.zrcoding.skincare.features.connected.home.profile.ProfileRoute
@@ -66,7 +66,7 @@ fun HomeNavHost(
             }
         }
         composable(route = HomeScreen.Explore.route) {
-            ExploreScreen(onNavigateToProduct = onNavigateToProduct)
+            ExploreRoute(onNavigateToProduct = onNavigateToProduct)
         }
         composable(route = HomeScreen.Favorites.route) {
             FavoritesRoute(onNavigateToProduct = onNavigateToProduct)

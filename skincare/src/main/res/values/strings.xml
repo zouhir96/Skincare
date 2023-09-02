@@ -76,10 +76,14 @@
     <string name="featured_popular_skincare">Popular Skincare</string>
     <string name="featured_new_product">New Product</string>
 
-    <!--    Favorites Screen-->
+    <!--    Explore Screen-->
     <string name="favorites_add_to_cart">Add to cart</string>
     <string name="favorites_empty_wishlist_title">Your Wishlist is empty :(</string>
     <string name="favorites_empty_wishlist_subtitle">Tip: you can add products to wishlist by\nclicking on the ❤️ icon</string>
+
+    <!--    Favorites Screen-->
+    <string name="explore_empty_catalog_title">Your Catalog is empty :(</string>
+    <string name="explore_empty_catalog_subtitle">Tip: you can create products and categories in: settings -> catalog</string>
 
     <!--    Profile Screen-->
     <string name="my_profile">My profile</string>
