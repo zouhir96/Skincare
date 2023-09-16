@@ -65,13 +65,43 @@ import com.zrcoding.skincare.theme.BrownWhite90
 import com.zrcoding.skincare.theme.Grey
 import com.zrcoding.skincare.theme.SkincareTheme
 import com.zrcoding.skincare.theme.White
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun CartScreen(
+fun CartRoute(
     viewModel: CartScreenViewModel = hiltViewModel(),
     onBackClicked: () -> Unit
 ) {
+    LaunchedEffect(key1 = Unit) {
+        viewModel.gotoPayment.collectLatest {
+            onBackClicked()
+        }
+    }
+
     val viewState = viewModel.viewState.collectAsState()
+    CartScreen(
+        viewState = viewState.value,
+        onBackClicked = onBackClicked,
+        onIncrementProductQuantity = { viewModel.incrementProductQte(it) },
+        onDecrementProductQuantity = { viewModel.decrementProductQte(it) },
+        onRemoveProduct = { viewModel.onRemoveProduct(it) },
+        onPromoCodeTyped = { viewModel.onPromoCodeTyped(it) },
+        onApplyPromoCode = { viewModel.applyPromoCode() },
+        onCheckout = { viewModel.onCheckoutCart() }
+    )
+}
+
+@Composable
+fun CartScreen(
+    viewState: CartScreenViewState,
+    onBackClicked: () -> Unit,
+    onIncrementProductQuantity: (CartProduct) -> Unit,
+    onDecrementProductQuantity: (CartProduct) -> Unit,
+    onRemoveProduct: (CartProduct) -> Unit,
+    onPromoCodeTyped: (String) -> Unit,
+    onApplyPromoCode: () -> Unit,
+    onCheckout: () -> Unit,
+) {
     Scaffold(
         topBar = {
             ScreenHeader(
@@ -84,35 +114,33 @@ fun CartScreen(
         },
         backgroundColor = MaterialTheme.colors.background,
     ) { padding ->
-        when (val state = viewState.value) {
+        when (viewState) {
             CartScreenViewState.Loading -> {}
 
             is CartScreenViewState.Data -> CartScreenContent(
                 modifier = Modifier.padding(padding),
-                data = state,
-                onIncrementProductQuantity = { viewModel.incrementProductQte(it) },
-                onDecrementProductQuantity = { viewModel.decrementProductQte(it) },
-                onRemoveProduct = { viewModel.onRemoveProduct(it) },
-                onPromoCodeTyped = { viewModel.onPromoCodeTyped(it) },
-                onApplyPromoCode = { viewModel.applyPromoCode() },
-                onCheckout = { viewModel.onCheckoutCart() }
+                data = viewState,
+                onIncrementProductQuantity = onIncrementProductQuantity,
+                onDecrementProductQuantity = onDecrementProductQuantity,
+                onRemoveProduct = onRemoveProduct,
+                onPromoCodeTyped = onPromoCodeTyped,
+                onApplyPromoCode = onApplyPromoCode,
+                onCheckout = onCheckout
             )
 
             CartScreenViewState.Empty -> CartScreenEmptyState()
-
-            CartScreenViewState.GotoPayment -> LaunchedEffect(Unit) {
-                onBackClicked()
-            }
         }
     }
 }
 
-@Preview
 @Composable
-fun CartScreenPreview() {
-    SkincareTheme(darkTheme = false) {
-        CartScreen(onBackClicked = {})
-    }
+fun CartScreenEmptyState() {
+    ScreenEmptyState(
+        modifier = Modifier.background(White),
+        title = R.string.cart_empty_shopping_cart_title,
+        description = R.string.cart_empty_shopping_cart_subtitle,
+        image = R.drawable.img_empty_cart
+    )
 }
 
 @Composable
@@ -185,6 +213,40 @@ fun CartScreenContent(
 
 @Preview
 @Composable
+fun CartScreenLoadingPreview() {
+    SkincareTheme(darkTheme = false) {
+        CartScreen(
+            viewState = CartScreenViewState.Loading,
+            onBackClicked = {},
+            onIncrementProductQuantity = {},
+            onDecrementProductQuantity = {},
+            onRemoveProduct = {},
+            onPromoCodeTyped = {},
+            onApplyPromoCode = {},
+            onCheckout = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun CartScreenEmptyStatePreview() {
+    SkincareTheme(darkTheme = false) {
+        CartScreen(
+            viewState = CartScreenViewState.Empty,
+            onBackClicked = {},
+            onIncrementProductQuantity = {},
+            onDecrementProductQuantity = {},
+            onRemoveProduct = {},
+            onPromoCodeTyped = {},
+            onApplyPromoCode = {},
+            onCheckout = {}
+        )
+    }
+}
+
+@Preview
+@Composable
 fun CartScreenContentPreview() {
     SkincareTheme(darkTheme = false) {
         CartScreenContent(
@@ -213,24 +275,6 @@ fun CartScreenContentPreview() {
             onApplyPromoCode = {},
             onCheckout = {}
         )
-    }
-}
-
-@Composable
-fun CartScreenEmptyState() {
-    ScreenEmptyState(
-        modifier = Modifier.background(White),
-        title = R.string.cart_empty_shopping_cart_title,
-        description = R.string.cart_empty_shopping_cart_subtitle,
-        image = R.drawable.img_empty_cart
-    )
-}
-
-@Preview
-@Composable
-fun CartScreenEmptyStatePreview() {
-    SkincareTheme(darkTheme = false) {
-        CartScreenEmptyState()
     }
 }
 
@@ -478,6 +522,21 @@ fun Totals(
     }
 }
 
+@Preview
+@Composable
+fun TotalsPreview() {
+    SkincareTheme(darkTheme = false) {
+        Totals(
+            modifier = Modifier.background(White),
+            productsCount = 3,
+            subtotal = 100.0,
+            shipping = 0.0,
+            promoCodeAmount = 10.0,
+            totalPayment = 90.0
+        )
+    }
+}
+
 @Composable
 private fun Total(
     modifier: Modifier = Modifier,
@@ -515,41 +574,13 @@ fun TotalPreview() {
     }
 }
 
-@Preview
-@Composable
-fun TotalsPreview() {
-    SkincareTheme(darkTheme = false) {
-        Totals(
-            modifier = Modifier.background(White),
-            productsCount = 3,
-            subtotal = 100.0,
-            shipping = 0.0,
-            promoCodeAmount = 10.0,
-            totalPayment = 90.0
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun DashedDividerPreview() {
-    DashedDivider(
-        color = BrownWhite90,
-        thickness = 2.dp,
-        modifier = Modifier
-            .background(White)
-            .fillMaxWidth()
-            .padding(16.dp)
-    )
-}
-
 @Composable
 fun DashedDivider(
+    modifier: Modifier = Modifier,
     thickness: Dp,
     color: Color = MaterialTheme.colors.onSurface,
     phase: Float = 10f,
     intervals: FloatArray = floatArrayOf(10f, 10f),
-    modifier: Modifier = Modifier
 ) {
     Canvas(
         modifier = modifier.fillMaxWidth()
@@ -566,5 +597,18 @@ fun DashedDivider(
             )
         )
     }
+}
+
+@Preview
+@Composable
+private fun DashedDividerPreview() {
+    DashedDivider(
+        color = BrownWhite90,
+        thickness = 2.dp,
+        modifier = Modifier
+            .background(White)
+            .fillMaxWidth()
+            .padding(16.dp)
+    )
 }
 

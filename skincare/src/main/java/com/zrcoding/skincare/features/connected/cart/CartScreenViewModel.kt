@@ -8,8 +8,10 @@ import com.zrcoding.skincare.data.domain.repositories.CartRepository
 import com.zrcoding.skincare.data.sources.remote.exceptions.PromoCodeException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +20,12 @@ import javax.inject.Inject
 class CartScreenViewModel @Inject constructor(
     private val cartRepository: CartRepository
 ) : ViewModel() {
+
     private val _viewState = MutableStateFlow<CartScreenViewState>(CartScreenViewState.Loading)
     val viewState: StateFlow<CartScreenViewState> = _viewState
+
+    private val _gotoPayment = MutableSharedFlow<Unit>()
+    val gotoPayment = _gotoPayment.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -94,7 +100,7 @@ class CartScreenViewModel @Inject constructor(
         viewModelScope.launch {
             val checkoutResult = cartRepository.checkoutCart()
             if (checkoutResult) {
-                _viewState.value = CartScreenViewState.GotoPayment
+                _gotoPayment.emit(Unit)
             }
         }
     }

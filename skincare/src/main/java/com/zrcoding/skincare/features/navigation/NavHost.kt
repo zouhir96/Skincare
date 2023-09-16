@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.zrcoding.skincare.features.auth.navigation.AuthScreen
 import com.zrcoding.skincare.features.auth.navigation.authNavGraph
-import com.zrcoding.skincare.features.connected.cart.CartScreen
+import com.zrcoding.skincare.features.connected.cart.CartRoute
 import com.zrcoding.skincare.features.connected.editaccount.EditAccountRoute
 import com.zrcoding.skincare.features.connected.home.master.HomeRoute
 import com.zrcoding.skincare.features.connected.orders.OrdersRoute
@@ -73,11 +73,7 @@ fun MainNavHost(
             )
         }
         composable(route = Screen.Cart.route) {
-            CartScreen(
-                onBackClicked = {
-                    globalNavController.popBackStack()
-                }
-            )
+            CartRoute { globalNavController.popBackStack() }
         }
         composable(route = Screen.EditAccount.route) {
             EditAccountRoute()
