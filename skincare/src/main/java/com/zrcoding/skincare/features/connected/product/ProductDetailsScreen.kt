@@ -68,38 +68,42 @@ import com.zrcoding.skincare.theme.bottomSheetShape
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProductDetailsScreen(
+fun ProductDetailsRoute(
     uuid: String,
     viewModel: ProductDetailsScreenViewModel = hiltViewModel<ProductDetailsScreenViewModel>()
         .apply { getProductDetails(uuid) },
     onBackClicked: () -> Unit
 ) {
-
     val viewState = viewModel.viewState.collectAsState()
+    ProductDetailsScreen(
+        viewState = viewState.value,
+        onBackClicked = onBackClicked,
+        onAddToFavorites = { viewModel.onAddToFavorites(it) },
+        onBuyBtnClicked = { vlm, qte ->
+        }
+    )
+}
 
-    when (val state = viewState.value) {
+@Composable
+fun ProductDetailsScreen(
+    viewState: ProductDetailsScreenViewState,
+    onBackClicked: () -> Unit,
+    onAddToFavorites: (String) -> Unit,
+    onBuyBtnClicked: (String, Int) -> Unit
+) {
+
+    when (viewState) {
         ProductDetailsScreenViewState.Loading -> Unit
 
         is ProductDetailsScreenViewState.Details -> ProductDetailsScreenContent(
-            state = state,
+            state = viewState,
             onBackClicked = onBackClicked,
-            onAddToFavorites = { viewModel.onAddToFavorites(it) }
-        ) { vlm, qte ->
-            viewModel.onAddToCart(
-                product = state.product,
-                volumeUuid = vlm,
-                quantity = qte
-            ) { onBackClicked() }
-        }
+            onAddToFavorites = onAddToFavorites,
+            onBuyBtnClicked = onBuyBtnClicked
+        )
 
         ProductDetailsScreenViewState.Error -> Unit
     }
-}
-
-@Preview
-@Composable
-fun ProductDetailsScreenPreview() {
-    ProductDetailsScreen(uuid = "") {}
 }
 
 @OptIn(ExperimentalMaterialApi::class)

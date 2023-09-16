@@ -13,7 +13,7 @@ import com.zrcoding.skincare.features.connected.cart.CartRoute
 import com.zrcoding.skincare.features.connected.editaccount.EditAccountRoute
 import com.zrcoding.skincare.features.connected.home.master.HomeRoute
 import com.zrcoding.skincare.features.connected.orders.OrdersRoute
-import com.zrcoding.skincare.features.connected.product.ProductDetailsScreen
+import com.zrcoding.skincare.features.connected.product.ProductDetailsRoute
 import com.zrcoding.skincare.features.connected.refund.RefundRoute
 import com.zrcoding.skincare.features.onboarding.OnboardingRoute
 
@@ -65,7 +65,7 @@ fun MainNavHost(
             arguments = listOf(navArgument("uuid") { type = NavType.StringType })
         ) { backStackEntry ->
             val uuid = backStackEntry.arguments?.getString("uuid") ?: return@composable
-            ProductDetailsScreen(
+            ProductDetailsRoute(
                 uuid = uuid,
                 onBackClicked = {
                     globalNavController.popBackStack()
