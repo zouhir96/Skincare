@@ -9,16 +9,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.zrcoding.skincare.R
-import com.zrcoding.skincare.features.connected.home.explore.ExploreScreen
-import com.zrcoding.skincare.features.connected.home.favorite.FavoritesScreen
-import com.zrcoding.skincare.features.connected.home.featured.FeaturedScreen
+import com.zrcoding.skincare.features.connected.home.explore.ExploreRoute
+import com.zrcoding.skincare.features.connected.home.favorite.FavoritesRoute
+import com.zrcoding.skincare.features.connected.home.featured.FeaturedScreenRoute
 import com.zrcoding.skincare.features.connected.home.profile.ProfileRoute
 
 sealed class HomeScreen(val route: String) {
-    object Featured : HomeScreen("featured")
-    object Explore : HomeScreen("explore")
-    object Favorites : HomeScreen("favorites")
-    object Profile : HomeScreen("profile")
+    data object Featured : HomeScreen("featured")
+    data object Explore : HomeScreen("explore")
+    data object Favorites : HomeScreen("favorites")
+    data object Profile : HomeScreen("profile")
 }
 
 data class BottomBarItem(
@@ -47,30 +47,29 @@ fun HomeNavHost(
         modifier = modifier
     ) {
         composable(route = HomeScreen.Featured.route) {
-            FeaturedScreen(
+            FeaturedScreenRoute(
                 onNavigateToProduct = onNavigateToProduct,
-                onNavigateToExplore = {
-                    homeNavController.navigate(HomeScreen.Explore.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(homeNavController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
+            ) {
+                homeNavController.navigate(HomeScreen.Explore.route) {
+                    // Pop up to the start destination of the graph to
+                    // avoid building up a large stack of destinations
+                    // on the back stack as users select items
+                    popUpTo(homeNavController.graph.findStartDestination().id) {
+                        saveState = true
                     }
+                    // Avoid multiple copies of the same destination when
+                    // reselecting the same item
+                    launchSingleTop = true
+                    // Restore state when reselecting a previously selected item
+                    restoreState = true
                 }
-            )
+            }
         }
         composable(route = HomeScreen.Explore.route) {
-            ExploreScreen(onNavigateToProduct = onNavigateToProduct)
+            ExploreRoute(onNavigateToProduct = onNavigateToProduct)
         }
         composable(route = HomeScreen.Favorites.route) {
-            FavoritesScreen(onNavigateToProduct = onNavigateToProduct)
+            FavoritesRoute(onNavigateToProduct = onNavigateToProduct)
         }
         composable(route = HomeScreen.Profile.route) {
             ProfileRoute(navigateTo = onNavigateToRoute)

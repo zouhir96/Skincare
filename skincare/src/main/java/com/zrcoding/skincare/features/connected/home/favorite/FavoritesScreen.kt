@@ -28,14 +28,14 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -51,21 +51,33 @@ import com.zrcoding.skincare.theme.Grey
 import com.zrcoding.skincare.theme.Red
 import com.zrcoding.skincare.theme.Red80
 import com.zrcoding.skincare.theme.SkincareTheme
-import kotlinx.coroutines.launch
+
 
 @Composable
-fun FavoritesScreen(
+fun FavoritesRoute(
     onNavigateToProduct: (String) -> Unit,
     viewModel: FavoritesScreenViewModel = hiltViewModel()
 ) {
-    val scope = rememberCoroutineScope()
     val viewState = viewModel.viewState.collectAsState()
+    FavoritesScreen(
+        viewState = viewState.value,
+        onNavigateToProduct = onNavigateToProduct,
+        onDeleteProduct = viewModel::onDeleteProduct
+    )
+}
+
+@Composable
+fun FavoritesScreen(
+    viewState: FavoritesScreenViewState,
+    onNavigateToProduct: (String) -> Unit,
+    onDeleteProduct: (String) -> Unit,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { padding ->
-        when (val state = viewState.value) {
+        when (viewState) {
             FavoritesScreenViewState.Loading -> {
-                // Not yet implemented}
+                // Not yet implemented
             }
 
             FavoritesScreenViewState.EmptyWishList -> EmptyWishList(
@@ -73,20 +85,37 @@ fun FavoritesScreen(
             )
 
             is FavoritesScreenViewState.WishList -> WishList(
-                favorites = state.wishList,
+                modifier = Modifier.padding(padding),
+                favorites = viewState.wishList,
                 onAddToCart = { onNavigateToProduct(it.uuid) },
-                onDelete = { scope.launch { viewModel.onDeleteProduct(it.uuid) } },
-                modifier = Modifier.padding(padding)
+                onDelete = { onDeleteProduct(it.uuid) },
             )
         }
     }
 }
 
+class FavoritesScreenUiStatePreviewParameterProvider :
+    PreviewParameterProvider<FavoritesScreenViewState> {
+    override val values = sequenceOf(
+        FavoritesScreenViewState.Loading,
+        FavoritesScreenViewState.EmptyWishList,
+        FavoritesScreenViewState.WishList(
+            wishList = fakeProducts.take(12)
+        ),
+    )
+}
+
 @Preview
 @Composable
-fun FavoritesScreenPreview() {
+fun FavoritesScreenPreview(
+    @PreviewParameter(FavoritesScreenUiStatePreviewParameterProvider::class) uiState: FavoritesScreenViewState
+) {
     SkincareTheme(darkTheme = false) {
-        FavoritesScreen(onNavigateToProduct = {})
+        FavoritesScreen(
+            viewState = uiState,
+            onNavigateToProduct = {},
+            onDeleteProduct = {}
+        )
     }
 }
 
@@ -115,14 +144,6 @@ fun WishList(
     )
 }
 
-@Preview
-@Composable
-fun WishListPreview() {
-    SkincareTheme(darkTheme = false) {
-        WishList(favorites = fakeProducts, onAddToCart = {}, onDelete = {})
-    }
-}
-
 @Composable
 fun EmptyWishList(
     modifier: Modifier = Modifier
@@ -133,14 +154,6 @@ fun EmptyWishList(
         description = R.string.favorites_empty_wishlist_subtitle,
         image = R.drawable.img_empty_wishlist
     )
-}
-
-@Preview
-@Composable
-fun EmptyWishListPreview() {
-    SkincareTheme(darkTheme = false) {
-        EmptyWishList(modifier = Modifier.background(color = Color.White))
-    }
 }
 
 @Composable

@@ -3,7 +3,7 @@ package com.zrcoding.skincare.features.connected.cart
 import com.zrcoding.skincare.data.domain.model.CartProduct
 
 sealed interface CartScreenViewState {
-    object Loading : CartScreenViewState
+    data object Loading : CartScreenViewState
     data class Data(
         val products: List<CartProduct>,
         val promoCode: String,
@@ -15,6 +15,5 @@ sealed interface CartScreenViewState {
         val totalPayment: Double
     ) : CartScreenViewState
 
-    object Empty : CartScreenViewState
-    object GotoPayment : CartScreenViewState
+    data object Empty : CartScreenViewState
 }
