@@ -3,7 +3,7 @@
 Skincare App is an Android application built with Kotlin and Jetpack Compose that allows users to
 browse and purchase skincare products.
 
-<img src="./demo/Thumbnail.jpg" height="800" width="1200" alt="Soon in play store"/>
+<img src="./demo/Thumbnail.jpg" height="600" width="800" alt="Soon in play store"/>
 
 ## Features
 
