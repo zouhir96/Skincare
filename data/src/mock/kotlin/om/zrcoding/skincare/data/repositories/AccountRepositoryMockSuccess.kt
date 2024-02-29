@@ -14,12 +14,12 @@ class AccountRepositoryMockSuccess @Inject constructor() : AccountRepository {
     }
 
     override suspend fun getLocalAccount(): Account {
-        delay(1000)
+        delay(100)
         return account
     }
 
     override suspend fun getRemoteAccount(): Account {
-        delay(1000)
+        delay(100)
         return account
     }
 
@@ -32,7 +32,7 @@ class AccountRepositoryMockSuccess @Inject constructor() : AccountRepository {
     }
 
     override suspend fun updateAccount(account: Account): Account {
-        delay(1000)
+        delay(100)
         return Companion.account
     }
 }

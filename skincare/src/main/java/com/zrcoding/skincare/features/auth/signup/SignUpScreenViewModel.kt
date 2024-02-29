@@ -29,15 +29,10 @@ class SignUpScreenViewModel @Inject constructor(
     val isSignedUp = _isSignedUp.asSharedFlow()
 
     fun onEmailTyped(email: String) {
-        val isEmailValid = formValidatorUseCase.validateEmail(email)
         _viewState.update {
             it.copy(
                 email = email,
-                emailError = when (isEmailValid) {
-                    FormValidatorUseCase.Result.EMPTY -> R.string.common_required_field
-                    FormValidatorUseCase.Result.INVALID -> R.string.common_invalid_email
-                    FormValidatorUseCase.Result.VALID -> null
-                }
+                emailError = null
             )
         }
     }
@@ -54,6 +49,14 @@ class SignUpScreenViewModel @Inject constructor(
 
     fun onSubmit() {
         val (email, password) = _viewState.value.let { Pair(it.email, it.password) }
+        when (formValidatorUseCase.validateEmail(email)) {
+            FormValidatorUseCase.Result.EMPTY -> R.string.common_required_field
+            FormValidatorUseCase.Result.INVALID -> R.string.common_invalid_email
+            FormValidatorUseCase.Result.VALID -> null
+        }?.let { error ->
+            _viewState.update { it.copy(emailError = error) }
+            return
+        }
         _viewState.update { it.copy(isProcessing = true) }
         viewModelScope.launch(context = Dispatchers.IO) {
             try {
