@@ -1,33 +1,43 @@
 [versions]
-depCoreKtx = "1.10.1"
+jvmTarget = "17"
+targetSdk = "34"
+compileSdk = "34"
+minSdk = "21"
+depAgp = "8.2.2"
+depKotlin = "1.9.20"
+depCoreKtx = "1.12.0"
 depCoreSplashscreen = "1.0.1"
-depCompose = "1.5.0"
-depMaterial = "1.5.0"
+depComposeBom = "2024.02.01"
+depComposeCompiler = "1.5.4"
+depMaterial = "1.6.2"
 depConstraintlayout = "1.0.1"
 depCoil = "2.4.0"
 depLottie = "6.1.0"
-depActivity = "1.7.2"
-depLifecycleRuntimeKtx = "2.6.1"
+depActivity = "1.8.2"
+depLifecycleRuntimeKtx = "2.7.0"
 depLifecycleExt = "2.2.0"
-depNavigationCompose = "2.7.0"
-depHiltNavigationCompose = "1.0.0"
+depNavigationCompose = "2.7.7"
+depHiltNavigationCompose = "1.2.0"
 depJunit = "4.13.2"
 depJunitExt = "1.1.5"
 depEspressoCore = "3.5.1"
-depHilt = "2.47"
+depHilt = "2.49"
 depDatastore = '1.0.0'
 depMockk = "1.13.5"
 depCoroutines = "1.7.2"
 
 [libraries]
+#Kotlin gradle plugin
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "depKotlin" }
 
 #core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "depCoreKtx" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "depCoreSplashscreen" }
 
 #ui
-androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "depCompose" }
-androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "depCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "depComposeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "depMaterial" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "depConstraintlayout" }
 io-coil-kt = { group = "io.coil-kt", name = "coil-compose", version.ref = "depCoil" }
@@ -46,9 +56,9 @@ dagger-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-comp
 
 #tools
 test-junit = { group = "junit", name = "junit", version.ref = "depJunit" }
-androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "depCompose" }
-androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "depCompose" }
-androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "depCompose" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 #hilt
 google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "depHilt" }
@@ -64,3 +74,8 @@ io-mockk = { group = "io.mockk", name = "mockk", version.ref = "depMockk" }
 org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "depCoroutines" }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "depAgp" }
+android-library = { id = "com.android.library", version.ref = "depAgp" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "depKotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "depHilt" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "depKotlin" }

@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import com.zrcoding.skincare.common.preferences.Preferences
 import com.zrcoding.skincare.features.navigation.MainNavHost
 import com.zrcoding.skincare.theme.SkincareTheme
@@ -19,6 +20,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Turn off the decor fitting system windows, which allows us to handle insets,
+        // including IME animations
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         val onboarded = intent.extras?.getBoolean(Preferences.ONBOARDING_COMPLETED_KEY) ?: return
         setContent {
             SkincareTheme {

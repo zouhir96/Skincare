@@ -3,9 +3,15 @@ package com.zrcoding.skincare.features.onboarding
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -13,13 +19,14 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zrcoding.skincare.common.components.HorizontalSteps
 import com.zrcoding.skincare.theme.Brown
-import com.zrcoding.skincare.theme.BrownWhite30
 import com.zrcoding.skincare.theme.BrownWhite80
 import com.zrcoding.skincare.theme.SkincareTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -61,77 +67,66 @@ fun OnboardingScreen(
     val scope = rememberCoroutineScope()
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(color = BrownWhite30)
+            .padding(top = 80.dp, bottom = 30.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Spacer(modifier = Modifier.height(80.dp))
-        Modifier.weight(1f)
-        PaddingValues(horizontal = 12.dp)
-        PagerDefaults.flingBehavior(
-            state = pagerState,
-        )
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) {
             Page(page = pages[it])
         }
-        Spacer(modifier = Modifier.height(20.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            IconButton(
-                modifier = Modifier.background(
-                    color = Brown,
-                    shape = RoundedCornerShape(50)
-                ),
-                onClick = {
-                    if (currentPage > 0) {
-                        scope.launch {
-                            pagerState.animateScrollToPage(currentPage - 1)
-                        }
+            IndicatorButton(icon = Icons.AutoMirrored.Filled.ArrowBack) {
+                if (currentPage > 0) {
+                    scope.launch {
+                        pagerState.animateScrollToPage(currentPage - 1)
                     }
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = null,
-                    tint = BrownWhite80
-                )
             }
             HorizontalSteps(index = currentPage)
-            IconButton(
-                modifier = Modifier.background(
-                    color = Brown,
-                    shape = RoundedCornerShape(50)
-                ),
-                onClick = {
-                    if (currentPage < 3) {
-                        scope.launch { pagerState.animateScrollToPage(currentPage + 1) }
-                    } else {
-                        onOnboardingCompleted()
-                    }
+            IndicatorButton(icon = Icons.AutoMirrored.Filled.ArrowForward) {
+                if (currentPage < 3) {
+                    scope.launch { pagerState.animateScrollToPage(currentPage + 1) }
+                } else {
+                    onOnboardingCompleted()
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowForward,
-                    contentDescription = null,
-                    tint = BrownWhite80
-                )
             }
         }
-        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun OnboardingScreenPreview() {
     SkincareTheme(darkTheme = false) {
         OnboardingScreen(onboardingPages) {}
+    }
+}
+
+@Composable
+fun IndicatorButton(
+    icon: ImageVector,
+    onClick: () -> Unit
+) {
+    IconButton(
+        modifier = Modifier.background(
+            color = Brown,
+            shape = RoundedCornerShape(50)
+        ),
+        onClick = onClick
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = BrownWhite80
+        )
     }
 }
 
